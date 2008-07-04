@@ -1,0 +1,10 @@
+#summary Preliminary Design Document for the "Parasite Game".
+_Anthony Massingham, Ben Kenny : July 2008_
+
+= Introduction =
+
+Introduction content here
+
+= Details =
+
+Details go here
