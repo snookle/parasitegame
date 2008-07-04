@@ -1,4 +1,5 @@
 #summary Preliminary Design Document for the "Parasite Game".
+#labels Phase-Requirements,Phase-Implementation,Phase-QA
 _Anthony Massingham, Ben Kenny : July 2008_
 
 = Introduction =
