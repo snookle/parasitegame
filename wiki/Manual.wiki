@@ -1,1 +1,9 @@
 #summary The Game Play Manual for Parasite
+#labels Phase-Deploy
+
+=Install Instructions=
+
+=Gameplay Instructions=
+==How to Play==
+==Controlling the Parasite==
+==Completing the Level==
