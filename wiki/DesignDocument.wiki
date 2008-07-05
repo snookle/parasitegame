@@ -13,15 +13,17 @@ Basic Concept.  Few Paragraphs / Page.  Describe game to readers as if they are 
 = Key Features =
 Key Game Features.  List of items which separates game from the pack. Summary of features alluded to in description.
 
+
 = Schedule and Milestones = 
-* July 3 - July 14th : Movement Prototypes
-* July 14 - July 30 : Fluid and Liquid Prototypes
-* August 1 - August 10 : Enemy and Collectable Prototypes
-* *Milestone 1* - August 15 : Attempt to have the entire concept and Idea worked out, complete with working prototypes of each individual section and item.  Allowing for development to commence, and giving us two months to collate everything together ( which, really, is plenty ! )
-* August - October : Working on Gamez
-* *Milestone 2* - September 1 : Attempt to have a simple working prototype completed
-* October 1 : Completed Game
-November 1 : Submit Deadline
+
+ * July 3 - July 14th : Movement Prototypes
+ * July 14 - July 30 : Fluid and Liquid Prototypes
+ * August 1 - August 10 : Enemy and Collectable Prototypes
+ * *Milestone 1* - August 15 : Attempt to have the entire concept and Idea worked out, complete with working prototypes of each individual section and item.  Allowing for development to commence, and giving us two months to collate everything together ( which, really, is plenty ! )
+ * August - October : Working on Gamez
+ * *Milestone 2* - September 1 : Attempt to have a simple working prototype completed
+ * October 1 : Completed Game
+ * November 1 : Submit Deadline
 
 = Genre =
 `Comment By Anthony : Not 100% set on a genre.  Two Possibilities.  A Series of 'levels' ALA 'Lemmings', or a Series of side-scrolling levels ala 'GISH'.  Really depends if we want one localised screen, or a larger 'location'.  Larger location means more complication, I think we might try and keep it to smaller spaces, with the possibility of a scrolling area.  But no a 'platformer' style location`
@@ -30,8 +32,85 @@ November 1 : Submit Deadline
 Minimum requirements: Windows XP/Vista, .Net runtime, XNA runtime. Video card capable of pixel shader 1.1
 
 = Detailed Concept =
-* The Character : Parasite Assassin
-* The Goals
-** Parasite Assassin hired to kill a single person ? Entire game spent inside a single body ?
-** Parasite Assassin hired to kill multiple people ? Game spent in a series of bodies ( including external sequences getting from one body to another ).
-** Parasite Assassin hired to kill multiple people ? Game spent in a series of bodies, not all are targets, some are needed to get from one body to another ( use as a host, then transfer to new body ).
+===The Character===
+Parasite Assassin
+
+===The Goals===
+  * Parasite Assassin hired to kill a single person ? Entire game spent inside a single body ?
+  * Parasite Assassin hired to kill multiple people ? Game spent in a series of bodies ( including external sequences getting from one body to another ).
+  * Parasite Assassin hired to kill multiple people ? Game spent in a series of bodies, not all are targets, some are needed to get from one body to another ( use as a host, then transfer to new body ).
+
+`Comment By Ben : Multiple people could be used as difficulty level? A mega fat, unhealthy person has more cholestorol, less body defences and slower moving blood (easy). A super healthy athlete has the opposite`
+`Comment By Anthony : Possible.  I am very iffy when it comes to 'difficulty levels'.  They have to be done correctly, and not just changing some variables here and there.  The multiple body idea was more of a 'progressive' thing : Possibly to try and introduce some sort of narrative`
+
+`Comment By Ben : Where does the player find cholesterol from? is it a blob in the  stomach? Is it scaped off veins/arteries? Does the player have to collect a certain amount?`
+ * Possibilities : 
+  * Some Brought in from outside. 
+  * Some Collected from Internal Sources ( Scraped / Collected ). 
+  * Player must maintain a certain amount throughout the levels ( similar to 'number of survivors' in lemmings - Must carry a certain amount from one level to another
+
+`Comment By Ben : What are the end game (losing and winning) conditions?`
+ * Loss of Cholesterol, Player Character Destroyed`
+ * Cholesterol is both Resource , and Building Material ( to use RTS terms )
+
+===Movement==
+`Comment By Anthony : Have to think of alternate controls should we wish to switch over to xbox.  Left Analog Stick controlls left/right movement, right stick controls tail ?`
+
+ * Movement controlled via arrow keys and mouse
+  * Player can crawl on most floor surfaces, as well as some wall / roof surfaces
+  * Player can swim in certain liquids, can only float on some others, and others are harmful
+====Keyboard Control====
+ * Left and Right keys control Left and Right Movement.
+ * Caterpiller-like motion
+ * Spacebar ( or similar key ) controls body 'rigidity'.
+   * Rigidity is how 'stiff' the parasite is.  With spacebar not held, he moves and rotates freely ( within physical constraints ).  With Spacebar held, his body becomes rigid, and frozen in the current position it was.  Useful for 'spring like' movement mentioned in the next section.
+====Mouse Control====
+     * Mouse controls the tail.  Click and Drag to move the tail around
+     * Movement speed, direction, and target dictate tail actions
+      * Fast Movements through objects "cut" them.
+       * Slow Movements into objects "injects" them.
+       * Fast Movements in the air 'flicks' the parasite into the air
+    * Complex Movement
+     * Using a combination of the methods listed above, complex movements can be performed.  Such as :
+      * SPRING MOVEMENT
+       * Moving the tail and entire body into an upright position ( ie, head on ground, tail pointing straight up into the air ), activating rigitidy, then pulling down on the tail slowely and releasing creates a 'spring' movement, launching the parasite vertically up into the air - allowing the parasite to attach itself to the roof / wall / surface.
+      * ROLLING MOVEMENT
+       * Moving the tail around into a circle shape, activating rigidity, allows the parasite to roll himself into a ball and roll down hills. ( not sure on the usability of this yet ).
+
+====The Tail====
+ * Important asset.  Used to 'CUT', 'INJECT' and 'STAB'
+  * CUT/SLICE
+   * Used to cut cholesterol, blood vessels, veins.
+  * INJECT
+   * Used to inject positive bateria and viruses into various substances allowing for new abilities to be passed on ( abilities chosen by a radial menu ? Possibly kept under his hat ? )
+  * STAB
+   * Used to 'dig' / 'hack', also as a means of defence from the body's internal defences
+  * RETRACTABLE ?
+    * Possibility for retractable spike, so that the tail can be used to 'hit' things too ( ie, punch, mould etc ).
+
+ * Too much cutting/stabbing/injecting will kill a host, so care must be taken to not kill him/her prematurely.
+
+ * How this can be used ?
+  # Blood Pumping forcefully through a vein, too fast to plug with normal cholesterol. 
+  # You Inject a 'hardening' virus into a nearby blob of cholesterol, it becomes a solid mass
+ # You then Slice off two sides of the cholesterol, turning it into a wedge shape
+ # You then nudge the wedge into position ( using a combination of arrow key movement, and nudges with your tail
+ # once in position, you spring yourself towards the wedge, knocking it into position, and blocking off the vein.
+
+===The Allies===
+ * Particular types of viruses and bacteria are allied with our Silent Assassin.  Can be collected, then injected into various items/walls/objects.  Having a differernt effect dependign on the item which is 'infected', and what it is 'infected' with.
+ * Give qualities like :
+  * Elasticity
+  * Stickyness
+  * Goopyness
+  * Infectiousness / Multiplication ( produces various items )
+  * Hardening
+  * etc
+===The Enemies===
+ * The Body's defences.
+ * Competing Viruses / Parasites
+ * White Blood Cells etc.
+
+===The Environment===
+ * Inside a human(s) body.
+ * Travelling through the bloodstream, stomach, lungs, heart, brain etc.
