@@ -3,10 +3,18 @@
 
 = Introduction =
 
-Work in Progress.  Repos. for movement discussions.
-
+Work in Progress.  Repos. for movement discussions, more details in the [http://code.google.com/p/parasitegame/wiki/DesignDocument Design Document]
 
 = Ideas =
+
+== Basic Movemnt ==
+
+ * Left/Right Motion is Keyboard Controlled
+ * Can Crawl only on certain surfaces
+  * Surfaces can move up on to ceilings allowing for roof-crawling
+ * Can Swim only in certain surfaces
+  * Liquids can be stationary or 'stream' like
+  * Can ride on 'jets' on other liquids (ie, bloodpump)
 
 == Tail Movement ==
 
@@ -32,3 +40,12 @@ Ben
 Anthony 
 "You can then click on it to make sure it stays in focus".
 }}}
+
+== Complex Movement ==
+
+ * Inlcuding :
+  * Springing
+  * Cutting
+  * Injecting
+  * Digging
+  * Hitting
