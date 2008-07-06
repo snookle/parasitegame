@@ -1,0 +1,34 @@
+#summary Suggestions and Ideas for Movement Concepts
+#labels Phase-Design,Phase-Implementation
+
+= Introduction =
+
+Work in Progress.  Repos. for movement discussions.
+
+
+= Ideas =
+
+== Tail Movement ==
+
+`Discussion 6th July, 10:18am : `
+{{{
+Ben 
+"mouse movements should control the tail without clicking, but actions (cut etc) require a click and drag sort of thing
+ah yeah
+that's a good idea as well"
+
+Anthony 
+"yeah or maybe based on distance"
+
+Ben 
+"something we'll prototype"
+
+Anthony 
+"so if the mouse is within x pixels of the parasite tail, then it moves to the mouse position"
+
+Ben 
+"oh, that's a good idea"
+
+Anthony 
+"You can then click on it to make sure it stays in focus".
+}}}
