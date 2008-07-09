@@ -49,7 +49,3 @@ Anthony
   * Injecting
   * Digging
   * Hitting
-
-== Sketches ==
-Image with simple movement concepts
-[http://www.tenfiftyfour.com/akAGames/design/Week109.jpg]
