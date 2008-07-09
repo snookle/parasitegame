@@ -1,0 +1,16 @@
+#summary Selection of Design Sketches
+#labels Featured,Phase-Design
+
+= Sketches =
+
+== Character Design ==
+ * The Protagonist
+  * http://www.tenfiftyfour.com/akAGames/design/Week108.jpg
+
+== Movement ==
+ * Image with simple movement concepts
+  * http://www.tenfiftyfour.com/akAGames/design/Week109.jpg
+
+== Level and Enemy Design ==
+ * Basic Enemy Design, Human Body Organ layout and Bloodflow Path
+  * http://www.tenfiftyfour.com/akAGames/design/Week110.jpg
