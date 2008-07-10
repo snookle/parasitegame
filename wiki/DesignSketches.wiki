@@ -4,13 +4,10 @@
 = Sketches =
 
 == Character Design ==
- * The Protagonist
-  * http://www.tenfiftyfour.com/akAGames/design/Week108.jpg
+ * [http://www.tenfiftyfour.com/akAGames/design/Week108.jpg Parasite Sketch]
 
 == Movement ==
- * Image with simple movement concepts
-  * http://www.tenfiftyfour.com/akAGames/design/Week109.jpg
+ * [http://www.tenfiftyfour.com/akAGames/design/Week109.jpg Initial Movement Concepts]
 
 == Level and Enemy Design ==
- * Basic Enemy Design, Human Body Organ layout and Bloodflow Path
-  * http://www.tenfiftyfour.com/akAGames/design/Week110.jpg
+ * [http://www.tenfiftyfour.com/akAGames/design/Week110.jpg Basic Enemy Design, Human Body Organ layout, and Bloodflow Path]
