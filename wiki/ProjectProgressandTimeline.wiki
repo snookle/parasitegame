@@ -1,11 +1,33 @@
+#labels Phase-Requirements,Phase-Implementation,Phase-QA
 =Project Progress and Timeline=
 
 == Project Progress ==
-Design			0%
-Graphics		0%
-Sound			0%
-Code			0%
-Level Designs		0%
+|| *Design* || % ||
+|| Player Concept || 0% ||
+|| Enemy Concepts || 0% ||
+|| Level Concepts || 0% ||
+|| Gameplay Concepts || 0% ||
+
+|| *Graphics* || % ||
+|| Player Character || 0% ||
+|| Enemy Characters || 0% ||
+|| GUI Elements || 0% ||
+|| Levels || 0% ||
+|| Effects || 0% ||
+
+|| *Sound* || % ||
+|| Music || 0% ||
+|| SFX || 0% ||
+
+|| *Code* || % ||
+|| Class Structure || 0% ||
+|| Coding || 0% ||
+
+|| *Prototyping* || % ||
+|| Movement Prototypes || 0% ||
+|| Level Prototypes || 0% ||
+|| Enemy Prototyes || 0% ||
+|| Interaction Prototypes || 0% ||
 
 == Timeline ==
 
