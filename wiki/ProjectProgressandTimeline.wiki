@@ -1,0 +1,19 @@
+=Project Progress and Timeline=
+
+== Project Progress ==
+Design			0%
+Graphics		0%
+Sound			0%
+Code			0%
+Level Designs		0%
+
+== Timeline ==
+
+===July===
+===August===
+===September===
+===October===
+ * 1st : Expected Deadline
+ * 31st : Absolute Deadline
+===November===
+ * 1st : Submission Deadline
