@@ -10,4 +10,5 @@
  * [http://www.tenfiftyfour.com/akAGames/design/Week109.jpg Initial Movement Concepts]
 
 == Level and Enemy Design ==
+ * [http://www.tenfiftyfour.com/akAGames/design/Week111.jpg Concepts for Level Design, Some Parasite Tail Sketches, as well as One UI Idea]
  * [http://www.tenfiftyfour.com/akAGames/design/Week110.jpg Basic Enemy Design, Human Body Organ layout, and Bloodflow Path]
