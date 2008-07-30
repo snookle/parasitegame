@@ -5,6 +5,6 @@
 
 = Resources =
  * [http://msdn.microsoft.com/en-us/library/bb196414.aspx How To: Draw Points, Lines, and Other 3D Primitives]
- * [http://creators.xna.com/en-US/education/gettingstarted Beginner's Guide to 2D/3D Games]
+ * [http://creators.xna.com/en-US/education/gettingstarted XNA Beginner's Guide to 2D/3D Games]
 
 = Other Links = 
