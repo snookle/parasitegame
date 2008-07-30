@@ -1,9 +1,11 @@
 #summary Selection of Links and Resources to Help / Inspirte
 
 = Inspiration =
- * [http://www.quelsolaar.com/ Love ( Single Player Not So Massively Multiplayer Procedural Adventure Game]
+ * [http://www.quelsolaar.com/ Love]
 
 = Resources =
+==XNA Help and API References ==
+ * [http://msdn.microsoft.com/en-us/library/bb200104.aspx MSDN XNA front page]
  * [http://msdn.microsoft.com/en-us/library/bb196414.aspx How To: Draw Points, Lines, and Other 3D Primitives]
  * [http://creators.xna.com/en-US/education/gettingstarted XNA Beginner's Guide to 2D/3D Games]
 
