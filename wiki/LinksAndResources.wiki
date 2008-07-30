@@ -2,7 +2,7 @@
 #labels Featured
 
 = Inspiration =
- * [http://www.quelsolaar.com/ Love]
+ * [http://www.quelsolaar.com/ Love : Procedural MMO]
 
 = Resources =
 ==XNA Help and API References ==
