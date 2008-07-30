@@ -1,7 +1,7 @@
 #summary Selection of Links and Resources to Help / Inspirte
 
 = Inspiration =
- * [http://www.quelsolaar.com/ Love]
+ * [http://www.quelsolaar.com/ Love ( Single Player Not So Massively Multiplayer Procedural Adventure Game]
 
 = Resources =
  * [http://msdn.microsoft.com/en-us/library/bb196414.aspx How To: Draw Points, Lines, and Other 3D Primitives]
