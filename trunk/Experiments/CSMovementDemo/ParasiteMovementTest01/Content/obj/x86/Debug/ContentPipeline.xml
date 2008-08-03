@@ -7,7 +7,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\aA\Weekly Games\Week 1\Experiments\C#MovementDemo\ParasiteMovementTest01\bin\x86\Debug\Content\Sprites\Head.xnb</Output>
+      <Output>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\CSMovementDemo\ParasiteMovementTest01\bin\x86\Debug\Content\Sprites\Head.xnb</Output>
       <Time>2008-07-31T19:43:23.2051845+10:00</Time>
     </Item>
     <Item>
@@ -16,7 +16,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\aA\Weekly Games\Week 1\Experiments\C#MovementDemo\ParasiteMovementTest01\bin\x86\Debug\Content\Sprites\Part.xnb</Output>
+      <Output>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\CSMovementDemo\ParasiteMovementTest01\bin\x86\Debug\Content\Sprites\Part.xnb</Output>
       <Time>2008-07-31T19:43:23.200302+10:00</Time>
     </Item>
     <Item>
@@ -25,17 +25,17 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\aA\Weekly Games\Week 1\Experiments\C#MovementDemo\ParasiteMovementTest01\bin\x86\Debug\Content\Sprites\Tail.xnb</Output>
+      <Output>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\CSMovementDemo\ParasiteMovementTest01\bin\x86\Debug\Content\Sprites\Tail.xnb</Output>
       <Time>2008-07-31T19:43:23.2129965+10:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
       <BuildConfiguration>Debug</BuildConfiguration>
-      <RootDirectory>E:\aA\Weekly Games\Week 1\Experiments\C#MovementDemo\ParasiteMovementTest01\Content\</RootDirectory>
-      <LoggerRootDirectory>E:\aA\Weekly Games\Week 1\Experiments\C#MovementDemo\ParasiteMovementTest01\</LoggerRootDirectory>
-      <IntermediateDirectory>E:\aA\Weekly Games\Week 1\Experiments\C#MovementDemo\ParasiteMovementTest01\Content\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>E:\aA\Weekly Games\Week 1\Experiments\C#MovementDemo\ParasiteMovementTest01\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\CSMovementDemo\ParasiteMovementTest01\Content\</RootDirectory>
+      <LoggerRootDirectory>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\CSMovementDemo\ParasiteMovementTest01\</LoggerRootDirectory>
+      <IntermediateDirectory>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\CSMovementDemo\ParasiteMovementTest01\Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\CSMovementDemo\ParasiteMovementTest01\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>

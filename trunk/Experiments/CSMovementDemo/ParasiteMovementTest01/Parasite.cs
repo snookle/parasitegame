@@ -77,17 +77,18 @@ namespace ParasiteMovementTest01
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            // Draw the Tail
+            spriteBatch.Draw(theTail.sprite, theTail.position, Color.White);
+
             // Draw the Body Parts
-            foreach (ParasiteBodyPart bodyPart in theParasite)
+            for (int i = theParasite.Count-1; i >= 0; i--)
             {
+                ParasiteBodyPart bodyPart = theParasite[i];
                 spriteBatch.Draw(bodyPart.sprite, bodyPart.position, Color.White);
             }
 
             // Draw the Head
             spriteBatch.Draw(theHead.sprite, theHead.position, Color.White);
-
-            // Draw the Tail
-            spriteBatch.Draw(theTail.sprite, theTail.position, Color.White);
         }
     }
 }
