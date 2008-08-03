@@ -17,7 +17,9 @@
 		public var linkDistance:Point;
 		public var linkTarget:Point;
 		
-		public var distanceLimit:Number = 50;
+		public var targetPoint:Point;
+		
+		public var distanceLimit:Number = 25;
 		
 		public var weight:Number;
 		
@@ -51,6 +53,11 @@
 			this.addEventListener(MouseEvent.MOUSE_DOWN, holdMouse);
 		}
 		
+		public function init():void
+		{
+			targetPoint = new Point(this.x, this.y);
+		}
+		
 		public function holdMouse(event:MouseEvent):void
 		{
 			mouseHeld = true;
@@ -61,6 +68,9 @@
 		{
 			mouseHeld = false;
 			this.stopDrag();
+			
+			targetPoint.x = this.x;
+			targetPoint.y = this.y;
 		}
 		
 		public function addNextPart(thePart:APoint):void
@@ -110,8 +120,8 @@
 					
 					var newPoint:Point = localToGlobal(new Point(xPos, yPos));
 					
-					nextPart.x = newPoint.x;
-					nextPart.y = newPoint.y;
+					nextPart.targetPoint.x = newPoint.x;
+					nextPart.targetPoint.y = newPoint.y;
 				}
 			}
 			
@@ -126,7 +136,20 @@
 				var previousDistance:Number = calculateDistance(0, 0, prevPartPoint.x, prevPartPoint.y);
 				detailsText += "DISTANCE BETWEEN POINT " + this.name + " and " + prevPart.name + " : " + previousDistance.toFixed(2) + "\n";
 			}
-
+			
+			if (mouseHeld)
+			{
+				targetPoint.x = this.x;
+				targetPoint.y = this.y;
+			}
+			
+			// Move X
+			var ax:Number = (targetPoint.x - this.x) * 0.3;
+			this.x += ax;
+			
+			// Move Y
+			var ay:Number = (targetPoint.y - this.y) * 0.3;
+			this.y += ay;
 		}
 		
 		private function calculateDistance(x1:Number, y1:Number, x2:Number, y2:Number):Number
