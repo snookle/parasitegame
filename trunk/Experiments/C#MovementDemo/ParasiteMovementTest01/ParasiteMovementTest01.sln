@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual C# Express 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParasiteMovementTest01", "ParasiteMovementTest01.csproj", "{FB35DA10-792C-4702-9BA5-A8F9351A7B85}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB35DA10-792C-4702-9BA5-A8F9351A7B85}.Debug|x86.ActiveCfg = Debug|x86
+		{FB35DA10-792C-4702-9BA5-A8F9351A7B85}.Debug|x86.Build.0 = Debug|x86
+		{FB35DA10-792C-4702-9BA5-A8F9351A7B85}.Release|x86.ActiveCfg = Release|x86
+		{FB35DA10-792C-4702-9BA5-A8F9351A7B85}.Release|x86.Build.0 = Release|x86
+		{0B78978A-3541-4118-A07E-8D2B557DF27D}.Debug|x86.ActiveCfg = Debug|x86
+		{0B78978A-3541-4118-A07E-8D2B557DF27D}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
