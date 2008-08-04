@@ -11,6 +11,9 @@
  * [http://creators.xna.com/en-US/education/gettingstarted XNA Beginner's Guide to 2D/3D Games]
  * [http://www.ziggyware.com/readarticle.php?article_id=199 How to apply a force on a single object]
 
+=Collision Detection=
+ * [http://www.ziggyware.com/readarticle.php?article_id=48 Per-Pixel 2d Hit Detection in XNA]
+
 =Physics=
  * [http://www.myphysicslab.com/spring1.html Springs]
  * [http://www.chriscavanagh.com/Chris/Silverlight/CJC.Silverlight.JelloPhysicsDemo.zip Uses Walaber's JelloPhysics library - has some handy implementation details]
