@@ -23,32 +23,42 @@
 			detailsTextField.height = 200;
 			detailsTextField.width = 400;
 			detailsTextField.multiline = true;
+			
 			detailsTextField.scaleX = 0.8;
 			detailsTextField.scaleY = 0.8;
 			
-			var point1:APoint = new APoint(3);
+			var point1:APoint = new APoint(1);
 			point1.x = 200;
 			point1.y = 200;
 			point1.init();
+			
 			addChild(point1);
-			point1.name = "POINT 1";
+			point1.name = "HEAD";
 			thePoints.push(point1);
 			
-			var point2:APoint = new APoint(1);
-			point2.x = 250;
-			point2.y = 200;
+			var point2:APoint = new APoint(0.5);
 			point2.init();
 			addChild(point2);
 			point2.name = "POINT 2";
 			thePoints.push(point2);
 			
-			var point3:APoint = new APoint(2);
-			point3.x = 300;
-			point3.y = 200;
+			var point3:APoint = new APoint(0.5);
 			point3.init();
 			addChild(point3);
 			point3.name = "POINT 3";
 			thePoints.push(point3);
+			
+			var point4:APoint = new APoint(0.5);
+			point4.init();
+			addChild(point4);
+			point4.name = "POINT 4";
+			thePoints.push(point4);
+			
+			var point5:APoint = new APoint(0.7);
+			point5.init();
+			addChild(point5);
+			point5.name = "TAIL";
+			thePoints.push(point5);
 			
 			// Add Links
 			
@@ -58,7 +68,12 @@
 			point2.addNextPart(point3);
 			
 			point3.addPrevPart(point2);
+			point3.addNextPart(point4);
 			
+			point4.addPrevPart(point3);
+			point4.addNextPart(point5);
+			
+			point5.addPrevPart(point4);
 			
 			addEventListener(Event.ENTER_FRAME, update);
 			this.stage.addEventListener(MouseEvent.MOUSE_UP, releaseMouse);
@@ -82,7 +97,7 @@
 				pointObject.updatePoint();
 				detailsTextField.appendText(pointObject.detailsText + "\n");
 			}
-			
+
 			
 		}
 	}
