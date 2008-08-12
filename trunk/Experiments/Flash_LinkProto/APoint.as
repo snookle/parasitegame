@@ -3,6 +3,8 @@
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.events.KeyboardEvent;
+	import flash.ui.Keyboard;
 	import flash.geom.Point;
 	
 	/**
@@ -11,6 +13,10 @@
 	*/
 	public class APoint extends MovieClip
 	{
+		
+		public const GRAVITY:Number = 9;
+		public const DRAG:Number = 0.95;
+		
 		public var position:Point;
 		public var sprite:Sprite;
 		
@@ -34,7 +40,8 @@
 		
 		public var mouseHeld:Boolean = false;
 		
-		
+		private var leftMovement:Boolean = false;
+		private var rightMovement:Boolean = false;
 		
 		public function APoint(_weight:Number):void
 		{
@@ -65,11 +72,36 @@
 		public function init():void
 		{
 			targetPoint = new Point(this.x, this.y);
+			
+			if (this.name == "HEAD")
+			{
+				this.stage.addEventListener(KeyboardEvent.KEY_UP, keyReleased);
+				this.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyPressed);
+			}
+		}
+		
+		private function keyPressed(event:KeyboardEvent):void
+		{
+			if (event.keyCode == Keyboard.LEFT)
+			{
+				leftMovement = true;
+				this.rotation = 180;
+			} else if (event.keyCode == Keyboard.RIGHT)
+			{
+				rightMovement = true;
+				this.rotation = 0;
+			}
+		}
+		
+		private function keyReleased(event:KeyboardEvent):void
+		{
+			leftMovement = false;
+			rightMovement = false;
 		}
 		
 		public function holdMouse(event:MouseEvent):void
 		{
-			if(this.name == "HEAD" || this.name == "TAIL"){
+			if(this.name == "TAIL"){
 				mouseHeld = true;
 				this.startDrag();
 			}
@@ -77,7 +109,7 @@
 		
 		public function releaseMouse(event:MouseEvent):void
 		{
-			if(this.name == "HEAD" || this.name == "TAIL"){
+			if(this.name == "TAIL"){
 				mouseHeld = false;
 				this.stopDrag();
 				
@@ -97,7 +129,16 @@
 		}
 		
 		public function updatePoint():void
-		{			
+		{	
+			if (leftMovement)
+			{
+				this.velocity.x -= 5;
+				trace("left");
+			} else if (rightMovement)
+			{
+				this.velocity.x += 5;
+			}			
+			
 			detailsText = "";
 			this.graphics.clear();
 			// Update Method
@@ -174,6 +215,7 @@
 					}
 					
 					prevPart.sprite.rotation = theAngle / (Math.PI/180);
+				} else {
 				}
 			}
 			
@@ -184,7 +226,7 @@
 			} else {
 				if (this.y < 350)
 				{
-					this.velocity.y += 9;
+					this.velocity.y += GRAVITY*DRAG;
 				}
 			}
 			
