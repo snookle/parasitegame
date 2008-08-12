@@ -30,10 +30,10 @@
 			var point1:APoint = new APoint(1);
 			point1.x = 200;
 			point1.y = 200;
-			point1.init();
 			
 			addChild(point1);
 			point1.name = "HEAD";
+			point1.init();
 			thePoints.push(point1);
 			
 			var point2:APoint = new APoint(0.5);
