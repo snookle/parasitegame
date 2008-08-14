@@ -6,11 +6,11 @@ Code snippets.
 
 =Blob Pseudocode=
 
+{{{
 Particle[128] particles;
 bool[128][128] connected;
 int threshold = 4;
 
-{{{
 for (int i = 0; i < 128; ++i) {
 	Particle thisParticle = particles[i];
 	for (int j = i; j < 128; j++) {
