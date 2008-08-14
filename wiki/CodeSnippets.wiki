@@ -1,0 +1,35 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+Code snippets.
+
+
+=Blob Pseudocode=
+
+Particle[128] particles;
+bool[128][128] connected;
+int threshold = 4;
+
+{{{
+for (int i = 0; i < 128; ++i) {
+	Particle thisParticle = particles[i];
+	for (int j = i; j < 128; j++) {
+		Particle thatParticle = particles[j];
+		int distance = thisParticle.position = thatParticle.position;
+		if (distance <= threshold && !connected[i][j]) {
+			//close enough but not connected, so we'll connect it.
+			if (thisParticle.neighbours.Count != 8 && thatParticle.neighbours.count != 8) {
+				//both have room for another connection
+				connected[i][j] = true;
+				thisParticle.neighbours.add(thatParticle);
+				thatParticle.neighbours.add(thisParticle);
+				create spring between i and j;
+			} else if (distance > 4 && connected[i][j]) {
+				//connected, but too far away.
+				get spring between i and j;
+				delete spring.
+			}
+		}
+	}
+}
+}}}
