@@ -13,6 +13,7 @@
 
 =Collision Detection=
  * [http://www.ziggyware.com/readarticle.php?article_id=48 Per-Pixel 2d Hit Detection in XNA]
+ * [http://www.dotnetjunkies.com/WebLog/chris.taylor/archive/2006/09/30/148798.aspx Basic Pixel Perfect Collision Detection]
 
 =Physics=
  * [http://www.myphysicslab.com/spring1.html Springs]
