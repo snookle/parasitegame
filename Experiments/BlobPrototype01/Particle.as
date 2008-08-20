@@ -14,18 +14,18 @@
 		
 		public var position:Point = new Point();
 		public var neighbors:Array = new Array();
-		public var velocity:Point = new Point();
+		public var velocity:Vector2D = new Vector2D(0, 0);
 		
 		private var highlighted:Boolean = false;
 		
-		public var theSprite:Sprite = new Sprite();		
+		public var theSprite:Sprite = new Sprite();	
 		
 		public function Particle(x,y):void
 		{		
 			position.x = x;
 			position.y = y;
 			
-			velocity.x = Math.random() * 5-2; 
+			velocity.x = Math.random() * 5 - 2; 
 			velocity.y = Math.random() * 5 - 2;
 			
 			addChild(theSprite);
@@ -67,6 +67,11 @@
 				this.graphics.moveTo(thisPoint.x, thisPoint.y);
 				this.graphics.lineTo(localPoint.x,localPoint.y);
 			}
+		}
+		
+		public function applyForce(forceVector:Vector2D):void
+		{
+			this.velocity.addTo(forceVector);
 		}
 		
 		public function clearLinks():void
