@@ -55,22 +55,13 @@
 		public function applyForce(force:Vector2D):void
 		{
 			this.force.addTo(force);
-			
-			// trace("Adding :" + force.x + "," + force.y);
 		}
 		
 		public function updatePoint():void
 		{
-			//var globalPos:Point = this.localToGlobal(new Point(this.x, this.y));
+			specialMovement();
 			
-			//velocity.addTo(force.divide(weight).multiply(dt));
 			velocity.addTo(force);
-			//trace("Velocity :" + velocity.x + "," + velocity.y);
-			
-			//this.x += velocity.x;
-			//this.y += velocity.y;
-			
-			//trace("Current Pos :" + this.x + "," + this.y);
 			
 			this.IKPoint.update(null);
 			// X Pos
@@ -88,6 +79,12 @@
 			} else {	
 				this.y += this.velocity.y;
 			}
+
+			
+		}
+		
+		public function specialMovement():void
+		{
 			
 		}
 		
