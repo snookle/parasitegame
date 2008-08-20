@@ -3,15 +3,17 @@
 =Blob Pseudocode=
 
 {{{
-Particle[128] particles;
-bool[128][128] connected;
+int numParticles = 128;
+Particle[numParticles] particles;
+bool[numParticles][numParticles] connected;   // 2d Array, is point x,y is connected?
 int threshold = 4;
 
-for (int i = 0; i < 128; ++i) {
+for (int i = 0; i < numParticles; ++i) {
 	Particle thisParticle = particles[i];
-	for (int j = i; j < 128; j++) {
+	for (int j = i; j < numParticles; j++) {
 		Particle thatParticle = particles[j];
 		int distance = thisParticle.position = thatParticle.position;
+		// Compare the distances between the two particles ?
 		if (distance <= threshold && !connected[i][j]) {
 			//close enough but not connected, so we'll connect it.
 			if (thisParticle.neighbours.Count != 8 && thatParticle.neighbours.count != 8) {
