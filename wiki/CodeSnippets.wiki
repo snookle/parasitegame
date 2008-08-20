@@ -55,7 +55,7 @@ for (int i = 0; i < numParticles; ++i) {
                             thatParticle.neighbours.add(thisParticle);
                             create spring between i and j;
                     }
-				} else if (distance > 4 && connected[i][j]) {
+		} else if (distance > 4 && connected[i][j]) {
                     //connected, but too far away.
                     get spring between i and j;
                     delete spring.
