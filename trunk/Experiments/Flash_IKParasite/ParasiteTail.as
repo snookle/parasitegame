@@ -9,6 +9,7 @@
 	public class ParasiteTail extends ParasiteBodyPart
 	{
 		public var isMoving:Boolean = false;
+		public var isClicked:Boolean = false;
 		
 		public function ParasiteTail(_theSprite, _theWeight):void
 		{
@@ -22,11 +23,35 @@
 			this.addEventListener(MouseEvent.MOUSE_OVER, hover);
 			
 			if(IKPoint!=null){
-				this.IKPoint.enableDrag();
+				//this.IKPoint.enableDrag();
 				
-				addEventListener(MouseEvent.MOUSE_DOWN, dragTail);
-				GetStage.stage.addEventListener(MouseEvent.MOUSE_UP, releaseTail);
+				addEventListener(MouseEvent.MOUSE_DOWN, clickTail);
+				GetStage.stage.addEventListener(MouseEvent.MOUSE_UP, stopclickTail);
 			}
+		}
+		
+		public override function specialMovement():void
+		{
+			var xDist:Number = (GetStage.stage.mouseX - this.x);
+			var yDist:Number = (GetStage.stage.mouseY - this.y);
+			
+			if (xDist < 25 && yDist < 25)
+			{
+				dragTail(null);
+			} else if (isMoving)
+			{
+				releaseTail(null);
+			}
+		}
+		
+		private function clickTail(event:MouseEvent):void
+		{
+			isClicked = true;
+		}
+		
+		private function stopclickTail(event:MouseEvent):void
+		{
+			isClicked = false;
 		}
 		
 		private function dragTail(event:MouseEvent):void

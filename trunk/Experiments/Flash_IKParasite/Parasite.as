@@ -27,6 +27,8 @@
 		private var leftMovement:Boolean = false;
 		private var rightMovement:Boolean = false;
 		
+		private var rigid:Boolean = true;
+		
 		private var tailMoving:Boolean = false;
 		
 		public function Parasite() 
@@ -93,7 +95,7 @@
 			
 			theParasite.push(theHead);
 			var headIK:IKMember = new IKMember(theHead);
-			var lastIK = headIK;
+			var lastIK:IKMember = headIK;
 			theHead.addIKPoint(headIK);
 			
 			for (i = 0; i < theBodyParts.length; i++)
@@ -104,7 +106,7 @@
 				if (i != 0)
 				{
 					// To Ensure that Dragging does not affect the Head
-					ik.addNeighbor(lastIK);	
+					ik.addNeighbor(lastIK);
 				}
 				lastIK.addNeighbor(ik);
 				
@@ -115,11 +117,20 @@
 			theParasite.push(theTail);
 			
 			var tailIK:IKMember = new IKMember(theTail);
+			
 			tailIK.addNeighbor(lastIK);
 			lastIK.addNeighbor(tailIK);
 			
 			theTail.addIKPoint(tailIK);
 			theTail.initTail();
+			
+			//lastIK.addAngleConstraint(headIK, 0, tailIK, Math.PI);
+			
+			// Constraints
+			//ParasiteBodyPart(theBodyParts[0]).IKPoint.addAngleConstraint(headIK, Math.PI, theBodyParts[1].IKPoint);
+			//ParasiteBodyPart(theBodyParts[1]).IKPoint.addAngleConstraint(theBodyParts[0].IKPoint, Math.PI, theBodyParts[2].IKPoint);
+			//ParasiteBodyPart(theBodyParts[2]).IKPoint.addAngleConstraint(theBodyParts[1].IKPoint, Math.PI, tailIK);
+			//ParasiteBodyPart(theBodyParts[2]).IKPoint.removeAngleConstraint();
 			
 			initParasitePosition();
 		}
@@ -148,13 +159,28 @@
 			for (var i = 0; i < theParasite.length; i++)
 			{
 				theParasite[i].x = 400+i * 20;
-				theParasite[i].y = 300+0;
+				theParasite[i].y = 500;
 			}
 		}
 	
 		
 		public function update(event:Event):void
 		{
+			if (theTail.isClicked)
+			{
+				if (!rigid)
+				{
+					var testAngle:Number = theBodyParts[2].IKPoint.currentAngle;
+					ParasiteBodyPart(theBodyParts[2]).IKPoint.addAngleConstraint(theBodyParts[1].IKPoint, testAngle, theTail.IKPoint);
+					rigid = true;
+				}
+			} else {
+				if (rigid)
+				{
+					ParasiteBodyPart(theBodyParts[2]).IKPoint.removeAngleConstraint();
+					rigid = false;
+				}
+			}
 			
 			// * Update Keyboard Movement
 			if (leftMovement)
@@ -165,7 +191,6 @@
 				theHead.velocity.x += 0.5;
 			}
 			
-			//theHead.updatePoint();
 			for (var i = 0; i < theParasite.length; i++)
 			{
 				theParasite[i].init();
@@ -175,8 +200,7 @@
 					theParasite[i].applyForce(gravitation);	
 				}
 				theParasite[i].updatePoint();
-			}
-			//theTail.updatePoint();
+			}		
 			
 		}
 		
