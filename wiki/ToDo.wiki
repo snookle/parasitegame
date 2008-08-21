@@ -2,7 +2,7 @@
 
 = Introduction =
 
-Selection of ToDos.  Probably best to keep this page to stuff that has to be done within the next week or so
+Selection of To Dos.  Probably best to keep this page to stuff that has to be done within the next week or so
 
 = 'Blob' Prototype =
  * Friction and Gravity
