@@ -5,7 +5,7 @@
 
 Selection of To Dos.  Probably best to keep this page to stuff that has to be done within the next week or so
 
-= 'Blob' Prototype =
+= 'Blob' Prototype [http://tenfiftyfour.com/akAGames/design/Blob%20Prototypes/Blob%20Dump/BlobTest15.swf Latest Iteration]=
  ==Friction and Gravity==
  ==Skin==
  * Any particles that have less than the max neighbours are considered to be on the "outside" of the blob.
