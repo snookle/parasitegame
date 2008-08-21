@@ -12,7 +12,10 @@ Selection of To Dos.  Probably best to keep this page to stuff that has to be do
  * Will Implement according to nehe.  We'll see how that goes.
  ===Skin===
  * Any particles that have less than the max neighbours are considered to be on the "outside" of the blob.
-  * STEP 1 : Determine which particles are on the inside, and which are on the outside
+  * STEP 1 : Determine which particles are on the inside, and which are on the outside 
+  * STEP 2 : Determine particle dense point ( ie 'centre' ) or perpendicular angle ( to know which direction the 'outside' is
+  * STEP 3 : Place a series of 'perimeter springs' around the circumference of the blob
+  * STEP 4 : Use Drawing Tools to draw skin, using Perimeter springs as guide points
  * Drawing of exterior blob surface
  ===Inner Particle Ignoring===
  * Perhaps particles that already have the max number of neighbours should ignore all other particles, and only check if their neighbours are too far away.
