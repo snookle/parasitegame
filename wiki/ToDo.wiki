@@ -17,6 +17,7 @@ if(has neighbours){
     highlight(green);
   } else {
     highlight(grey);
+  }
 } else {
   highlight(red);
 }
