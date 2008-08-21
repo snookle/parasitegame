@@ -6,7 +6,9 @@
 Selection of To Dos.  Probably best to keep this page to stuff that has to be done within the next week or so
 
 = 'Blob' Prototype =
- * Friction and Gravity
- * Skin
- * Inner Particle Ignoring ?
- * Centre of Gravity ( ie, to form 'ball' )
+ ==Friction and Gravity==
+ ==Skin==
+ * Any particles that have less than the max neighbours are considered to be on the "outside" of the blob.
+ ==Inner Particle Ignoring==
+ * Perhaps particles that already have the max number of neighbours should ignore all other particles, and only check if their neighbours are too far away.
+ ==Centre of Gravity ( ie, to form 'ball' )==
