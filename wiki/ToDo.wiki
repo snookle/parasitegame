@@ -7,7 +7,7 @@ Selection of To Dos.  Probably best to keep this page to stuff that has to be do
 
 = 'Blob' Prototype ([http://tenfiftyfour.com/akAGames/design/Blob%20Prototypes/Blob%20Dump/BlobTest15.swf Latest Iteration])=
  ===Extra Sliders===
- * Slider for Particle Size
+ * ~~Slider for Particle Size~~
  ===Friction and Gravity===
  * Will Implement according to nehe.  We'll see how that goes.
  ===Skin===
