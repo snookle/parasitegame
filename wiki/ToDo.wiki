@@ -2,9 +2,9 @@
 
 = Introduction =
 
-Selection of 'ToDos'.  Probably best to keep this page to stuff that has to be done within the next week or so
+Selection of ToDos.  Probably best to keep this page to stuff that has to be done within the next week or so
 
-= Blob Prototype =
+= 'Blob' Prototype =
  * Friction and Gravity
  * Skin
  * Inner Particle Ignoring ?
