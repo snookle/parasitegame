@@ -11,6 +11,17 @@ Selection of To Dos.  Probably best to keep this page to stuff that has to be do
  ===Friction and Gravity===
  * Will Implement according to nehe.  We'll see how that goes.
  ===Skin===
+{{{
+if(has neighbours){
+  if(max neighbours){
+    highlight(green);
+  } else {
+    highlight(grey);
+} else {
+  highlight(red);
+}
+}}}
+
  * Any particles that have less than the max neighbours are considered to be on the "outside" of the blob.
   * STEP 1 : Determine which particles are on the inside, and which are on the outside 
    * In Demo Program, Change colour of those particles with all points full
