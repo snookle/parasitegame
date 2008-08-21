@@ -10,6 +10,10 @@
 
 == Movement ==
  * [http://www.tenfiftyfour.com/akAGames/design/Week109.jpg Initial Movement Concepts]
+ * [http://www.tenfiftyfour.com/akAGames/design/week116.jpg IK Concepts]
+ * [http://www.tenfiftyfour.com/akAGames/design/week117.jpg IK Concepts2]
+ * [http://www.tenfiftyfour.com/akAGames/design/week118.jpg Movement Details and IK]
+ * [http://www.tenfiftyfour.com/akAGames/design/week119.jpg Stiffness and IK]
 
 == Level and Enemy Design ==
  * [http://www.tenfiftyfour.com/akAGames/design/Week111.jpg Concepts for Level Design, Some Parasite Tail Sketches, as well as One UI Idea]
