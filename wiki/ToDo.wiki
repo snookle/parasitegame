@@ -13,6 +13,7 @@ Selection of To Dos.  Probably best to keep this page to stuff that has to be do
  ===Skin===
  * Any particles that have less than the max neighbours are considered to be on the "outside" of the blob.
   * STEP 1 : Determine which particles are on the inside, and which are on the outside 
+   * In Demo Program, Change colour of those particles with all points full
   * STEP 2 : Determine particle dense point ( ie 'centre' ) or perpendicular angle ( to know which direction the 'outside' is
   * STEP 3 : Place a series of 'perimeter springs' around the circumference of the blob
   * STEP 4 : Use Drawing Tools to draw skin, using Perimeter springs as guide points
