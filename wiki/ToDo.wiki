@@ -12,6 +12,7 @@ Selection of To Dos.  Probably best to keep this page to stuff that has to be do
  * Will Implement according to nehe.  We'll see how that goes.
  ===Skin===
  * Any particles that have less than the max neighbours are considered to be on the "outside" of the blob.
+  * STEP 1 : Determine which particles are on the inside, and which are on the outside
  * Drawing of exterior blob surface
  ===Inner Particle Ignoring===
  * Perhaps particles that already have the max number of neighbours should ignore all other particles, and only check if their neighbours are too far away.
