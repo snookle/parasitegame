@@ -1,0 +1,11 @@
+#summary Work to be Done.
+
+= Introduction =
+
+Selection of 'ToDos'.  Probably best to keep this page to stuff that has to be done within the next week or so
+
+= Blob Prototype =
+ * Friction and Gravity
+ * Skin
+ * Inner Particle Ignoring ?
+ * Centre of Gravity ( ie, to form 'ball' )
