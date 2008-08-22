@@ -20,6 +20,6 @@
  * [http://www.chriscavanagh.com/Chris/Silverlight/CJC.Silverlight.JelloPhysicsDemo.zip Uses Walaber's JelloPhysics library - has some handy implementation details]
 
 =Triangulation=
-* http://nick.gravelyn.com/adventures/triangulation/
+ * http://nick.gravelyn.com/adventures/triangulation/
 
 = Other Links = 
