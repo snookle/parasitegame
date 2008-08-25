@@ -18,6 +18,7 @@
 =Physics=
  * [http://www.myphysicslab.com/spring1.html Springs]
  * [http://www.chriscavanagh.com/Chris/Silverlight/CJC.Silverlight.JelloPhysicsDemo.zip Uses Walaber's JelloPhysics library - has some handy implementation details]
+ * [http://www.youtube.com/watch?v=0bL80G1HX9w Great Youtube Video with Ideal Fluid Simulation]
 
 =Triangulation=
  * [http://nick.gravelyn.com/adventures/triangulation Breaking a complex poly into renderable triangles] (maybe useful for blob skin)
