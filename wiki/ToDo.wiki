@@ -8,6 +8,25 @@ Selection of To Dos.  Probably best to keep this page to stuff that has to be do
 = 'Blob' Prototype ([http://tenfiftyfour.com/akAGames/design/Blob%20Prototypes/Blob%20Dump/BlobTest15.swf Latest Iteration])=
  ===Extra Sliders===
  * ~~Slider for Particle Size~~
+ ===Modification of Particle Behaviour===
+ * Attempt to convert from 'Attraction Springs' to 'Repulsion'
+ * ie from 
+
+{{{
+if(within connect distance and !connected){
+   create spring;
+} else if(outside release distance and connected){
+   remove spring;
+}
+}}}
+
+ to
+
+{{{
+if(within connect distance){
+   apply force vector ( based on distance ) to offending particle
+}
+}}}
  ===Friction and Gravity===
  * Will Implement according to nehe.  We'll see how that goes.
  ===Skin===
