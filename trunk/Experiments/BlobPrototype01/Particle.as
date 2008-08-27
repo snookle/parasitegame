@@ -16,11 +16,16 @@
 		public var neighbors:Array = new Array();
 		public var velocity:Vector2D = new Vector2D(0, 0);
 		
+		public var particlePoints:Array = new Array();
+		
+		public var particleSize:Number = 2;
+		
 		private var highlighted:Boolean = false;
 		
-		public var theSprite:Sprite = new Sprite();	
+		public var theSprite:Sprite = new Sprite();
+		public var thePoints:Sprite = new Sprite();
 		
-		public function Particle(x,y):void
+		public function Particle(x,y,partSize):void
 		{		
 			position.x = x;
 			position.y = y;
@@ -28,31 +33,64 @@
 			velocity.x = Math.random() * 5 - 2; 
 			velocity.y = Math.random() * 5 - 2;
 			
+			particleSize = partSize;
+			
 			addChild(theSprite);
+			addChild(thePoints);
 			
 			theSprite.graphics.beginFill(0x7B2D2D, 1);
-			theSprite.graphics.drawCircle(this.x, this.y, 2);
+			//theSprite.graphics.drawCircle(this.x, this.y, partSize);
+			theSprite.graphics.drawRect(this.x-partSize/2, this.y-partSize/2, partSize,partSize);
+			//addEventListener(Event.ENTER_FRAME, update);
 			
-			theSprite.alpha = 0.25;
-			
-			//addEventListener(Event.ENTER_FRAME, drawLinks);
+			//createPoints();
+			//var theBlob:MovieClip = new Blob_img();
+			//this.addChild(theBlob);
 		}
 		
-		public function highlight(boolean:Boolean):void
+		public function createPoints():void
 		{
-			if (boolean)
-			{
-				if(!highlighted){
-					theSprite.alpha = 1;
-					highlighted = true;
-				}
-			} else {
-				if (highlighted)
-				{
-					theSprite.alpha = 0.25;
-					highlighted = false;
-				}
-			}			
+			var thisPoint:Point = this.globalToLocal(new Point(this.x, this.y));
+			// Left Point
+			var leftPoint:Vector2D = new Vector2D(this.x - 10, this.y);
+			particlePoints.push(leftPoint);
+			
+			// Top Point
+			var topPoint:Vector2D = new Vector2D(this.x, this.y - 10);
+			particlePoints.push(topPoint);
+			
+			// Right Point
+			var rightPoint:Vector2D = new Vector2D(this.x + 10, this.y);
+			particlePoints.push(rightPoint);
+			
+			// Bottom Point
+			var bottomPoint:Vector2D = new Vector2D(this.x, this.y + 10);
+			particlePoints.push(bottomPoint);
+			
+			// draw dots at each of hte points
+			thePoints.graphics.beginFill(0xD751D7);
+			thePoints.graphics.drawCircle(leftPoint.x, leftPoint.y, 1);
+			thePoints.graphics.endFill();
+			
+			thePoints.graphics.beginFill(0xD751D7);
+			thePoints.graphics.drawCircle(topPoint.x, topPoint.y, 1);
+			thePoints.graphics.endFill();
+			
+			thePoints.graphics.beginFill(0xD751D7);
+			thePoints.graphics.drawCircle(rightPoint.x, rightPoint.y, 1);
+			thePoints.graphics.endFill();
+			
+			thePoints.graphics.beginFill(0xD751D7);
+			thePoints.graphics.drawCircle(bottomPoint.x, bottomPoint.y, 1);
+			thePoints.graphics.endFill();
+		}
+		
+		public function highlight(theColour:uint):void
+		{
+			theSprite.graphics.clear();
+			theSprite.graphics.beginFill(theColour);
+			//theSprite.graphics.drawCircle(theSprite.x, theSprite.y, particleSize);	
+			theSprite.graphics.drawRect(theSprite.x - (particleSize/2), theSprite.y-(particleSize/2), particleSize,particleSize);
 		}
 		
 		public function drawLinks():void

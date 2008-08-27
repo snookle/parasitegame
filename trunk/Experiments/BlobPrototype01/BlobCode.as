@@ -21,20 +21,21 @@
 		public var numParticles:Number = 100;
 		public var theParticles:Array = new Array();
 		public var connected:Array = new Array();
+		public var particleSize:Number = 6;
 		
 		public var gravity:Vector2D = new Vector2D(0, 0.5);
 		
 		public var theSprings:Array = new Array();
 		
 		public var threshold:Number = 20;
-		public var disconThresh:Number = threshold;
+		public var disconThresh:Number = 24;
 		public var numLinks:Number = 6;
 		
 		// SPRING VALUES :
 		
-		public var springStiffness:Number	= 0.25;
+		public var springStiffness:Number	= 0.62;
 		public var springLength:Number		= threshold;
-		public var springFriction:Number	= 0.6;
+		public var springFriction:Number	= 0.03;
 		
 		public var mouseHit:Sprite = new Sprite();
 		
@@ -60,12 +61,23 @@
 			numConnectionsSlider.addEventListener(SliderEvent.CHANGE, updateSpringSliders);
 			numParticlesText.text = "Num Particles : " + numParticles;
 			numParticlesSlider.addEventListener(SliderEvent.CHANGE, updateSlider);
+			particleSizeText.text = "Particle Size : " + particleSize;
+			particleSizeSlider.addEventListener(SliderEvent.CHANGE, updateSlider);
 		}
 		
 		public function updateSlider(event:SliderEvent):void
 		{
-			numParticles = event.target.value;
-			numParticlesText.text = "Num Particles : " + numParticles;
+			switch(event.target.name)
+			{
+				case "numParticlesSlider":
+					numParticles = event.target.value;
+					numParticlesText.text = "Num Particles : " + numParticles;
+				break;
+				case "particleSizeSlider":
+					particleSize = event.target.value;	
+					particleSizeText.text = "Particle Size : " + particleSize;
+				break;
+			}
 		}
 		
 		public function clear(event:MouseEvent):void
@@ -89,7 +101,7 @@
 			// Create Particles
 			for (var i = 0; i < numParticles; i++)
 			{
-				var theParticle:Particle = new Particle(100,100);
+				var theParticle:Particle = new Particle(100,100,particleSize);
 				theParticles.push(theParticle);
 				this.addChild(theParticle);
 				connected.push(new Array())
@@ -216,6 +228,7 @@
 						connected[i][j] = false;
 						thisParticle.removeNeighbour(thatParticle);
 						thatParticle.removeNeighbour(thisParticle);
+						
 						theSprings[i][j] = null;
 					} 
 					
@@ -230,13 +243,19 @@
 				
 				if (thisParticle.neighbors.length > 0)
 				{
-					thisParticle.highlight(true);
+					//thisParticle.highlight(true);
 					if (linksButton.selected)
 					{
 						thisParticle.drawLinks();
 					}
+					if (thisParticle.neighbors.length >= numLinks)
+					{
+						thisParticle.highlight(0x92C479);
+					}  else {
+						thisParticle.highlight(0x2E2E2E);
+					}
 				} else {
-					thisParticle.highlight(false);
+					thisParticle.highlight(0xDA7C50);
 				}
 			}
 		}
