@@ -9,6 +9,7 @@
  * [http://www.rowlhouse.co.uk/water/index.html]
  * [http://www.matthiasmueller.info/publications/sca03.pdf Particle-Based Fluid Simulation for Interactive Applications]
  * [http://www.ziggyware.com/news.php?readmore=354 XNA Fluid]
+ * [http://en.wikipedia.org/wiki/Smoothed_particle_hydrodynamics Smoothed Particle Hydrodynamics]
 
 =Inspiration=
  * [http://www.quelsolaar.com/ Love : Procedural MMO]
