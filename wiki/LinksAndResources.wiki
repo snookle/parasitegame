@@ -2,10 +2,12 @@
 #labels Featured
 
 =Possibly Useful=
-==Metaballs==
+==Metaballs & Fluids==
  * [http://www.blitzbasic.com/Community/posts.php?topic=45716]
  * [http://www.messy-mind.net/game-maker/2d-metaballs/]
  * [http://www.codeplex.com/XNACommunity/Wiki/View.aspx?title=Blobs]
+ * [http://www.rowlhouse.co.uk/water/index.html]
+ * [http://www.matthiasmueller.info/publications/sca03.pdf Particle-Based Fluid Simulation for Interactive Applications]
 
 =Inspiration=
  * [http://www.quelsolaar.com/ Love : Procedural MMO]
