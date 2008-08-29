@@ -1,5 +1,10 @@
-#summary Selection of Links and Resources to Help / Inspirte
+#summary Selection of Links and Resources to Help / Inspire
 #labels Featured
+
+=Possibly Useful=
+==Metaballs==
+ * [http://www.blitzbasic.com/Community/posts.php?topic=45716]
+ * [http://www.messy-mind.net/game-maker/2d-metaballs/]
 
 =Inspiration=
  * [http://www.quelsolaar.com/ Love : Procedural MMO]
