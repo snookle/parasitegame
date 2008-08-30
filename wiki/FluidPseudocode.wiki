@@ -1,0 +1,119 @@
+=Particle-Based Viscoelastic Fluid Simulation Psuedocode=
+
+=Details=
+Still some things unknown : 
+ * r^ij
+  * We know it's a unit Vector.  But how to calculate it, and what it signifies is still not 100% Sure.  
+  * We read that a unit vector is equal to the vector / the normalised vector.  I think I might have a normalising function coded into my Vector2D Class.  Will attempt with that value tomorrow.
+
+==Algorithm 1 : Simulation Step==
+{{{
+for each Particle{
+  // Apply Gravity
+  Particle.velocity += gravity;
+}
+
+applyViscosity();
+
+for each Particle{
+  // Save Previous Pos
+  Particle.prevPos = Particle.pos;
+  // Move to Predicted Pos
+  Particle.pos += Particle.velocity;
+}
+
+adjustSprings();
+applySpringDisplacements();
+doubleDensityRelaxation();
+resolveCollisions();
+
+for each Particle{
+  computeNextVel();
+}
+}}}
+
+==Algorithm 2 : Double Density Relaxation==
+{{{
+for each Particle[i]{
+  density = 0;
+  nearDensity = 0;
+  for each Particle[j] who is neighbours with Particle[i]{
+    // Compute Density and Near Density
+    q = particleDistance/threshold;
+    if(q < 1){
+      density += (1 - q)^2;
+      nearDensity += (1 - q)^3;
+    }
+  }
+
+  // Compute Pressure and Near-Pressure
+  pressure = stiffness * (density - restDensity);
+  nearPressure = nearStiffness * nearDensity;
+  dx = (0,0);
+
+  for each Particle[j] who is neighbours with Particle[i]){
+    q = particleDistance/threshold;
+	if(q < 1){
+	  // Apply Displacements
+      displacement = (pressure(1-q) + newPressure(1-q)^2) * r^ij;
+	  Particle[j].pos += D / 2;
+	  dx += -1 * (D / 2);
+	}
+  }
+  Particle[i].pos += dx;
+}
+}}}
+
+==Algorithm 3 : Spring Displacement==
+{{{
+for each spring{
+  displacement = springStiffness * (1 * springRestLength / threshold) * (springRestLength - distance) * r^ij
+  thePoint[i].pos += -1 * (D / 2);
+  thePoint[j].pos += D / 2;
+}
+}}}
+
+==Algorithm 4 : Spring Adjustment==
+{{{
+for each neighbor pair{
+  q = distance/threshold;
+  if(q < 1){
+    if(notConnected){
+      createSpring(restLength = threshold);
+    }
+    deformation = yieldRatio * restLength;
+    if(distance > restLengthConstant + deformation){
+      // Stretch
+      restLength = restLength + plasticityConstant(distance - restLengthConstant - deformation);
+    } else if (distance < restLengthConstant - deformation) {
+      // Compress
+      restLength = restLength - plasticityConstant(restLengthConstant - deformation - distance);
+    }
+  }
+  for each Spring{
+    if(restLength > threshold){
+      removeSpring();
+    }
+  }
+}
+}}}
+
+==Algorithm 5 : Viscosity Impulses==
+{{{
+for each neighbor pair{
+  q = distance / threshold;
+  if(q < 1){
+    u = (Particle[i].velocity - Particles[j].velocity) . r^ij;
+    if(u > 0){
+      impulseDependence = (1 - q) * (variable1 * u + variable2 * u^2) * r^ij;
+      Particle[i].velocity += -1 * (impulseDependence / 2);
+      Particle[j].veloicty += impulseDependence / 2;
+    }
+  }
+}
+}}}
+
+==Algorithm 6 : Particle-Body Interactions==
+{{{
+  // Not Finished
+}}}
