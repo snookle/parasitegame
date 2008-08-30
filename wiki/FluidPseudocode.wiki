@@ -5,6 +5,19 @@ Still some things unknown :
  * r^ij
   * We know it's a unit Vector.  But how to calculate it, and what it signifies is still not 100% Sure.  
   * We read that a unit vector is equal to the vector / the normalised vector.  I think I might have a normalising function coded into my Vector2D Class.  Will attempt with that value tomorrow.
+  * Normalising Function is as follows : 
+{{{
+     public function normalize():void
+     {
+       var length:Number = length();
+       if (length == 0)
+       {
+         return;
+       }
+       x /= length;
+       y /= length;
+     }
+    }}}
 
 ==Algorithm 1 : Simulation Step==
 {{{
