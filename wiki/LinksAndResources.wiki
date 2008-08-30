@@ -13,6 +13,7 @@
 
 =Fluids=
  * [http://kotsoft.googlepages.com/]
+ * [http://forums.xna.com/forums/t/10116.aspx]
 
 =Inspiration=
  * [http://www.quelsolaar.com/ Love : Procedural MMO]
