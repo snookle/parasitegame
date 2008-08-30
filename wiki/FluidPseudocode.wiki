@@ -128,5 +128,12 @@ for each neighbor pair{
 
 ==Algorithm 6 : Particle-Body Interactions==
 {{{
-  // Not Finished
+for each body{
+  body.origPos = body.pos;
+  body.pos += body.velocity;
+  // Not sure about angular velocity.  is it as simple as adding it ? or is it rotational ? 
+  body.pos += body.angularVelocity;
+  
+  forceBuffer = 0;
+  torqueBuffer = 0;  
 }}}
