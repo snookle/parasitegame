@@ -1,5 +1,8 @@
 #summary Various bits of code (pseudo or otherwise) that will help us along the way
 
+=New Blob Code=
+New Blob code is hopefully at FluidPseudocode
+
 =Blob Pseudocode=
 
 {{{
