@@ -1,0 +1,63 @@
+{{{
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Microsoft.Xna.Framework;
+
+namespace ParasiteBlobTest
+{  
+    class SpatialGrid
+    {
+        private List<BlobParticle>[][] grid;
+
+        private int width;
+        private int height;
+        private int gridSize;
+
+        public SpatialGrid(int gridWidth, int gridHeight, int gridSize)
+        {
+            this.width = gridWidth;
+            this.height = gridHeight;
+            this.gridSize = gridSize;
+            grid = new List<BlobParticle>[gridHeight][];
+            for (int i = 0; i < gridHeight; i++)
+            {
+                grid[i] = new List<BlobParticle>[gridWidth];
+                for (int j = 0; j < gridWidth; j++)
+                {
+                    grid[i][j] = new System.Collections.Generic.List<BlobParticle>();
+                }
+            }
+        }
+
+        public bool RemoveParticle(BlobParticle particle)
+        {
+            int x = Math.Floor(particle.Location.X / gridSize);
+            int y = Math.Floor(particle.Location.Y / gridSize);
+            return grid[x][y].Remove(particle);
+        }
+
+        public bool AddParticle(BlobParticle particle)
+        {
+            int x = Math.Floor(particle.Location.X / gridSize);
+            int y = Math.Floor(particle.Location.Y / gridSize);
+            return grid[x][y].Add(particle);
+        }
+
+        public List<BlobParticle> GetNeighbours(BlobParticle particle)
+        {
+            int x = Math.Floor(particle.Location.X / gridSize);
+            int y = Math.Floor(particle.Location.Y / gridSize);
+
+            List<BlobParticle> returnList = new List<BlobParticle>();
+        
+            for (int i = y - (y = 0 ? 0 : 1); i < y + (y = gridHeight ? 0 : 1); i++) {
+                for (int j = x - (x = 0 ? 0 : 1); j < x + (x = gridWidth ? 0 : 1); j++)
+                {
+                    returnList.AddRange(grid[i][j]);
+                }
+            }
+        }
+    }
+}
+}}}
