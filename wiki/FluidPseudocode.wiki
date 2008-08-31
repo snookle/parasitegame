@@ -26,10 +26,10 @@ Still some things unknown :
 
 `so scaling it would give you (0.6, 0.8)"`
 
-[10:02] Sam Clifford: the scalar vector product
-[10:03] Sam Clifford: say you have two vectors a and b
-[10:03] Sam Clifford: a . b means that you add up a(1)*b(1) + a(2)*b(2) ...
-[10:03] Sam Clifford: for however long a and b are
+the scalar vector product
+say you have two vectors a and b
+a . b means that you add up a(1)*b(1) + a(2)*b(2) ...
+for however long a and b are
 
 ==Algorithm 1 : Simulation Step==
 {{{
