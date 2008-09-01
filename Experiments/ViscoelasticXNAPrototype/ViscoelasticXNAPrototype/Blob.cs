@@ -16,7 +16,7 @@ namespace ViscoelasticXNAPrototype
     public class Blob : Microsoft.Xna.Framework.DrawableGameComponent
     {
         // Variables
-        private int numParticles = 2000;
+        private int numParticles = 100;
         private List<BlobParticle> theParticles;
         private List<Spring> theSprings;
         private bool[][] connections;
@@ -24,17 +24,17 @@ namespace ViscoelasticXNAPrototype
         private SpatialGrid theGrid;
 
         // Constants
-        private float threshold = 10f;
+        private float threshold = 0.5f;
         private float restDensity = 10f;
         private float stiffness = 0.004f;
         private float nearStiffness = 0.01f;
         private float springStiffness = 0.3f;
         private float plasticityConstant = 0.3f;
-        private float friction = 1f;
-        private float unknownVariableO = 0.2f;
-        private float unknownVariableB = 0.05f;
+        private float friction = 0.5f;
+        private float unknownVariableO = 0.05f;
+        private float unknownVariableB = 0;
         private float yeildRatio = 0.2f;
-        private float restLengthConstant = 10f;
+        private float restLengthConstant = 0.5f;
         private Vector2 gravity = new Vector2(0, 0.5f);
 
         private Texture2D theSprite;
@@ -91,10 +91,10 @@ namespace ViscoelasticXNAPrototype
         
         public void initSimulation()
         {
-            theParticles = new List<BlobParticle>(numParticles);
-            theSprings = new List<Spring>(numParticles);
+            theParticles = new List<BlobParticle>();
+            theSprings = new List<Spring>();
             //connections = new bool[numParticles][numParticles]();
-            theGrid = new SpatialGrid(800, 600, Convert.ToInt32(threshold));
+            theGrid = new SpatialGrid(800, 600, 20);
 
             // init connections
             connections = new bool[numParticles][];
@@ -132,10 +132,10 @@ namespace ViscoelasticXNAPrototype
             foreach (BlobParticle theParticle in theParticles)
             {
                 // Apply Gravity
-                // theParticle.applyForce(gravity);
+                 theParticle.applyForce(gravity);
             }
 
-            applyViscosity();
+            //applyViscosity();
 
             foreach (BlobParticle theParticle in theParticles)
             {
@@ -148,9 +148,9 @@ namespace ViscoelasticXNAPrototype
             }
 
             // Add and remove springs, change the rest lengths
-            //adjustSprings();
+            adjustSprings();
             // Modify Positions according to springs, double Density and collisions
-            //applySpringDisplacements();
+            applySpringDisplacements();
             //doubleDensityRelaxation();
             resolveCollisions();
 
@@ -201,7 +201,7 @@ namespace ViscoelasticXNAPrototype
                         unitR.Normalize();
 
                         // Apply Displacements
-                        float displacementValue = (pressure * (1 - q)) + (nearPressure * (1 - q));
+                        float displacementValue = (pressure * (1 - q)) + (nearPressure * Convert.ToSingle(Math.Pow((1 - q), 2)));
                         Vector2 displacement = unitR * displacementValue;
 
                         theNeighbour.position += (displacement / 2);
@@ -251,6 +251,7 @@ namespace ViscoelasticXNAPrototype
                             // Create a spring
                             Spring newSpring = new Spring(threshold, theParticle, theNeighbour);
                             connections[theParticle.idNumber][theNeighbour.idNumber] = true;
+                            theSprings.Add(newSpring);
                         }
                     }
                 }
@@ -274,16 +275,18 @@ namespace ViscoelasticXNAPrototype
                 }
             }
 
-            foreach (Spring theSpring in theSprings)
+            //foreach (Spring theSpring in theSprings)
+            for(int i=0;i<theSprings.Count;i++)
             {
-                if (theSpring.springLength > threshold)
+                if (theSprings[i].springLength > threshold)
                 {
                     // Remove Spring
-                    connections[theSpring.parentParticle.idNumber][theSpring.childParticle.idNumber] = false;
-                    theSprings.Remove(theSpring);
+                    connections[theSprings[i].parentParticle.idNumber][theSprings[i].childParticle.idNumber] = false;
+                    theSprings.Remove(theSprings[i]);
+                    i--;
                 }
             }
-        }
+        } 
 
         // Algorithm 5
         public void applyViscosity()
@@ -322,6 +325,8 @@ namespace ViscoelasticXNAPrototype
         {
             foreach (BlobParticle theParticle in theParticles)
             {
+                theParticle.velocity = (theParticle.position - theParticle.previousPosition);
+
                 if (theParticle.position.Y > 550)
                 {
                     theParticle.position.Y = 550;

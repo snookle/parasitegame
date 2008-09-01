@@ -18,6 +18,7 @@ namespace ViscoelasticXNAPrototype
         public BlobParticle(Vector2 position,int idNumber, Texture2D sprite)
         {
             this.position = position;
+            this.idNumber = idNumber;
             this.velocity = new Vector2(0, 0);
             this.sprite = sprite;
         }
