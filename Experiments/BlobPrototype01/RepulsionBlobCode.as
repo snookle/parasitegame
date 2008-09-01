@@ -16,7 +16,7 @@
 	* ...
 	* @author Anthony Massingham for BlueDog Training
 	*/
-	public class BlobCode extends MovieClip 
+	public class RepulsionBlobCode extends MovieClip 
 	{
 		public var numParticles:Number = 100;
 		public var theParticles:Array = new Array();
@@ -43,7 +43,7 @@
 		
 		private var running:Boolean = false;
 		
-		public function BlobCode()
+		public function RepulsionBlobCode()
 		{
 			startbutton.addEventListener(MouseEvent.CLICK, clear);
 			threshLevel.text = "Threshold : " + threshold;
@@ -208,53 +208,13 @@
 					var distance:Number = calculateDistance(thisPosition, thatPosition);
 					distance = Math.round(distance);
 					
-					if (distance <= threshold && !connected[i][j])
+					if (distance <= threshold)
 					{
-						if (thisParticle.neighbors.length != numLinks && thatParticle.neighbors.length != numLinks)
-						{
-							// room for connection
-							//trace("Connect");
-							
-							connected[i][j] = true;
-							
-							thisParticle.addNeighbour(thatParticle);
-							thatParticle.addNeighbour(thisParticle);							
-							
-							var newSpring:Spring = new Spring(thisParticle, thatParticle, springStiffness, springLength, springFriction);
-							theSprings[i][j] = newSpring;
-						}
-					} else if(distance>disconThresh && connected[i][j]){
-						connected[i][j] = false;
-						thisParticle.removeNeighbour(thatParticle);
-						thatParticle.removeNeighbour(thisParticle);
-						
-						theSprings[i][j] = null;
-					} 
-					
-					if (theSprings[i][j] != null)
-					{
-						theSprings[i][j].solve();
+						// If the distance between the particles is too close, Apply Repulsion
+						var xDist:Number = thisPosition.x - thatPosition.x;
+						var yDist:Number = thisPosition.y - thatPosition.y;
+						thisParticle.applyForce(new Vector2D(xDist, yDist));
 					}
-					//trace("i:" + i + ", j:" + j);
-				}
-				
-				//trace(thisParticle.neighbors.length);
-				
-				if (thisParticle.neighbors.length > 0)
-				{
-					//thisParticle.highlight(true);
-					if (linksButton.selected)
-					{
-						thisParticle.drawLinks();
-					}
-					if (thisParticle.neighbors.length >= numLinks)
-					{
-						thisParticle.highlight(0x92C479);
-					}  else {
-						thisParticle.highlight(0x2E2E2E);
-					}
-				} else {
-					thisParticle.highlight(0xDA7C50);
 				}
 			}
 		}

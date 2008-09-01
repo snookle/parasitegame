@@ -14,7 +14,7 @@
 	
 	/**
 	* ...
-	* @author Anthony Massingham for BlueDog Training
+	* @author Anthony Massingham
 	*/
 	public class BlobCode extends MovieClip 
 	{
