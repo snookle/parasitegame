@@ -24,7 +24,7 @@ namespace ViscoelasticXNAPrototype
         private SpatialGrid theGrid;
 
         // Constants
-        private float threshold = 0.5f;
+        private float threshold = 5.0f;
         private float restDensity = 10f;
         private float stiffness = 0.004f;
         private float nearStiffness = 0.01f;
@@ -100,7 +100,7 @@ namespace ViscoelasticXNAPrototype
             theParticles = new List<BlobParticle>();
             theSprings = new List<Spring>();
             //connections = new bool[numParticles][numParticles]();
-            theGrid = new SpatialGrid(800, 600, 20);
+            theGrid = new SpatialGrid(800, 600, Convert.ToInt32(threshold));
 
             // init connections
             connections = new bool[numParticles][];
@@ -222,16 +222,23 @@ namespace ViscoelasticXNAPrototype
         {
             foreach (Spring theSpring in theSprings)
             {
+
                 Vector2 r = theSpring.childParticle.position-theSpring.parentParticle.position;
+                if (r == Vector2.Zero)
+                {
+                    r.Y = 0.01f;
+                    r.X = 0.01f;
+                }
                 float theDistance = r.Length();
                 Vector2 unitR = r;
                 unitR.Normalize();
 
-                float displacementValue = springStiffness * (1-theSpring.springLength/threshold)*(theSpring.springLength-theDistance);
+                float displacementValue = springStiffness * (1-(theSpring.springLength/threshold))*(theSpring.springLength-theDistance);
                 Vector2 displacement = unitR * displacementValue;
 
                 theSpring.parentParticle.position -= (displacement / 2);
                 theSpring.childParticle.position += (displacement / 2);
+
             }
         }
 
