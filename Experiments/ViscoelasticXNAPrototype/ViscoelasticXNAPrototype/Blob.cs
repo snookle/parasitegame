@@ -16,7 +16,7 @@ namespace ViscoelasticXNAPrototype
     public class Blob : Microsoft.Xna.Framework.DrawableGameComponent
     {
         // Variables
-        private int numParticles = 250;
+        private int numParticles = 100;
         private List<BlobParticle> theParticles;
         private List<Spring> theSprings;
         private bool[][] connections;
@@ -24,17 +24,17 @@ namespace ViscoelasticXNAPrototype
         private SpatialGrid theGrid;
 
         // Constants
-        private float threshold = 2.0f;
+        private float threshold = 50.0f;
         private float restDensity = 10f;
         private float stiffness = 0.004f;
         private float nearStiffness = 0.01f;
         private float springStiffness = 0.3f;
         private float plasticityConstant = 0.3f;
         private float friction = 0.5f;
-        private float unknownVariableO = 0.05f;
-        private float unknownVariableB = 0;
+        private float unknownVariableO = 0.5f;
+        private float unknownVariableB = 0f;
         private float yeildRatio = 0.2f;
-        private float restLengthConstant = 0.5f;
+        private float restLengthConstant = 50.0f;
         private Vector2 gravity = new Vector2(0, 0.5f);
 
         private Texture2D theSprite;
@@ -136,7 +136,7 @@ namespace ViscoelasticXNAPrototype
             foreach (BlobParticle theParticle in theParticles)
             {
                 // Apply Gravity
-                 theParticle.applyForce(gravity);
+                theParticle.applyForce(gravity);
             }
 
             applyViscosity();
@@ -176,7 +176,7 @@ namespace ViscoelasticXNAPrototype
                 List<BlobParticle> theNeighbours = theGrid.GetNeighbours(theParticle);
                 foreach (BlobParticle theNeighbour in theNeighbours)
                 {
-                    Vector2 r = theParticle.position - theNeighbour.position;
+                    Vector2 r = theNeighbour.position - theParticle.position;
                     if (r == Vector2.Zero)
                     {
                         r.Y = 0.01f;
@@ -193,13 +193,13 @@ namespace ViscoelasticXNAPrototype
                 }
 
                 // Compute Pressure and Near Pressure
-                float pressure = stiffness * (density - nearDensity);
+                float pressure = stiffness * (density - restDensity);
                 float nearPressure = nearStiffness * nearDensity;
                 Vector2 dx = new Vector2(0.0f);
 
                 foreach (BlobParticle theNeighbour in theNeighbours)
                 {
-                    Vector2 r = theParticle.position - theNeighbour.position;
+                    Vector2 r = theNeighbour.position - theParticle.position;
                     if (r == Vector2.Zero)
                     {
                         r.Y = 0.01f;
@@ -288,6 +288,7 @@ namespace ViscoelasticXNAPrototype
                 }
             }
 
+            // Possible Problem #1
             foreach (Spring theSpring in theSprings)
             {
                 Vector2 r = theSpring.childParticle.position - theSpring.parentParticle.position;
@@ -299,15 +300,15 @@ namespace ViscoelasticXNAPrototype
                 float theDistance = Math.Abs(r.Length());
 
                 float deformation = yeildRatio * theSpring.springLength;
-                if (theDistance > restLengthConstant + deformation)
+                if (theDistance > theSpring.springLength + deformation)
                 {
                     // Stretch
-                    theSpring.springLength += plasticityConstant * (theDistance - restLengthConstant - deformation);
+                    theSpring.springLength += plasticityConstant * (theDistance - theSpring.springLength - deformation);
                 }
-                else if (theDistance < restLengthConstant - deformation)
+                else if (theDistance < theSpring.springLength - deformation)
                 {
                     // Compress
-                    theSpring.springLength -= plasticityConstant * (restLengthConstant - deformation - theDistance);
+                    theSpring.springLength -= plasticityConstant * (theSpring.springLength - deformation - theDistance);
                 }
             }
 
@@ -338,7 +339,9 @@ namespace ViscoelasticXNAPrototype
                         r.Y = 0.01f;
                         r.X = 0.01f;
                     }
-                    float theDistance = Math.Abs(r.Length());
+
+
+                    float theDistance = r.Length();
                     float q = theDistance / threshold;
 
                     if (q < 1)
@@ -346,7 +349,7 @@ namespace ViscoelasticXNAPrototype
                         Vector2 unitR = r;
                         unitR.Normalize();
 
-                        float u = Vector2.Dot(unitR,(theParticle.velocity-theNeighbour.velocity));
+                        float u = Vector2.Dot((theParticle.velocity-theNeighbour.velocity),unitR);
                         if (u > 0)
                         {
                             // Linear and Quadratic Impulses - lol
