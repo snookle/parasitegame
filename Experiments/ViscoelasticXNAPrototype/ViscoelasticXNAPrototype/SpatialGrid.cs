@@ -115,10 +115,10 @@ namespace ViscoelasticXNAPrototype
             {
                 for (int j = x - (x == 0 ? 0 : 1); j < x + (x == width ? 0 : 1); j++)
                 {
-                    //if (grid[i][j] != null && grid[i][j].Count > 0)
-                    //{
+                    if (grid[i][j] != null && grid[i][j].Count > 0)
+                    {
                         returnList.AddRange(grid[i][j]);
-                    //}
+                    }
                 }
             }
 
