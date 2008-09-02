@@ -6,3 +6,11 @@ E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\ViscoelasticXNAProtot
 E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\ViscoelasticXNAPrototype\ViscoelasticXNAPrototype\obj\x86\Debug\ViscoelasticXNAPrototype.exe
 E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\ViscoelasticXNAPrototype\ViscoelasticXNAPrototype\obj\x86\Debug\ViscoelasticXNAPrototype.pdb
 E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\ViscoelasticXNAPrototype\ViscoelasticXNAPrototype\bin\x86\Debug\Content\Sprites\Particle.xnb
+C:\benk\parasite\Experiments\ViscoelasticXNAPrototype\ViscoelasticXNAPrototype\bin\x86\Debug\Content\Sprites\Particle.xnb
+C:\benk\parasite\Experiments\ViscoelasticXNAPrototype\ViscoelasticXNAPrototype\bin\x86\Debug\ViscoelasticXNAPrototype.exe
+C:\benk\parasite\Experiments\ViscoelasticXNAPrototype\ViscoelasticXNAPrototype\bin\x86\Debug\ViscoelasticXNAPrototype.pdb
+C:\benk\parasite\Experiments\ViscoelasticXNAPrototype\ViscoelasticXNAPrototype\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\benk\parasite\Experiments\ViscoelasticXNAPrototype\ViscoelasticXNAPrototype\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\benk\parasite\Experiments\ViscoelasticXNAPrototype\ViscoelasticXNAPrototype\obj\x86\Debug\ViscoelasticXNAPrototype.obj.x86.Debug.Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\benk\parasite\Experiments\ViscoelasticXNAPrototype\ViscoelasticXNAPrototype\obj\x86\Debug\ViscoelasticXNAPrototype.exe
+C:\benk\parasite\Experiments\ViscoelasticXNAPrototype\ViscoelasticXNAPrototype\obj\x86\Debug\ViscoelasticXNAPrototype.pdb

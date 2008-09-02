@@ -58,10 +58,17 @@ namespace ViscoelasticXNAPrototype
         {
             // TODO: Add your initialization code here
             base.Initialize();
+        }
 
-            this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
+        protected override void LoadContent()
+        {
+
+            spriteBatch = new SpriteBatch(this.GraphicsDevice);
+            theSprite = this.Game.Content.Load<Texture2D>("Sprites\\Particle");
 
             initSimulation();
+
+            base.LoadContent();
         }
 
         /// <summary>
@@ -71,9 +78,8 @@ namespace ViscoelasticXNAPrototype
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-
-            base.Update(gameTime);
             doSimulation();
+            base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
@@ -112,8 +118,6 @@ namespace ViscoelasticXNAPrototype
                 int RandomHeight = RandomGenerator.Next(400);
                 float randomXVelocity = RandomGenerator.Next(20);
                 float randomYVelocity = RandomGenerator.Next(20);
-
-                theSprite = this.Game.Content.Load<Texture2D>("Sprites\\Particle");
 
                 BlobParticle theParticle = new BlobParticle(new Vector2(RandomWidth, RandomHeight), i, theSprite);
                 theParticle.velocity.X = randomXVelocity/20-0.5f;
