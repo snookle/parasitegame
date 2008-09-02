@@ -16,7 +16,7 @@ namespace ViscoelasticXNAPrototype
     public class Blob : Microsoft.Xna.Framework.DrawableGameComponent
     {
         // Variables
-        private int numParticles = 100;
+        private int numParticles = 250;
         private List<BlobParticle> theParticles;
         private List<Spring> theSprings;
         private bool[][] connections;
@@ -24,7 +24,7 @@ namespace ViscoelasticXNAPrototype
         private SpatialGrid theGrid;
 
         // Constants
-        private float threshold = 5.0f;
+        private float threshold = 2.0f;
         private float restDensity = 10f;
         private float stiffness = 0.004f;
         private float nearStiffness = 0.01f;
@@ -139,7 +139,7 @@ namespace ViscoelasticXNAPrototype
                  theParticle.applyForce(gravity);
             }
 
-            //applyViscosity();
+            applyViscosity();
 
             foreach (BlobParticle theParticle in theParticles)
             {
@@ -155,13 +155,13 @@ namespace ViscoelasticXNAPrototype
             adjustSprings();
             // Modify Positions according to springs, double Density and collisions
             applySpringDisplacements();
-            //doubleDensityRelaxation();
+            doubleDensityRelaxation();
             resolveCollisions();
 
             foreach (BlobParticle theParticle in theParticles)
             {
                 // Use previous position to compute next velocity
-                // theParticle.velocity = (theParticle.position - theParticle.previousPosition);
+                //theParticle.velocity = (theParticle.position - theParticle.previousPosition);
             }
         }
 
@@ -177,7 +177,12 @@ namespace ViscoelasticXNAPrototype
                 foreach (BlobParticle theNeighbour in theNeighbours)
                 {
                     Vector2 r = theParticle.position - theNeighbour.position;
-                    float theDistance = r.Length();
+                    if (r == Vector2.Zero)
+                    {
+                        r.Y = 0.01f;
+                        r.X = 0.01f;
+                    }
+                    float theDistance = Math.Abs(r.Length());
                     float q = theDistance / threshold;
 
                     if (q < 1)
@@ -195,7 +200,12 @@ namespace ViscoelasticXNAPrototype
                 foreach (BlobParticle theNeighbour in theNeighbours)
                 {
                     Vector2 r = theParticle.position - theNeighbour.position;
-                    float theDistance = r.Length();
+                    if (r == Vector2.Zero)
+                    {
+                        r.Y = 0.01f;
+                        r.X = 0.01f;
+                    }
+                    float theDistance = Math.Abs(r.Length());
                     float q = theDistance / threshold;
 
                     if (q < 1)
@@ -229,7 +239,12 @@ namespace ViscoelasticXNAPrototype
                     r.Y = 0.01f;
                     r.X = 0.01f;
                 }
-                float theDistance = r.Length();
+                float theDistance = Math.Abs(r.Length());
+                if (r == Vector2.Zero)
+                {
+                    r.Y = 0.01f;
+                    r.X = 0.01f;
+                }
                 Vector2 unitR = r;
                 unitR.Normalize();
 
@@ -251,7 +266,12 @@ namespace ViscoelasticXNAPrototype
                 foreach (BlobParticle theNeighbour in theNeighbours)
                 {
                     Vector2 r = theNeighbour.position - theParticle.position;
-                    float theDistance = r.Length();
+                    if (r == Vector2.Zero)
+                    {
+                        r.Y = 0.01f;
+                        r.X = 0.01f;
+                    }
+                    float theDistance = Math.Abs(r.Length());
                     float q = theDistance / threshold;
 
                     if (q < 1)
@@ -271,7 +291,12 @@ namespace ViscoelasticXNAPrototype
             foreach (Spring theSpring in theSprings)
             {
                 Vector2 r = theSpring.childParticle.position - theSpring.parentParticle.position;
-                float theDistance = r.Length();
+                if (r == Vector2.Zero)
+                {
+                    r.Y = 0.01f;
+                    r.X = 0.01f;
+                }
+                float theDistance = Math.Abs(r.Length());
 
                 float deformation = yeildRatio * theSpring.springLength;
                 if (theDistance > restLengthConstant + deformation)
@@ -308,7 +333,12 @@ namespace ViscoelasticXNAPrototype
                 foreach (BlobParticle theNeighbour in theNeighbours)
                 {
                     Vector2 r = theNeighbour.position - theParticle.position;
-                    float theDistance = r.Length();
+                    if (r == Vector2.Zero)
+                    {
+                        r.Y = 0.01f;
+                        r.X = 0.01f;
+                    }
+                    float theDistance = Math.Abs(r.Length());
                     float q = theDistance / threshold;
 
                     if (q < 1)
@@ -316,7 +346,7 @@ namespace ViscoelasticXNAPrototype
                         Vector2 unitR = r;
                         unitR.Normalize();
 
-                        float u = Vector2.Dot(unitR,(theNeighbour.velocity-theParticle.velocity));
+                        float u = Vector2.Dot(unitR,(theParticle.velocity-theNeighbour.velocity));
                         if (u > 0)
                         {
                             // Linear and Quadratic Impulses - lol
@@ -334,6 +364,7 @@ namespace ViscoelasticXNAPrototype
         // Algorithm 6
         public void resolveCollisions()
         {
+
             foreach (BlobParticle theParticle in theParticles)
             {
                 theParticle.velocity = (theParticle.position - theParticle.previousPosition);
@@ -358,7 +389,8 @@ namespace ViscoelasticXNAPrototype
                 {
                     theParticle.position.X = 0;
                     theParticle.velocity.X *= -0.5f;
-                }                
+                }
+
             }
         }
 
