@@ -16,7 +16,7 @@ namespace ViscoelasticXNAPrototype
     public class Blob : Microsoft.Xna.Framework.DrawableGameComponent
     {
         // Variables
-        private int numParticles = 100;
+        private int numParticles = 250;
         private List<BlobParticle> theParticles;
         private List<Spring> theSprings;
         private bool[][] connections;
@@ -41,13 +41,16 @@ namespace ViscoelasticXNAPrototype
 
         private SpriteBatch spriteBatch;
 
+        private PerformanceTimer pt;
+
         //SpriteBatch spriteBatch;
         //GraphicsDeviceManager graphics;
 
-        public Blob(Game game)
+        public Blob(Game game, PerformanceTimer pt)
             : base(game)
         {
             // TODO: Construct any child components here  
+            this.pt = pt;
         }
 
         /// <summary>
@@ -133,14 +136,20 @@ namespace ViscoelasticXNAPrototype
         // Algorithm 1
         public void doSimulation()
         {
+            pt.StartTimer("doSimulation");
+            pt.StartTimer("gravity");
             foreach (BlobParticle theParticle in theParticles)
             {
                 // Apply Gravity
                 theParticle.applyForce(gravity);
             }
+            pt.StopTimer("gravity");
 
+            pt.StartTimer("applyViscosity");
             applyViscosity();
+            pt.StopTimer("applyViscosity");
 
+            pt.StartTimer("gridSorting");
             foreach (BlobParticle theParticle in theParticles)
             {
                 theGrid.RemoveParticle(theParticle);
@@ -150,19 +159,31 @@ namespace ViscoelasticXNAPrototype
                 theParticle.position += theParticle.velocity;
                 theGrid.AddParticle(theParticle);
             }
+            pt.StopTimer("gridSorting");
 
             // Add and remove springs, change the rest lengths
+            pt.StartTimer("adjustSprings");
             adjustSprings();
+            pt.StopTimer("adjustSprings");
             // Modify Positions according to springs, double Density and collisions
+            pt.StartTimer("applySpringDisplacements");
             applySpringDisplacements();
+            pt.StopTimer("applySpringDisplacements");
+
+            pt.StartTimer("doubleDensityRelaxation");
             doubleDensityRelaxation();
+            pt.StopTimer("doubleDensityRelaxation");
+
+            pt.StartTimer("resolveCollisions");
             resolveCollisions();
+            pt.StopTimer("resolveCollisions");
 
             foreach (BlobParticle theParticle in theParticles)
             {
                 // Use previous position to compute next velocity
                 //theParticle.velocity = (theParticle.position - theParticle.previousPosition);
             }
+            pt.StopTimer("doSimulation");
         }
 
         // Algorithm 2

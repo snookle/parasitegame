@@ -19,6 +19,7 @@ namespace ViscoelasticXNAPrototype
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Blob theBlob;
+        PerformanceTimer pTimer;
 
         public Game1()
         {
@@ -37,9 +38,13 @@ namespace ViscoelasticXNAPrototype
             // TODO: Add your initialization logic here
             base.Initialize();
 
-            theBlob = new Blob(this);
+            pTimer = new PerformanceTimer(this);
+            theBlob = new Blob(this, pTimer);
+
             this.Components.Add(theBlob);
+            this.Components.Add(pTimer);
             theBlob.Initialize();
+            pTimer.Initialize();
         }
 
         /// <summary>
