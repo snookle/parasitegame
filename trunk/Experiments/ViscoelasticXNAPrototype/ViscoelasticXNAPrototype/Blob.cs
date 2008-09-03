@@ -115,7 +115,7 @@ namespace ViscoelasticXNAPrototype
             Random RandomGenerator = new Random();
 
             // Create the Particles
-            for (int i = 0; i < numParticles; i++)
+           /* for (int i = 0; i < numParticles; i++)
             {
                 int RandomWidth = RandomGenerator.Next(700);
                 int RandomHeight = RandomGenerator.Next(400);
@@ -130,12 +130,34 @@ namespace ViscoelasticXNAPrototype
 
                 // Initial Grid Add
                 theGrid.AddParticle(theParticle);
-            }
+            }*/
+        }
+
+        public void addParticle()
+        {
+            Random RandomGenerator = new Random();
+
+            float randomXVelocity = RandomGenerator.Next(20);
+            float randomYVelocity = RandomGenerator.Next(20);
+
+            BlobParticle theParticle = new BlobParticle(new Vector2(100, 100), theParticles.Count, theSprite);
+            theParticle.velocity.X = randomXVelocity / 20 - 0.5f;
+            theParticle.velocity.Y = randomYVelocity / 20 - 0.5f;
+
+            theParticles.Add(theParticle);
+
+            theGrid.AddParticle(theParticle);
         }
 
         // Algorithm 1
         public void doSimulation()
         {
+            // if not enough particles, add them
+            if (theParticles.Count < numParticles)
+            {
+                addParticle();
+            }
+
             pt.StartTimer("doSimulation");
             pt.StartTimer("gravity");
             foreach (BlobParticle theParticle in theParticles)
@@ -181,7 +203,7 @@ namespace ViscoelasticXNAPrototype
             foreach (BlobParticle theParticle in theParticles)
             {
                 // Use previous position to compute next velocity
-                //theParticle.velocity = (theParticle.position - theParticle.previousPosition);
+                // theParticle.velocity = (theParticle.position - theParticle.previousPosition);
             }
             pt.StopTimer("doSimulation");
         }
