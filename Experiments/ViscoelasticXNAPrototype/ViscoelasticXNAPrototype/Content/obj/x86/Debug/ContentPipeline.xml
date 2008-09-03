@@ -10,6 +10,15 @@
       <Output>C:\benk\parasite\Experiments\ViscoelasticXNAPrototype\ViscoelasticXNAPrototype\bin\x86\Debug\Content\Sprites\Particle.xnb</Output>
       <Time>2008-09-02T09:41:19.8258223+10:00</Time>
     </Item>
+    <Item>
+      <Source>TimerFont.spritefont</Source>
+      <Name>TimerFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\benk\parasite\Experiments\ViscoelasticXNAPrototype\ViscoelasticXNAPrototype\bin\x86\Debug\Content\TimerFont.xnb</Output>
+      <Time>2008-09-03T13:02:14.8282168+10:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
