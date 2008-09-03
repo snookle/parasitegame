@@ -16,7 +16,7 @@ namespace ViscoelasticXNAPrototype
     public class Blob : Microsoft.Xna.Framework.DrawableGameComponent
     {
         // Variables
-        private int numParticles = 100;
+        private int numParticles = 300;
         private List<BlobParticle> theParticles;
         private List<Spring> theSprings;
         private bool[][] connections;
@@ -25,16 +25,17 @@ namespace ViscoelasticXNAPrototype
 
         // Constants
         private float threshold = 50.0f;
-        private float restDensity = 10f;
+        private float restDensity = 25f;
         private float stiffness = 0.004f;
         private float nearStiffness = 0.01f;
         private float springStiffness = 0.3f;
         private float plasticityConstant = 0.3f;
-        private float friction = 0.5f;
-        private float unknownVariableO = 0.5f;
-        private float unknownVariableB = 0f;
-        private float yeildRatio = 0.2f;
-        private float restLengthConstant = 50.0f;
+
+        private float friction = 0.3f;                      // Used in Body-Particle Collisions
+        private float unknownVariableO = 0.5f;              // Increased for Highly Viscosity
+        private float unknownVariableB = 0f;                // Non-Zero value for Low Viscosity
+        private float yeildRatio = 0.1f;                      // Can be used to control stickyness ? 
+        private float restLengthConstant = 50.0f;           // Not Needed anymore ?
         private Vector2 gravity = new Vector2(0, 0.5f);
 
         private Texture2D theSprite;
@@ -113,24 +114,6 @@ namespace ViscoelasticXNAPrototype
             }
 
             Random RandomGenerator = new Random();
-
-            // Create the Particles
-           /* for (int i = 0; i < numParticles; i++)
-            {
-                int RandomWidth = RandomGenerator.Next(700);
-                int RandomHeight = RandomGenerator.Next(400);
-                float randomXVelocity = RandomGenerator.Next(20);
-                float randomYVelocity = RandomGenerator.Next(20);
-
-                BlobParticle theParticle = new BlobParticle(new Vector2(RandomWidth, RandomHeight), i, theSprite);
-                theParticle.velocity.X = randomXVelocity/20-0.5f;
-                theParticle.velocity.Y = randomYVelocity/20-0.5f;
-
-                theParticles.Add(theParticle);
-
-                // Initial Grid Add
-                theGrid.AddParticle(theParticle);
-            }*/
         }
 
         public void addParticle()
@@ -205,6 +188,7 @@ namespace ViscoelasticXNAPrototype
                 // Use previous position to compute next velocity
                 // theParticle.velocity = (theParticle.position - theParticle.previousPosition);
             }
+
             pt.StopTimer("doSimulation");
         }
 
@@ -216,6 +200,7 @@ namespace ViscoelasticXNAPrototype
                 float density = 0;
                 float nearDensity = 0;
 
+                
                 List<BlobParticle> theNeighbours = theGrid.GetNeighbours(theParticle);
                 foreach (BlobParticle theNeighbour in theNeighbours)
                 {
@@ -238,8 +223,7 @@ namespace ViscoelasticXNAPrototype
                 float pressure = stiffness * (density - restDensity);
                 float nearPressure = nearStiffness * nearDensity;
                 Vector2 dx = new Vector2(0.0f);
-
-              
+                
                 foreach (BlobParticle theNeighbour in theNeighbours)
                 {
                     Vector2 r = theNeighbour.position - theParticle.position;
@@ -265,7 +249,6 @@ namespace ViscoelasticXNAPrototype
                         dx -= (displacement / 2);                        
                     }
                 }
-
                 theParticle.position += dx;
             }
         }
@@ -418,23 +401,23 @@ namespace ViscoelasticXNAPrototype
                 if (theParticle.position.Y > 550)
                 {
                     theParticle.position.Y = 550;
-                    theParticle.velocity.Y *= -0.5f;
+                    theParticle.velocity.Y *= -0.4f;
                 }
                 else if (theParticle.position.Y < 0)
                 {
                     theParticle.position.Y = 0;
-                    theParticle.velocity.Y *= -0.5f;
+                    theParticle.velocity.Y *= -0.4f;
                 }
 
                 if (theParticle.position.X > 700)
                 {
                     theParticle.position.X = 700;
-                    theParticle.velocity.X *= -0.5f;
+                    theParticle.velocity.X *= -0.4f;
                 }
                 else if (theParticle.position.X < 0)
                 {
                     theParticle.position.X = 0;
-                    theParticle.velocity.X *= -0.5f;
+                    theParticle.velocity.X *= -0.4f;
                 }
 
             }

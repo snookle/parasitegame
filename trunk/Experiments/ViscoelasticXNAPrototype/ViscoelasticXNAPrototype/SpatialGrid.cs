@@ -14,12 +14,15 @@ namespace ViscoelasticXNAPrototype
         private int width;
         private int height;
         private int gridSize;
+        private float quadrantMarker;           // Used to detect quadrants within a grid box.
 
         public SpatialGrid(int gridWidth, int gridHeight, int gridSize)
         {
             this.width = gridWidth / gridSize;
             this.height = gridHeight / gridSize;
             this.gridSize = gridSize;
+
+            this.quadrantMarker = gridSize / 2;
 
             grid = new List<BlobParticle>[gridHeight][];
 
@@ -109,15 +112,86 @@ namespace ViscoelasticXNAPrototype
                 x = width;
             }
 
+            float checkX = particle.position.X - (x * gridSize);
+            float checkY = particle.position.Y - (y * gridSize);
+
             List<BlobParticle> returnList = new List<BlobParticle>();
 
-            for (int i = y - (y == 0 ? 0 : 1); i < y + (y == height ? 0 : 1); i++)
+            if (checkX == quadrantMarker || checkY == quadrantMarker)
             {
-                for (int j = x - (x == 0 ? 0 : 1); j < x + (x == width ? 0 : 1); j++)
+                // If the particle is *exactly* on the centre line, go with normal code for now
+                for (int i = y - (y == 0 ? 0 : 1); i < y + (y == height ? 0 : 1); i++)
                 {
-                    if (grid[i][j] != null && grid[i][j].Count > 0)
+                    for (int j = x - (x == 0 ? 0 : 1); j < x + (x == width ? 0 : 1); j++)
                     {
-                        returnList.AddRange(grid[i][j]);
+                        if (grid[i][j] != null && grid[i][j].Count > 0)
+                        {
+                            returnList.AddRange(grid[i][j]);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Figure out which quadrant it's in, and go from there.  Can simplify this later, cant be arsed writing that fancy shite!
+                if (checkX < quadrantMarker && checkY < quadrantMarker)
+                {
+                    // 1
+                    // Needs to check : (x-1,y-1), (x,y-1), (x-1,y), and (x,y)
+                    for (int i = y - (y == 0 ? 0 : 1); i < y; i++)
+                    {
+                        for (int j = x - (x == 0 ? 0 : 1); j < x; j++)
+                        {
+                            if (grid[i][j] != null && grid[i][j].Count > 0)
+                            {
+                                returnList.AddRange(grid[i][j]);
+                            }
+                        }
+                    }
+                }
+                else if (checkX > quadrantMarker && checkY < quadrantMarker)
+                {
+                    // 2
+                    // Needs to check (x,y-1), (x+1,y-1), (x+1,y), and (x,y)
+                    for (int i = y - (y == 0 ? 0 : 1); i < y; i++)
+                    {
+                        for (int j = x; j < x + (y == width ? 0 : 1); j++)
+                        {
+                            if (grid[i][j] != null && grid[i][j].Count > 0)
+                            {
+                                returnList.AddRange(grid[i][j]);
+                            }
+                        }
+                    }
+                }
+                else if (checkX < quadrantMarker && checkY > quadrantMarker)
+                {
+                    // 3
+                    // Needs to check (x-1,y), (x-1,y+1), (x,y+1), and (x,y)
+                    for (int i = y; i < y + (y == height ? 0 : 1); i++)
+                    {
+                        for (int j = x - (x == 0 ? 0 : 1); j < x; j++)
+                        {
+                            if (grid[i][j] != null && grid[i][j].Count > 0)
+                            {
+                                returnList.AddRange(grid[i][j]);
+                            }
+                        }
+                    }
+                }
+                else if (checkX > quadrantMarker && checkY > quadrantMarker)
+                {
+                    // 4
+                    // Needs to check (x,y+1), (x+1,y+1), (x+1,y), and (x,y)
+                    for (int i = y; i < y + (y == height ? 0 : 1); i++)
+                    {
+                        for (int j = x; j < x + (y == width ? 0 : 1); j++)
+                        {
+                            if (grid[i][j] != null && grid[i][j].Count > 0)
+                            {
+                                returnList.AddRange(grid[i][j]);
+                            }
+                        }
                     }
                 }
             }
