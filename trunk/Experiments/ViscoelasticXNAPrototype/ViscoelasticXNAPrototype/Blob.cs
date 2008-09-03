@@ -16,7 +16,7 @@ namespace ViscoelasticXNAPrototype
     public class Blob : Microsoft.Xna.Framework.DrawableGameComponent
     {
         // Variables
-        private int numParticles = 250;
+        private int numParticles = 100;
         private List<BlobParticle> theParticles;
         private List<Spring> theSprings;
         private bool[][] connections;
@@ -212,12 +212,12 @@ namespace ViscoelasticXNAPrototype
                         nearDensity += Convert.ToSingle(Math.Pow((1 - q), 3));
                     }
                 }
-
-                // Compute Pressure and Near Pressure
+                // Compute Pressure and Near Pressuren.Pressure");
                 float pressure = stiffness * (density - restDensity);
                 float nearPressure = nearStiffness * nearDensity;
                 Vector2 dx = new Vector2(0.0f);
 
+              
                 foreach (BlobParticle theNeighbour in theNeighbours)
                 {
                     Vector2 r = theNeighbour.position - theParticle.position;

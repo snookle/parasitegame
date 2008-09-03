@@ -20,6 +20,7 @@ namespace ViscoelasticXNAPrototype
         SpriteBatch spriteBatch;
         Blob theBlob;
         PerformanceTimer pTimer;
+        FrameRateCounter frc;
 
         public Game1()
         {
@@ -40,9 +41,12 @@ namespace ViscoelasticXNAPrototype
 
             pTimer = new PerformanceTimer(this);
             theBlob = new Blob(this, pTimer);
-
+            frc = new FrameRateCounter(this);
             this.Components.Add(theBlob);
             this.Components.Add(pTimer);
+            this.Components.Add(frc);
+
+            frc.Initialize();
             theBlob.Initialize();
             pTimer.Initialize();
         }

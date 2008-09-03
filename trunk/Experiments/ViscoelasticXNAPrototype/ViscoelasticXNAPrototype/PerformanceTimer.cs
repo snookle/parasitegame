@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.Content;
+using System.Diagnostics;
 
 namespace ViscoelasticXNAPrototype
 {
@@ -16,25 +17,31 @@ namespace ViscoelasticXNAPrototype
         public string Name;
         private DateTime StartTime;
         private DateTime EndTime;
+        private Stopwatch watch;
         public float Duration;
         private bool stop;
 
         public SnookTimer(string name)
         {
             Name = name;
+            watch = new Stopwatch();
         }
 
         public void Start()
         {
             StartTime = DateTime.Now;
             stop = false;
+            watch.Reset();
+            watch.Start();
         }
 
         public void Stop()
         {
             stop = true;
             EndTime = DateTime.Now;
-            Duration = EndTime.Millisecond - StartTime.Millisecond;
+            watch.Stop();
+            Duration = watch.ElapsedMilliseconds;
+            
         }
     }
     /// <summary>
@@ -106,7 +113,7 @@ namespace ViscoelasticXNAPrototype
             string s = "";
             foreach (SnookTimer t in timers.Values)
             {
-                s += t.Name + ": " + ((t.Duration < 1) ? "<1" : t.Duration.ToString()) + "ms\n";  
+                s += t.Name + ": " + t.Duration + "ms\n";  
             }
 
             batch.Begin();
