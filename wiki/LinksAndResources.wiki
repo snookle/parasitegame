@@ -25,6 +25,7 @@
  * [http://creators.xna.com/en-US/education/gettingstarted XNA Beginner's Guide to 2D/3D Games]
  * [http://www.ziggyware.com/readarticle.php?article_id=199 How to apply a force on a single object]
  * [http://www.adcworks.com/articles/blog/2008/04/08/using-xna-drawablegamecomponent-for-dice/ Using DrawableGameComponents]
+ * [http://www.nekocake.com/pad/2007/04/28/fps-frame-time-and-you-adventures-in-performance/ Adding FPS Counter to XNA]
 
 =Collision Detection=
  * [http://www.ziggyware.com/readarticle.php?article_id=48 Per-Pixel 2d Hit Detection in XNA]
