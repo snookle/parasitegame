@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Blob.cs" />
     <Compile Include="BlobParticle.cs" />
+    <Compile Include="FrameRateCounter.cs" />
     <Compile Include="PerformanceTimer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
