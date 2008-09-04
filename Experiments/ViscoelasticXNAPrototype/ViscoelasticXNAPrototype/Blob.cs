@@ -17,6 +17,7 @@ namespace ViscoelasticXNAPrototype
     {
         // Variables
         private int numParticles = 500;
+        private int currentNumParticles = 0;
         private List<BlobParticle> theParticles;
         private List<Spring> theSprings;
         private bool[][] connections;
@@ -25,7 +26,7 @@ namespace ViscoelasticXNAPrototype
 
         // Constants
         private float threshold = 50.0f;
-        private float restDensity = 10f;
+        private float restDensity = 0.05f;
         private float stiffness = 0.004f;
         private float nearStiffness = 0.01f;
         private float springStiffness = 0.3f;
@@ -36,7 +37,7 @@ namespace ViscoelasticXNAPrototype
 
         private float unknownVariableO = 0.8f;              // Increased for Highly Viscosity
         private float unknownVariableB = 0f;                // Non-Zero value for Low Viscosity
-        private float yeildRatio = 0.1f;                      // Can be used to control stickyness ? 
+        private float yeildRatio = 0.2f;                      // Can be used to control stickyness ? 
         private float restLengthConstant = 20.0f;           // Not Needed anymore ?
         private Vector2 gravity = new Vector2(0, 0.5f);
 
@@ -67,6 +68,11 @@ namespace ViscoelasticXNAPrototype
         {
             // TODO: Add your initialization code here
             base.Initialize();
+        }
+
+        public void increaseParticles()
+        {
+            currentNumParticles ++;
         }
 
         protected override void LoadContent()
@@ -143,9 +149,10 @@ namespace ViscoelasticXNAPrototype
         public void doSimulation()
         {
             // if not enough particles, add them
-            if (theParticles.Count < numParticles)
+            if (currentNumParticles > 0 && theParticles.Count < numParticles)
             {
                 addParticle();
+                currentNumParticles--;
             }
 
             pt.StartTimer("doSimulation");
