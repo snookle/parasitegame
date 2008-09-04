@@ -15,6 +15,7 @@ namespace ViscoelasticXNAPrototype
         private int height;
         private int gridSize;
         private float quadrantMarker;           // Used to detect quadrants within a grid box.
+        public int numElements;
 
         public SpatialGrid(int gridWidth, int gridHeight, int gridSize)
         {
@@ -24,12 +25,12 @@ namespace ViscoelasticXNAPrototype
 
             this.quadrantMarker = gridSize / 2;
 
-            grid = new List<BlobParticle>[gridHeight][];
+            grid = new List<BlobParticle>[height+1][];
 
             // May need to change the values to height+1, width+1
             for (int i = 0; i < this.height+1; i++)
             {
-                grid[i] = new List<BlobParticle>[gridWidth];
+                grid[i] = new List<BlobParticle>[width+1];
                 for (int j = 0; j < this.width+1; j++)
                 {
                     grid[i][j] = new System.Collections.Generic.List<BlobParticle>();
@@ -61,6 +62,7 @@ namespace ViscoelasticXNAPrototype
             }
             
             grid[y][x].Remove(particle);
+            numElements--;
         }
 
         public void AddParticle(BlobParticle particle)
@@ -87,6 +89,7 @@ namespace ViscoelasticXNAPrototype
             }
             
             grid[y][x].Add(particle);
+            numElements++;
         }
 
         public List<BlobParticle> GetNeighbours(BlobParticle particle)
@@ -196,7 +199,23 @@ namespace ViscoelasticXNAPrototype
                 }
             }
 
-            returnList.Remove(particle);
+            /*List<BlobParticle> returnList = new List<BlobParticle>();
+            
+            for (int i = 0; i < grid.Length; i++)
+            {
+                for (int j = 0; j < grid[i].Length; j++)
+                {
+                    if (grid[i][j] != null)
+                    {
+                        for (int p = 0; p < grid[i][j].Count; p++)
+                        {
+                            returnList.Add(grid[i][j][p]);
+                        }
+                    }
+                }
+            }
+
+            returnList.Remove(particle);*/
 
             return returnList;
         }
