@@ -120,20 +120,26 @@ namespace ViscoelasticXNAPrototype
 
             List<BlobParticle> returnList = new List<BlobParticle>();
 
-            if (checkX == quadrantMarker || checkY == quadrantMarker)
-            {
+           // if (checkX == quadrantMarker || checkY == quadrantMarker)
+           // {
                 // If the particle is *exactly* on the centre line, go with normal code for now
                 for (int i = y - (y == 0 ? 0 : 1); i < y + (y == height ? 0 : 1); i++)
                 {
                     for (int j = x - (x == 0 ? 0 : 1); j < x + (x == width ? 0 : 1); j++)
                     {
-                        if (grid[i][j] != null && grid[i][j].Count > 0)
+                        if (grid[i][j] != null)
                         {
                             returnList.AddRange(grid[i][j]);
+
+                            //for (int p = 0; p < grid[i][j].Count; p++)
+                            //{
+                            //    returnList.Add(grid[i][j][p]);
+                            //}
                         }
                     }
                 }
-            }
+           // }
+            /*
             else
             {
                 // Figure out which quadrant it's in, and go from there.  Can simplify this later, cant be arsed writing that fancy shite!
@@ -197,7 +203,7 @@ namespace ViscoelasticXNAPrototype
                         }
                     }
                 }
-            }
+            }*/
 
             /*List<BlobParticle> returnList = new List<BlobParticle>();
             
@@ -213,9 +219,9 @@ namespace ViscoelasticXNAPrototype
                         }
                     }
                 }
-            }
+            }*/
 
-            returnList.Remove(particle);*/
+            returnList.Remove(particle);
 
             return returnList;
         }
