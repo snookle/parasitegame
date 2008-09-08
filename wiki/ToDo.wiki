@@ -10,7 +10,10 @@ Selection of To Dos.  Probably best to keep this page to stuff that has to be do
  * Only check appropriate spatial grid squares
  * Attempt to Limit Number of Springs per Particle
  * Replace vector += vector. with vector.x += vector.x;
- * Implement suggestions from kots.
+ * Implement suggestions from Mr Kot.
+  * _"well, apart from the neighbor searching algorithm, there are also many redundant calculations. such as the distance and things like that. in the more recent versions, i kind of strayed a little from the paper and so i just store all the forces that the particles are exerting on each other, and apply them after they've all been calculated instead of moving in the middle so you can just store distance and density and things like that."_
+  * Find Redundant Distance Calculations
+  * Collate All Forces, and Apply at end
  ===Extra Sliders===
  * ~~Slider for Particle Size~~
  ===Additions===
