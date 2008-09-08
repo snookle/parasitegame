@@ -8,11 +8,14 @@ Selection of To Dos.  Probably best to keep this page to stuff that has to be do
 = 'Blob' Prototype ([http://tenfiftyfour.com/akAGames/design/Blob%20Prototypes/Blob%20Dump/BlobTest15.swf Latest Iteration])=
  ===Optomisation===
  * Only check appropriate spatial grid squares
- * Attempt to Limit Number of Springs per Particle
+  * I really think there are problems in the spatial grid , I think we need to think of some sort of alternative, or a different approach - if only to test if it's working correctly.  Possibility of a testing program ? 
+ * ~~Attempt to Limit Number of Springs per Particle~~
+  * Added, and removed, I don't believe this will help at all.
  * Replace vector += vector. with vector.x += vector.x;
  * Implement suggestions from Mr Kot.
   * _"well, apart from the neighbor searching algorithm, there are also many redundant calculations. such as the distance and things like that. in the more recent versions, i kind of strayed a little from the paper and so i just store all the forces that the particles are exerting on each other, and apply them after they've all been calculated instead of moving in the middle so you can just store distance and density and things like that."_
   * Find Redundant Distance Calculations
+   * I don't understand what calculations he means.
   * Collate All Forces, and Apply at end
  ===Extra Sliders===
  * ~~Slider for Particle Size~~
