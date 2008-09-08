@@ -6,31 +6,17 @@
 Selection of To Dos.  Probably best to keep this page to stuff that has to be done within the next week or so
 
 = 'Blob' Prototype ([http://tenfiftyfour.com/akAGames/design/Blob%20Prototypes/Blob%20Dump/BlobTest15.swf Latest Iteration])=
+ ===Optomisation===
+ * Only check appropriate spatial grid squares
+ * Attempt to Limit Number of Springs per Particle
+ * Replace vector += vector. with vector.x += vector.x;
+ * Implement suggestions from kots.
  ===Extra Sliders===
  * ~~Slider for Particle Size~~
  ===Additions===
- * Possibility : Spatial Grid
+ * ~~Spatial Grid~~
  ===Modification of Particle Behaviour===
- * Attempt to convert from 'Attraction Springs' to 'Repulsion'
- * ie from 
-
-{{{
-if(within connect distance and !connected){
-   create spring;
-} else if(outside release distance and connected){
-   remove spring;
-}
-}}}
-
- to
-
-{{{
-if(within connect distance){
-   apply force vector ( based on distance ) to offending particle
-}
-}}}
- ===Friction and Gravity===
- * Will Implement according to nehe.  We'll see how that goes.
+ * ~~Viscoelastic~~
  ===Skin===
 {{{
 if(has neighbours){
@@ -52,8 +38,6 @@ if(has neighbours){
   * STEP 4 : Use Drawing Tools to draw skin, using Perimeter springs as guide points
  * Drawing of exterior blob surface
  * Need to figure out how to handle cases where small blobs consist of less particles than max neighbours.
- ===Inner Particle Ignoring===
- * Perhaps particles that already have the max number of neighbours should ignore all other particles, and only check if their neighbours are too far away.
  ===Centre of Gravity ( ie, to form 'ball' )===
  * Experiment with this anyway, we'll see how it works.  Last on the 'to do' list imo
 
