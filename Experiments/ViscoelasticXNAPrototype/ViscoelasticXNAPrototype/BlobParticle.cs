@@ -24,6 +24,10 @@ namespace ViscoelasticXNAPrototype
         public Texture2D sprite;
         public int numSprings;
 
+        public Vector2 centre;
+
+        public List<Neighbour> neighbours;
+
         public BlobParticle(Vector2 position,int idNumber, Texture2D sprite)
         {
             this.pX = position.X;
@@ -32,6 +36,10 @@ namespace ViscoelasticXNAPrototype
             this.vX = 0.0f;
             this.vY = 0.0f;
             this.sprite = sprite;
+
+            centre = new Vector2(sprite.Width / 2, sprite.Height / 2);
+
+            this.neighbours = new List<Neighbour>();
         }
 
         public void applyForce(float forceX, float forceY)

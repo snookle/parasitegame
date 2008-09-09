@@ -26,8 +26,8 @@ namespace ViscoelasticXNAPrototype
         private SpatialGrid theGrid;
 
         // Constants
-        private float threshold = 15.0f;
-        private float restDensity = 10f;
+        private float threshold = 50.0f;
+        private float restDensity = 15f;
         private float stiffness = 0.004f;
         private float nearStiffness = 0.01f;
         private float springStiffness = 0.3f;
@@ -51,6 +51,12 @@ namespace ViscoelasticXNAPrototype
 
         private PerformanceTimer pt;
 
+        // Line Drawing Stuff
+        VertexPositionColor[] line;         // Start / End Points
+        Matrix world, projection, view;             // Transformation matrix
+        BasicEffect basicEffect;                    // Standard Drawing Effects
+        VertexDeclaration vertexDeclaration;        // Line Format
+
         private string nc = "";
 
         //SpriteBatch spriteBatch;
@@ -71,11 +77,26 @@ namespace ViscoelasticXNAPrototype
         {
             // TODO: Add your initialization code here
             base.Initialize();
+            InitialiseBasicEffect();
         }
 
         public void increaseParticles()
         {
             currentNumParticles++;
+        }
+
+        public void InitialiseBasicEffect()
+        {
+            vertexDeclaration = new VertexDeclaration(
+                                                        GraphicsDevice,
+                                                        VertexPositionNormalTexture.VertexElements
+                                                      );
+
+            line = new VertexPositionColor[2];
+
+            basicEffect = new BasicEffect(GraphicsDevice, null);
+            basicEffect.DiffuseColor = new Vector3(0.5f, 0.2f, 0.2f);
+            basicEffect.Alpha = 0.5f;
         }
 
         protected override void LoadContent()
@@ -87,7 +108,7 @@ namespace ViscoelasticXNAPrototype
             initSimulation();
 
             base.LoadContent();
-        }
+        }        
 
         /// <summary>
         /// Allows the game component to update itself.
@@ -109,12 +130,42 @@ namespace ViscoelasticXNAPrototype
             //foreach (BlobParticle theParticle in theParticles)
             for (int i = 0; i < currentNumParticles; i++)
             {
-               this.spriteBatch.Draw(theSprite, new Vector2(theParticles[i].pX, theParticles[i].pY), Color.White);
+               //this.spriteBatch.Draw(theSprite, new Vector2(theParticles[i].pX, theParticles[i].pY), Color.White);
+                this.spriteBatch.Draw(theSprite, new Vector2(theParticles[i].pX, theParticles[i].pY), null, Color.White, 0, theParticles[i].centre, 1, SpriteEffects.None, 0);
             }
             this.spriteBatch.End();
+
+            GraphicsDevice.VertexDeclaration = vertexDeclaration;
+            basicEffect.Begin();
+
+            Spring theSpring;
+
+            for (int i = 0; i < theSprings.Count; i++)
+            {
+                theSpring = theSprings[i];
+                Vector2 p1 = new Vector2((theSpring.parentParticle.pX/400)-1, (theSpring.parentParticle.pY/300)-1);
+                Vector2 p2 = new Vector2((theSpring.childParticle.pX/400)-1, (theSpring.childParticle.pY/300)-1);
+
+                line[0] = new VertexPositionColor(new Vector3(p1.X, -1 * p1.Y, 0), Color.Red);
+                line[1] = new VertexPositionColor(new Vector3(p2.X, -1 * p2.Y, 0), Color.Red);
+                
+                foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
+                {
+                    pass.Begin();
+                    DrawLine();
+                    pass.End();
+                }
+            }
+
+            basicEffect.End();
             
             base.Draw(gameTime);
-          
+        }
+
+
+        private void DrawLine()
+        {
+            GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColor>(PrimitiveType.LineList, line, 0, 2, new short[2] { 0, 1 }, 0, 1);
         }
         
         public void initSimulation()
@@ -202,7 +253,7 @@ namespace ViscoelasticXNAPrototype
 
 
             pt.StartTimer("doubleDensityRelaxation");
-            doubleDensityRelaxation();
+            //doubleDensityRelaxation();
             pt.StopTimer("doubleDensityRelaxation");
 
 
@@ -211,11 +262,14 @@ namespace ViscoelasticXNAPrototype
             //resolveCollisions_alt();
             pt.StopTimer("resolveCollisions");
 
-            //for (int i = 0; i < theParticles.Count; i++)
-            //{
+            /*for (int i = 0; i < theParticles.Count; i++)
+            {
                 // Use previous position to compute next velocity
-                //theParticles[i].velocity = (theParticles[i].position - theParticles[i].previousPosition);
-            //}
+               //theParticles[i].velocity = (theParticles[i].position - theParticles[i].previousPosition);
+                BlobParticle theParticle = theParticles[i];
+                theParticle.vX = theParticle.pX - theParticle.ppX;
+                theParticle.vY = theParticle.pY - theParticle.ppY;
+            }*/
 
             pt.StopTimer("doSimulation");
         }
