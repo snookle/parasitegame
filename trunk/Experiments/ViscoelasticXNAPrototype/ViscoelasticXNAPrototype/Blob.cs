@@ -21,6 +21,7 @@ namespace ViscoelasticXNAPrototype
         private List<BlobParticle> theParticles;
         private List<Spring> theSprings;
         private bool[][] connections;
+        private int currentSpringCount = 0;
 
         private SpatialGrid theGrid;
 
@@ -39,7 +40,9 @@ namespace ViscoelasticXNAPrototype
         private float unknownVariableB = 0f;                // Non-Zero value for Low Viscosity
         private float yeildRatio = 0.2f;                      // Can be used to control stickyness ? 
         private float restLengthConstant = 20.0f;           // Not Needed anymore ?
-        private Vector2 gravity = new Vector2(0, 0.5f);
+        //private Vector2 gravity = new Vector2(0, 0.5f);
+        private float gravityX;
+        private float gravityY = 0.8f;
 
         private Texture2D theSprite;
         private SpriteFont theFont;
@@ -72,7 +75,7 @@ namespace ViscoelasticXNAPrototype
 
         public void increaseParticles()
         {
-            currentNumParticles ++;
+            currentNumParticles++;
         }
 
         protected override void LoadContent()
@@ -100,11 +103,13 @@ namespace ViscoelasticXNAPrototype
         public override void Draw(GameTime gameTime)
         {
             this.spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
-            spriteBatch.DrawString(theFont, nc, new Vector2(500, 10), Color.Black);
+            spriteBatch.DrawString(theFont, "Springs: " + currentSpringCount.ToString(), new Vector2(500, 10), Color.Black);
+            spriteBatch.DrawString(theFont, "Particles: " + currentNumParticles.ToString(), new Vector2(500, 50), Color.Black);
+
             //foreach (BlobParticle theParticle in theParticles)
-            for (int i = 0; i < theParticles.Count; i++)
+            for (int i = 0; i < currentNumParticles; i++)
             {
-               this.spriteBatch.Draw(theSprite, theParticles[i].position, Color.White);
+               this.spriteBatch.Draw(theSprite, new Vector2(theParticles[i].pX, theParticles[i].pY), Color.White);
             }
             this.spriteBatch.End();
             
@@ -137,8 +142,8 @@ namespace ViscoelasticXNAPrototype
             float randomYVelocity = RandomGenerator.Next(20);
 
             BlobParticle theParticle = new BlobParticle(new Vector2(300, 100), theParticles.Count, theSprite);
-            theParticle.velocity.X = randomXVelocity / 20 - 0.5f;
-            theParticle.velocity.Y = randomYVelocity / 20 - 0.5f;
+            theParticle.vX = randomXVelocity / 20 - 0.5f;
+            theParticle.vY = randomYVelocity / 20 - 0.5f;
 
             theParticles.Add(theParticle);
 
@@ -149,57 +154,100 @@ namespace ViscoelasticXNAPrototype
         public void doSimulation()
         {
             // if not enough particles, add them
-            if (currentNumParticles > 0 && theParticles.Count < numParticles)
+            if (theParticles.Count < currentNumParticles)
             {
                 addParticle();
-                currentNumParticles--;
             }
-
+            if (currentNumParticles == 0) return;
             pt.StartTimer("doSimulation");
             pt.StartTimer("gravity");
             //foreach (BlobParticle theParticle in theParticles)
-            for (int i = 0; i < theParticles.Count; i++)
+            for (int i = 0; i < currentNumParticles; i++)
             {
                 // Apply Gravity
-                theParticles[i].applyForce(gravity);
+                theParticles[i].applyForce(gravityX, gravityY);
             }
             pt.StopTimer("gravity");
 
             pt.StartTimer("applyViscosity");
             applyViscosity();
             pt.StopTimer("applyViscosity");
-
+            for (int i = 0; i < currentNumParticles; i++)
+            {
+                if (theParticles[i].pX == float.NaN || theParticles[i].pX >  15000)
+                {
+                    ;
+                }
+            }
             pt.StartTimer("gridSorting");
             //foreach (BlobParticle theParticle in theParticles)
-            for(int i = 0; i < theParticles.Count; i++)
+            for(int i = 0; i < currentNumParticles; i++)
             {
-                BlobParticle theParticle = theParticles[i];
-                theGrid.RemoveParticle(theParticle);
+                
+                theGrid.RemoveParticle(theParticles[i]);
                 // Save Prev Pos
-                theParticle.previousPosition = theParticle.position;
+                //theParticles[i].previousPosition = theParticles[i].position;
+                theParticles[i].ppX = theParticles[i].pX;
+                theParticles[i].ppY = theParticles[i].pY;
                 // Advance to Predicted Pos
-                theParticle.position += theParticle.velocity;
-                theGrid.AddParticle(theParticle);
+                //theParticles[i].position += theParticles[i].velocity;
+                theParticles[i].pX += theParticles[i].vX;
+                theParticles[i].pY += theParticles[i].vY;
+                theGrid.AddParticle(theParticles[i]);
             }
             pt.StopTimer("gridSorting");
-
+            for (int i = 0; i < currentNumParticles; i++)
+            {
+                if (theParticles[i].pX == float.NaN || theParticles[i].pX > 15000)
+                {
+                    ;
+                }
+            }
             // Add and remove springs, change the rest lengths
             pt.StartTimer("adjustSprings");
             adjustSprings();
             pt.StopTimer("adjustSprings");
+            for (int i = 0; i < currentNumParticles; i++)
+            {
+                if (theParticles[i].pX == float.NaN || theParticles[i].pX > 15000)
+                {
+                    ;
+                }
+            }
             // Modify Positions according to springs, double Density and collisions
             pt.StartTimer("applySpringDisplacements");
             applySpringDisplacements();
             pt.StopTimer("applySpringDisplacements");
+            for (int i = 0; i < currentNumParticles; i++)
+            {
+                if (theParticles[i].pX == float.NaN || theParticles[i].pX > 15000)
+                {
+                    ;
+                }
+            }
 
             pt.StartTimer("doubleDensityRelaxation");
             doubleDensityRelaxation();
             pt.StopTimer("doubleDensityRelaxation");
+            for (int i = 0; i < currentNumParticles; i++)
+            {
+                if (theParticles[i].pX == float.NaN || theParticles[i].pX > 15000)
+                {
+                    ;
+                }
+            }
 
             pt.StartTimer("resolveCollisions");
             resolveCollisions();
             //resolveCollisions_alt();
             pt.StopTimer("resolveCollisions");
+            for (int i = 0; i < currentNumParticles; i++)
+            {
+                if (theParticles[i].pX == float.NaN || theParticles[i].pX > 15000)
+                {
+                    ;
+                }
+            }
 
             //for (int i = 0; i < theParticles.Count; i++)
             //{
@@ -215,74 +263,108 @@ namespace ViscoelasticXNAPrototype
         public void doubleDensityRelaxation()
         {
             //foreach (BlobParticle theParticle in theParticles)
-            for (int i = 0; i < theParticles.Count; i++)
+            BlobParticle theParticle;
+            BlobParticle theNeighbour;
+            
+            float rY;
+            float rX;
+            
+            int neighbourCount;
+            
+            float density;
+            float nearDensity;
+            
+            int i;
+            int j;
+
+            float theDistance;
+            float q;
+
+            float pressure;
+            float nearPressure;
+
+            float rUnitX;
+            float rUnitY;
+
+            float displacementX;
+            float displacementY;
+
+            float dxX = 0.0f;
+            float dxY = 0.0f;
+
+            for (i = 0; i < currentNumParticles; i++)
             {
-                BlobParticle theParticle = theParticles[i];
-                float density = 0;
-                float nearDensity = 0;
+                theParticle = theParticles[i];
+                density = 0;
+                nearDensity = 0;
 
                 List<BlobParticle> theNeighbours = theGrid.GetNeighbours(theParticle);
-                //foreach (BlobParticle theNeighbour in theNeighbours)
-                nc = theNeighbours.Count.ToString();
-                for (int j = 0; j < theNeighbours.Count; ++j)
+                neighbourCount = theNeighbours.Count;
+                for (j = 0; j < neighbourCount; ++j)
                 {
-                    BlobParticle theNeighbour = theNeighbours[j];
-                    Vector2 r = theNeighbour.position - theParticle.position;
+                    theNeighbour = theNeighbours[j];
+                    rX = theNeighbour.vX - theParticle.vX;
+                    rY = theNeighbour.vY - theParticle.vY;
 
-                    if (r == Vector2.Zero)
+                    if (rX == 0 && rY == 0)
                     {
-                        r.Y = 0.01f;
-                        r.X = 0.01f;
+                        rY = 0.01f;
+                        rX = 0.01f;
                     }
 
-                    float theDistance = Math.Abs(r.Length());
-                    float q = theDistance / threshold;
+                    theDistance = (float)Math.Abs(Math.Sqrt((rX * rX) + (rY * rY)));
+                    q = theDistance / threshold;
 
                     if (q < 1)
                     {
-                        density += Convert.ToSingle(Math.Pow((1 - q), 2));
-                        nearDensity += Convert.ToSingle(Math.Pow((1 - q), 3));
+                        density += (float)Math.Pow((1 - q), 2);
+                        nearDensity += (float)Math.Pow((1 - q), 3);
                     }
                 }
-                // Compute Pressure and Near Pressuren.Pressure");
-                float pressure = stiffness * (density - restDensity);
-                float nearPressure = nearStiffness * nearDensity;
-                Vector2 dx = new Vector2(0.0f);
+                // Compute Pressure and Near Pressure
+                pressure = stiffness * (density - restDensity);
+                nearPressure = nearStiffness * nearDensity;
                 
                 //foreach (BlobParticle theNeighbour in theNeighbours)
-                for (int j = 0; j < theNeighbours.Count; j++)
+                for (j = 0; j < neighbourCount; j++)
                 {
-                    BlobParticle theNeighbour = theNeighbours[j];
-                    Vector2 r = theNeighbour.position - theParticle.position;
+                    theNeighbour = theNeighbours[j];
+					rX = theNeighbour.pX - theParticle.pX;
+					rY = theNeighbour.pY - theParticle.pY;
 
-                    if (r == Vector2.Zero)
+                    if (rX == 0 && rY == 0)
                     {
-                        r.Y = 0.01f;
-                        r.X = 0.01f;
+                        rY = 0.01f;
+                        rX = 0.01f;
                     }
 
-                    float theDistance = Math.Abs(r.Length());
-                    float q = theDistance / threshold;
+                    theDistance = (float)Math.Abs(Math.Sqrt((rX * rX) + (rY * rY)));
+                    q = theDistance / threshold;
 
                     if (q < 1)
                     {
                         // Get Unit Vector
-                        Vector2 unitR = r;
-                        unitR.Normalize();
+                        rUnitX = Math.Abs(rX / theDistance);
+                        rUnitY = Math.Abs(rY / theDistance);
 
                         // Apply Displacements
-                        float displacementValue = (pressure * (1 - q)) + (nearPressure * Convert.ToSingle(Math.Pow((1 - q), 2)));
-                        Vector2 displacement = unitR * displacementValue;
+                        float displacementValue = (pressure * (1 - q)) + (nearPressure * (float)Math.Pow((1 - q), 2));
+                        
+						displacementX = (rX * displacementValue) * 2;
+						displacementY = (rY * displacementValue) * 2;
 
                         theGrid.RemoveParticle(theNeighbour);
-                        theNeighbour.position += (displacement / 2);
+                        theNeighbour.pX += displacementX;
+                        theNeighbour.pY += displacementY;
                         theGrid.AddParticle(theNeighbour);
 
-                        dx -= (displacement / 2);                        
+                        dxX -= displacementX;                        
+						dxY -= displacementY;
                     }
                 }
                 theGrid.RemoveParticle(theParticle);
-                theParticle.position += dx;
+                theParticle.pX += dxX;
+				theParticle.pY += dxY;
                 theGrid.AddParticle(theParticle);
             }
         }
@@ -291,32 +373,53 @@ namespace ViscoelasticXNAPrototype
         public void applySpringDisplacements()
         {
             //foreach (Spring theSpring in theSprings)
-            for (int i = 0; i < theSprings.Count; i++)
+            Spring theSpring;
+            float springLength;
+            int i;
+
+            float rX;
+            float rY;
+
+            float theDistance;
+
+            float rUnitX;
+            float rUnitY;
+
+            float posModifierX;
+            float posModifierY;
+
+            float displacementValue;
+
+            for (i = 0; i < currentSpringCount; i++)
             {
-                Spring theSpring = theSprings[i];
+                theSpring = theSprings[i];
+                springLength = theSpring.springLength;
+            
+				rX = theSpring.childParticle.pX - theSpring.parentParticle.pX;
+				rY = theSpring.childParticle.pY - theSpring.parentParticle.pY;
 
-                Vector2 r = theSpring.childParticle.position-theSpring.parentParticle.position;
+                theDistance = (float)Math.Abs(Math.Sqrt((rX * rX) + (rY * rY)));
 
-                if (r == Vector2.Zero)
-                {
-                    r.Y = 0.01f;
-                    r.X = 0.01f;
-                }
+                //Vector2 unitR = r;
 
-                float theDistance = Math.Abs(r.Length());
 
-                Vector2 unitR = r;
-                unitR.Normalize();
-
-                float displacementValue = springStiffness * (1-(theSpring.springLength/threshold))*(theSpring.springLength-theDistance);
-                Vector2 displacement = unitR * displacementValue;
-
+                displacementValue = springStiffness * (1 - (springLength / threshold)) * (springLength - theDistance);
+                
+                //normalise vector
+                rUnitX = Math.Abs(rX / theDistance);
+                rUnitY = Math.Abs(rY / theDistance);
+                
                 theGrid.RemoveParticle(theSpring.parentParticle);
                 theGrid.RemoveParticle(theSpring.childParticle);
-
-                theSpring.parentParticle.position -= (displacement / 2);
-                theSpring.childParticle.position += (displacement / 2);
-
+				
+				//Vector2 posModifier = ((r * displacementValue) / 2);
+                posModifierX = (rUnitX * displacementValue) / 2;
+                posModifierY = (rUnitY * displacementValue) / 2;
+                theSpring.parentParticle.pX -= posModifierX;
+				theSpring.parentParticle.pY -= posModifierY;
+                theSpring.childParticle.pX += posModifierX;
+                theSpring.childParticle.pY += posModifierY;
+				
                 theGrid.AddParticle(theSpring.parentParticle);
                 theGrid.AddParticle(theSpring.childParticle);
             }
@@ -327,18 +430,40 @@ namespace ViscoelasticXNAPrototype
         public void adjustSprings()
         {
             //foreach (BlobParticle theParticle in theParticles)
-            for (int i = 0; i < theParticles.Count; i++)
-            {
-                BlobParticle theParticle = theParticles[i];
-                List<BlobParticle> theNeighbours = theGrid.GetNeighbours(theParticle);
-                //foreach (BlobParticle theNeighbour in theNeighbours)
-                for (int j = 0; j < theNeighbours.Count; j++)
-                {
-                    BlobParticle theNeighbour = theNeighbours[j];
-                    Vector2 r = theNeighbour.position - theParticle.position;
+            BlobParticle theParticle;
+            BlobParticle theNeighbour;
+            int i;
+            int neighbourCount;
+            int j;
 
-                    float theDistance = Math.Abs(r.Length());
-                    float q = theDistance / threshold;
+            float rX;
+            float rY;
+
+            float theDistance;
+            float q;
+
+            Spring theSpring;
+
+            float deformation;
+
+            List<BlobParticle> theNeighbours;
+
+            float springLength;
+            
+            for (i = 0; i < currentNumParticles; i++)
+            {
+                theParticle = theParticles[i];
+                theNeighbours = theGrid.GetNeighbours(theParticle);
+                neighbourCount = theNeighbours.Count;
+                for (j = 0; j < neighbourCount; j++)
+                {
+                    //Vector2 r = theNeighbours[j].position - theParticle.position;
+                    theNeighbour = theNeighbours[j];
+                    rX = theNeighbour.pX - theParticle.pX;
+                    rY = theNeighbour.pY - theParticle.pY;
+
+                    theDistance = (float)Math.Abs(Math.Sqrt((rX * rX) + (rY * rY)));
+                    q = theDistance / threshold;
 
                     if (q < 1)
                     {
@@ -346,9 +471,10 @@ namespace ViscoelasticXNAPrototype
                         {
                             // if not currently connected with a spring
                             // Create a spring
-                            Spring newSpring = new Spring(threshold, theParticle, theNeighbour);
+                            theSpring = new Spring(threshold, theParticle, theNeighbour);
                             connections[theParticle.idNumber][theNeighbour.idNumber] = true;
-                            theSprings.Add(newSpring);
+                            theSprings.Add(theSpring);
+                            currentSpringCount++;
                         }
                     }
                 }
@@ -356,41 +482,45 @@ namespace ViscoelasticXNAPrototype
 
             // Possible Problem #1
             //foreach (Spring theSpring in theSprings)
-			for (int i = 0; i < theSprings.Count; i++)
+			for (i = 0; i < currentSpringCount; i++)
             {
-				Spring theSpring = theSprings[i];
-                Vector2 r = theSpring.childParticle.position - theSpring.parentParticle.position;
-
-                if (r == Vector2.Zero)
+                theSpring = theSprings[i];
+                //Vector2 r = theSprings[i].childParticle.position - theSprings[i].parentParticle.position;
+                rX = theSpring.childParticle.pX - theSpring.parentParticle.pX;
+                rY = theSpring.childParticle.pY - theSpring.parentParticle.pY;
+                springLength = theSpring.springLength;
+                if (rX == 0 && rY == 0)
                 {
-                    r.Y = 0.01f;
-                    r.X = 0.01f;
+                    rY = 0.01f;
+                    rX = 0.01f;
                 }
 
-                float theDistance = Math.Abs(r.Length());
+                theDistance = (float)Math.Abs(Math.Sqrt((rX * rX) + (rY * rY)));
 
-                float deformation = yeildRatio * theSpring.springLength;
-                if (theDistance > theSpring.springLength + deformation)
+                deformation = yeildRatio * springLength;
+                if (theDistance > (springLength + deformation))
                 {
                     // Stretch
-                    theSpring.springLength += plasticityConstant * (theDistance - theSpring.springLength - deformation);
+                    theSpring.springLength += plasticityConstant * (theDistance - springLength - deformation);
                 }
-                else if (theDistance < theSpring.springLength - deformation)
+                else if (theDistance < (springLength - deformation))
                 {
                     // Compress
-                    theSpring.springLength -= plasticityConstant * (theSpring.springLength - deformation - theDistance);
+                    theSpring.springLength -= plasticityConstant * (springLength - deformation - theDistance);
                 }
             }
 
             //foreach (Spring theSpring in theSprings)
-            for(int i = 0; i < theSprings.Count; i++)
+            for(i = 0; i < currentSpringCount; i++)
             {
-				Spring theSpring = theSprings[i];
-                if (theSpring.springLength > threshold)
+                theSpring = theSprings[i];
+                springLength = theSpring.springLength;
+                if (springLength > threshold)
                 {
                     // Remove Spring
                     connections[theSpring.parentParticle.idNumber][theSpring.childParticle.idNumber] = false;
                     theSprings.Remove(theSpring);
+                    currentSpringCount--;
                     i--; //danger will robinson!
                 }
             }
@@ -400,39 +530,79 @@ namespace ViscoelasticXNAPrototype
         public void applyViscosity()
         {
             //foreach (BlobParticle theParticle in theParticles)
-            for (int i = 0; i < theParticles.Count; i++)
-            {
-                BlobParticle theParticle = theParticles[i];
-                List<BlobParticle> theNeighbours = theGrid.GetNeighbours(theParticle);
-                //foreach (BlobParticle theNeighbour in theNeighbours)
-                for (int j = 0; j < theNeighbours.Count; j++)
-                {
-                    BlobParticle theNeighbour = theNeighbours[j];
-                    Vector2 r = theNeighbour.position - theParticle.position;
+            BlobParticle theParticle;
+            BlobParticle theNeighbour;
 
-                    if (r == Vector2.Zero)
+            float rX;
+            float rY;
+
+            int i;
+            int j;
+
+            int numNeighbours;
+
+            List<BlobParticle> theNeighbours;
+
+            float theDistance;
+            float q;
+            float u;
+
+            float velX;
+            float velY;
+
+            float impulseX;
+            float impulseY;
+
+            float rUnitX;
+            float rUnitY;
+
+            for (i = 0; i < currentNumParticles; i++)
+            {
+                theParticle = theParticles[i];
+                theNeighbours = theGrid.GetNeighbours(theParticles[i]);
+                numNeighbours = theNeighbours.Count;
+                //foreach (BlobParticle theNeighbour in theNeighbours)
+                for (j = 0; j < numNeighbours; j++)
+                {
+                    theNeighbour = theNeighbours[j];
+                    rX = theNeighbour.pX - theParticle.pX;
+                    rY = theNeighbour.pY - theParticle.pY;
+                    if (rX == 0 && rY == 0)
                     {
-                        r.Y = 0.01f;
-                        r.X = 0.01f;
+                        rY = 0.00000001f;
+                        rX = 0.00000001f;
                     }
 
-                    float theDistance = r.Length();
-                    float q = theDistance / threshold;
+                    theDistance = (float)Math.Abs(Math.Sqrt((rX * rX) + (rY * rY)));
+                    q = theDistance / threshold;
 
                     if (q < 1)
                     {
-                        Vector2 unitR = r;
-                        unitR.Normalize();
-
-                        float u = Vector2.Dot((theParticle.velocity-theNeighbour.velocity),unitR);
+                        //normalise vector
+                        rUnitX = Math.Abs(rX / theDistance);
+                        rUnitY = Math.Abs(rY / theDistance);
+                        
+                        velX = theParticle.vX - theNeighbour.vX;
+                        velY = theParticle.vY - theNeighbour.vY;
+                        //u = Vector2.Dot((theParticles[i].velocity - theNeighbours[j].velocity), r);
+                        //dot product
+                        u = (velX + rUnitX) * (velY + rUnitY);
+                        
                         if (u > 0)
                         {
                             // Linear and Quadratic Impulses - lol
-                            float impulseValue = Convert.ToSingle((1 - q) * (unknownVariableO * u + unknownVariableB * Math.Pow(u, 2)));
-                            Vector2 impulse = unitR * impulseValue;
+                            float impulseValue = (float)(1 - q) * (float)(unknownVariableO * u + unknownVariableB * Math.Pow(u, 2));
+                            impulseX = (rUnitX * impulseValue) / 2;
+                            impulseY = (rUnitY * impulseValue) / 2;
+                            if (impulseX > 100)
+                            {
+                                float p = 0;
+                            }
+                            theParticle.vX -= impulseX;
+                            theParticle.vY -= impulseY;
 
-                            theParticle.velocity -= (impulse / 2);
-                            theNeighbour.velocity += (impulse / 2);
+                            theNeighbour.vX += impulseX;
+                            theNeighbour.vY += impulseY;
                         }
                     }
                 }
@@ -444,40 +614,43 @@ namespace ViscoelasticXNAPrototype
         {
 
             //foreach (BlobParticle theParticle in theParticles)
-            for (int i = 0; i < theParticles.Count; i++)
+            BlobParticle theParticle;
+            for (int i = 0; i < currentNumParticles; i++)
             {
-                BlobParticle theParticle = theParticles[i];
+                theParticle = theParticles[i];
 
                 theGrid.RemoveParticle(theParticle);
-                theParticle.velocity = (theParticle.position - theParticle.previousPosition);
+                //theParticle.velocity = (theParticle.position - theParticle.previousPosition);
+                theParticle.vX = theParticle.pX - theParticle.ppX;
+                theParticle.vY = theParticle.pY - theParticle.ppY;
 
-                if (theParticle.position.Y > 550)
+                if (theParticle.pY > 550)
                 {
-                    theParticle.position.Y = 550;
-                    theParticle.velocity.Y *= -0.4f;
+                    theParticle.pY = 550;
+                    theParticle.vY *= -0.4f;
                 }
-                else if (theParticle.position.Y < 0)
+                else if (theParticle.pY < 0)
                 {
-                    theParticle.position.Y = 0;
-                    theParticle.velocity.Y *= -0.4f;
+                    theParticle.pY = 0;
+                    theParticle.vY *= -0.4f;
                 }
 
-                if (theParticle.position.X > 700)
+                if (theParticle.pX > 700)
                 {
-                    theParticle.position.X = 700;
-                    theParticle.velocity.X *= -0.4f;
+                    theParticle.pX = 700;
+                    theParticle.vX *= -0.4f;
                 }
-                else if (theParticle.position.X < 0)
+                else if (theParticle.pX < 0)
                 {
-                    theParticle.position.X = 0;
-                    theParticle.velocity.X *= -0.4f;
+                    theParticle.pX = 0;
+                    theParticle.vX *= -0.4f;
                 }
                 theGrid.AddParticle(theParticle);
 
             }
         }
 
-        public void resolveCollisions_alt()
+       /* public void resolveCollisions_alt()
         {
             for (int i = 0; i < theParticles.Count; i++)
             {
@@ -517,7 +690,7 @@ namespace ViscoelasticXNAPrototype
                 }
 
             }
-        }
+        }*/
 
     }
 }
