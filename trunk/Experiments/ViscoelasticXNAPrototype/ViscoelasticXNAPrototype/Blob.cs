@@ -586,7 +586,7 @@ namespace ViscoelasticXNAPrototype
                         velY = theParticle.vY - theNeighbour.vY;
                         //u = Vector2.Dot((theParticles[i].velocity - theNeighbours[j].velocity), r);
                         //dot product
-                        u = (velX + rUnitX) * (velY + rUnitY);
+                        u = (velX * rUnitX) + (velY * rUnitY);
                         
                         if (u > 0)
                         {

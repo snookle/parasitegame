@@ -22,6 +22,7 @@ namespace ViscoelasticXNAPrototype
 
         public int idNumber;
         public Texture2D sprite;
+        public int numSprings;
 
         public BlobParticle(Vector2 position,int idNumber, Texture2D sprite)
         {
