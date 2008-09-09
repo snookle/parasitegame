@@ -67,7 +67,7 @@ namespace ViscoelasticXNAPrototype
 
         public void AddParticle(BlobParticle particle)
         {
-            int x = Convert.ToInt32(Math.Floor(particle.pX / gridSize));
+           int x = Convert.ToInt32(Math.Floor(particle.pX / gridSize));
             int y = Convert.ToInt32(Math.Floor(particle.pY / gridSize));
 
             if (y < 0)
