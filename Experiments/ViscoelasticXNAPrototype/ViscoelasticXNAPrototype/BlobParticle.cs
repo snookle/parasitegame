@@ -9,23 +9,34 @@ namespace ViscoelasticXNAPrototype
 {
     class BlobParticle
     {
-        public Vector2 position;            // Particle Position
-        public Vector2 velocity;            // Particle Velocity
-        public Vector2 previousPosition;    // Previous Particle Position
+        //public Vector2 position;            // Particle Position
+        public float pX;
+        public float pY;
+        //public Vector2 velocity;            // Particle Velocity
+        public float vX;
+        public float vY;
+
+        //public Vector2 previousPosition;    // Previous Particle Position
+        public float ppX;
+        public float ppY;
+
         public int idNumber;
         public Texture2D sprite;
 
         public BlobParticle(Vector2 position,int idNumber, Texture2D sprite)
         {
-            this.position = position;
+            this.pX = position.X;
+            this.pY = position.Y;
             this.idNumber = idNumber;
-            this.velocity = new Vector2(0, 0);
+            this.vX = 0.0f;
+            this.vY = 0.0f;
             this.sprite = sprite;
         }
 
-        public void applyForce(Vector2 force)
+        public void applyForce(float forceX, float forceY)
         {
-            this.velocity += force;
+            vX += forceX;
+            vY += forceY;
         }
     }
 }

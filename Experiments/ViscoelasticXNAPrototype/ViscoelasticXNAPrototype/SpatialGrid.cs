@@ -40,8 +40,8 @@ namespace ViscoelasticXNAPrototype
 
         public void RemoveParticle(BlobParticle particle)
         {
-            int x = Convert.ToInt32(Math.Floor(particle.position.X / gridSize));
-            int y = Convert.ToInt32(Math.Floor(particle.position.Y / gridSize));
+            int x = Convert.ToInt32(Math.Floor(particle.pX / gridSize));
+            int y = Convert.ToInt32(Math.Floor(particle.pY / gridSize));
 
             if (y < 0)
             {
@@ -67,8 +67,8 @@ namespace ViscoelasticXNAPrototype
 
         public void AddParticle(BlobParticle particle)
         {
-            int x = Convert.ToInt32(Math.Floor(particle.position.X / gridSize));
-            int y = Convert.ToInt32(Math.Floor(particle.position.Y / gridSize));
+            int x = Convert.ToInt32(Math.Floor(particle.pX / gridSize));
+            int y = Convert.ToInt32(Math.Floor(particle.pY / gridSize));
 
             if (y < 0)
             {
@@ -94,8 +94,8 @@ namespace ViscoelasticXNAPrototype
 
         public List<BlobParticle> GetNeighbours(BlobParticle particle)
         {
-            int x = Convert.ToInt32(Math.Floor(particle.position.X / gridSize));
-            int y = Convert.ToInt32(Math.Floor(particle.position.Y / gridSize));
+            int x = Convert.ToInt32(Math.Floor(particle.pX / gridSize));
+            int y = Convert.ToInt32(Math.Floor(particle.pY / gridSize));
 
             if (y < 0)
             {
@@ -115,8 +115,8 @@ namespace ViscoelasticXNAPrototype
                 x = width;
             }
 
-            float checkX = particle.position.X - (x * gridSize);
-            float checkY = particle.position.Y - (y * gridSize);
+            float checkX = particle.pX - (x * gridSize);
+            float checkY = particle.pY - (y * gridSize);
 
             List<BlobParticle> returnList = new List<BlobParticle>();
 
