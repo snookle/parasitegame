@@ -27,7 +27,7 @@ namespace ViscoelasticXNAPrototype
 
         // Constants
         private float threshold = 50.0f;
-        private float restDensity = 15f;
+        private float restDensity = 55f;
         private float stiffness = 0.004f;
         private float nearStiffness = 0.01f;
         private float springStiffness = 0.3f;
@@ -36,9 +36,9 @@ namespace ViscoelasticXNAPrototype
         private float particleCollisionRadius = 30f;        // Used in Body-Particle Collisions
         private float friction = 0f;                      // Used in Body-Particle Collisions
 
-        private float unknownVariableO = 0f;              // Increased for Highly Viscosity
+        private float unknownVariableO = 0.5f;              // Increased for Highly Viscosity
         private float unknownVariableB = 0f;                // Non-Zero value for Low Viscosity
-        private float yeildRatio = 0.1f;                      // Can be used to control stickyness ? 
+        private float yeildRatio = 0.2f;                      // Can be used to control stickyness ? 
         private float restLengthConstant = 20.0f;           // Not Needed anymore ?
         //private Vector2 gravity = new Vector2(0, 0.5f);
         private float gravityX = 0.0f;
@@ -216,7 +216,7 @@ namespace ViscoelasticXNAPrototype
             for (int i = 0; i < currentNumParticles; i++)
             {
                 // Apply Gravity
-                //theParticles[i].applyForce(gravityX, gravityY);
+                theParticles[i].applyForce(gravityX, gravityY);
             }
             pt.StopTimer("gravity");
 
@@ -253,7 +253,7 @@ namespace ViscoelasticXNAPrototype
 
 
             pt.StartTimer("doubleDensityRelaxation");
-            //doubleDensityRelaxation();
+            doubleDensityRelaxation();
             pt.StopTimer("doubleDensityRelaxation");
 
 
@@ -325,8 +325,8 @@ namespace ViscoelasticXNAPrototype
 
                     if (rX == 0 && rY == 0)
                     {
-                        rY = 0.01f;
-                        rX = 0.01f;
+                        rY = 0.001f;
+                        rX = 0.001f;
                     }
 
                     theDistance = (float)Math.Abs(Math.Sqrt((rX * rX) + (rY * rY)));
@@ -355,8 +355,8 @@ namespace ViscoelasticXNAPrototype
 
                     if (rX == 0 && rY == 0)
                     {
-                        rY = 0.01f;
-                        rX = 0.01f;
+                        rY = 0.001f;
+                        rX = 0.001f;
                     }
 
                     theDistance = (float)Math.Abs(Math.Sqrt((rX * rX) + (rY * rY)));
