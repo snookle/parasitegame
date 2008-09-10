@@ -84,7 +84,7 @@ namespace ViscoelasticXNAPrototype
                 x = 0;
             }
             else if (x > width)
-            {
+            { 
                 x = width;
             }
             
