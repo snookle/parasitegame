@@ -38,7 +38,7 @@ namespace ViscoelasticXNAPrototype
 
         private float unknownVariableO = 0.5f;              // Increased for Highly Viscosity
         private float unknownVariableB = 0f;                // Non-Zero value for Low Viscosity
-        private float yeildRatio = 0.2f;                      // Can be used to control stickyness ? 
+        private float yeildRatio = 0.3f;                      // Can be used to control stickyness ? 
         private float restLengthConstant = 20.0f;           // Not Needed anymore ?
         //private Vector2 gravity = new Vector2(0, 0.5f);
         private float gravityX = 0.0f;
@@ -139,12 +139,13 @@ namespace ViscoelasticXNAPrototype
             basicEffect.Begin();
 
             Spring theSpring;
-
+            Vector2 p1;
+            Vector2 p2;
             for (int i = 0; i < theSprings.Count; i++)
             {
                 theSpring = theSprings[i];
-                Vector2 p1 = new Vector2((theSpring.parentParticle.pX/400)-1, (theSpring.parentParticle.pY/300)-1);
-                Vector2 p2 = new Vector2((theSpring.childParticle.pX/400)-1, (theSpring.childParticle.pY/300)-1);
+                p1 = new Vector2((theSpring.parentParticle.pX/400)-1, (theSpring.parentParticle.pY/300)-1);
+                p2 = new Vector2((theSpring.childParticle.pX/400)-1, (theSpring.childParticle.pY/300)-1);
 
                 line[0] = new VertexPositionColor(new Vector3(p1.X, -1 * p1.Y, 0), Color.Red);
                 line[1] = new VertexPositionColor(new Vector3(p2.X, -1 * p2.Y, 0), Color.Red);
@@ -372,16 +373,16 @@ namespace ViscoelasticXNAPrototype
                         // Apply Displacements
                         float displacementValue = (pressure * (1 - q)) + (nearPressure * (float)Math.Pow((1 - q), 2));
                         
-						displacementX = (rX * displacementValue);
-						displacementY = (rY * displacementValue);
+						displacementX = (rUnitX * displacementValue) / 2;
+						displacementY = (rUnitY * displacementValue) / 2;
 
                         theGrid.RemoveParticle(theNeighbour);
-                        theNeighbour.pX += (displacementX / 2);
-                        theNeighbour.pY += (displacementY / 2);
+                        theNeighbour.pX += (displacementX);
+                        theNeighbour.pY += (displacementY);
                         theGrid.AddParticle(theNeighbour);
 
-                        dxX -= (displacementX / 2);
-                        dxY -= (displacementY / 2);
+                        dxX -= (displacementX);
+                        dxY -= (displacementY);
                     }
                 }
                 theGrid.RemoveParticle(theParticle);
@@ -491,12 +492,13 @@ namespace ViscoelasticXNAPrototype
 
                     if (q < 1)
                     {
-                        if (!connections[theParticle.idNumber][theNeighbour.idNumber])
+                        if (!connections[theParticle.idNumber][theNeighbour.idNumber] && !connections[theNeighbour.idNumber][theParticle.idNumber])
                         {
                             // if not currently connected with a spring
                             // Create a spring
                             theSpring = new Spring(threshold, theParticle, theNeighbour);
                             connections[theParticle.idNumber][theNeighbour.idNumber] = true;
+                            connections[theNeighbour.idNumber][theParticle.idNumber] = true;
                             theSprings.Add(theSpring);
                             currentSpringCount++;
                         }
@@ -545,6 +547,7 @@ namespace ViscoelasticXNAPrototype
                 {
                     // Remove Spring
                     connections[theSpring.parentParticle.idNumber][theSpring.childParticle.idNumber] = false;
+                    connections[theSpring.childParticle.idNumber][theSpring.parentParticle.idNumber] = false;
                     theSprings.Remove(theSpring);
                     currentSpringCount--;
                     //i--;
