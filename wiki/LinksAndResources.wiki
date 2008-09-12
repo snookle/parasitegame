@@ -15,6 +15,9 @@
  * [http://kotsoft.googlepages.com/]
  * [http://forums.xna.com/forums/t/10116.aspx]
 
+=Neighbour Searching=
+ * [http://en.wikipedia.org/wiki/K-nearest_neighbor_algorithm k-nearest neighbor algorithm ]
+
 =Inspiration=
  * [http://www.quelsolaar.com/ Love : Procedural MMO]
 
