@@ -1,5 +1,23 @@
 =Particle-Based Viscoelastic Fluid Simulation Psuedocode=
 
+=New Structure Implementation=
+_Suggested implementation changes, 14 Sept, 2008_
+ * Blob Particles have a Hashtable of Neighbours ( key being theNeighbourParticle )
+ * Each Neighbour is made up of a Particle and an optional Spring
+ * New Function added into Blob Particles : 'updateneighbours'
+  * Contacts Spatial Grid and Requests Neighbours
+   # If Already in List, Update the Current Element ( if required )
+   # If Not in List, Add to List
+   # If In Current List, but Not in New List, Remove from List 
+    * Possibly make this last step a method in it's own, as removal might be a bit intensive, may make sense to only do this at the end of each cycle, rather than doing constant add/removes.  It doesn't matter so much if we have too many neighbours, but it will matter if we miss some.
+
+==Tests==
+ * Access via Particle/Neighbour Pair
+  * Particle.neighbours[theNeighbour].spring
+ * Access via Spring Iteration
+  * Possible use of the current springs list, easy to iterate through then.
+  * Other alternatives would be to use a spring hashtable with springID.  and store the springID instead of the actual spring inside neighbours.
+
 =Details=
 Still some things unknown : 
  * r^ij
