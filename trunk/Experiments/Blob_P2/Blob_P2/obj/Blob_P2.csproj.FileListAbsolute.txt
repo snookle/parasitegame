@@ -1,0 +1,8 @@
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\obj\x86\Debug\Blob_P2.obj.x86.Debug.Microsoft.Xna.Framework.RuntimeProfile.txt
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Debug\Blob_P2.exe
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Debug\Blob_P2.pdb
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\obj\x86\Debug\Blob_P2.exe
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\obj\x86\Debug\Blob_P2.pdb
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Debug\Content\Sprites\Particle.xnb
