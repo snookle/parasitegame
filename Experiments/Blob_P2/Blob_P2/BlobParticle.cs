@@ -14,6 +14,7 @@ namespace Blob_P2
         public Vector2 position;
         public Vector2 centre;
         public Texture2D sprite;
+        public Color colour = Color.Black;
 
         public List<BlobParticle> neighbours;
 
