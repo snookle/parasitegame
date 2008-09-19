@@ -18,22 +18,28 @@ namespace Blob_P2
         // Variables
         public int numParticles = 500;
         public int currentNumParticles = 0;
+        public int particleCount = 0;
         private List<BlobParticle> theParticles;
         public Texture2D theSprite;
         private Spring[][] connected;
+
+        private int drawingOffset = 100;
+
+        // Spatial Grid
+        private SpatialGrid grid;
         
         // Forces
-        public Vector2 gravity = new Vector2(0, 0.98f);
+        public Vector2 gravity = new Vector2(0, 0.5f);
 
         public float threshold = 20;
-        public float disconnectThreshold = 25;
+        public float disconnectThreshold = 20;
         public int numLinks = 6;
 
         // Spring Variables
         private List<Spring> theSprings;
-        public float springStiffness = 0.1f;
-        public float springLength = 24;
-        public float springFriction = 0.03f;
+        public float springStiffness = 0.5f;
+        public float springLength = 20;
+        public float springFriction = 0.05f;
 
         private SpriteBatch spriteBatch;
 
@@ -77,10 +83,10 @@ namespace Blob_P2
 
             BlobParticle theParticle;
 
-            for (int i = 0; i < theParticles.Count; i++)
+            for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
-                this.spriteBatch.Draw(theParticle.sprite, theParticle.position, null, Color.White, 0, theParticle.centre, 1, SpriteEffects.None, 0);
+                this.spriteBatch.Draw(theSprite, theParticle.position, null, Color.White, 0, theParticle.centre, 1, SpriteEffects.None, 0);
             }
             this.spriteBatch.End();
 
@@ -103,6 +109,8 @@ namespace Blob_P2
         {
             theParticles = new List<BlobParticle>();
             theSprings = new List<Spring>();
+
+            grid = new SpatialGrid(500+drawingOffset, 500, (int)disconnectThreshold);
 
             connected = new Spring[numParticles + 1][];
             for (int i = 0; i < numParticles; i++)
@@ -130,6 +138,7 @@ namespace Blob_P2
 
                 theParticles.Add(theParticle);
 
+                particleCount++;
                 currentNumParticles--;
             }
         }
@@ -145,29 +154,31 @@ namespace Blob_P2
                 }
             }
             moveParticles();
-            checkParticles();
+            checkSprings();
         }
 
-        public void checkParticles()
+        public void checkSprings()
         {
             BlobParticle theParticle;
             BlobParticle neighbourParticle;
-            for (int i = 0; i < theParticles.Count; i++)
+            Spring newSpring;
+
+            for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
-                for (int j = i+1; j < theParticles.Count; j++)
+                for (int j = i + 1; j < particleCount; j++)
                 {
                     neighbourParticle = theParticles[j];
 
                     Vector2 differenceVector = theParticle.position - neighbourParticle.position;
                     float distance = differenceVector.Length();
 
-                    if (distance <= threshold && connected[i][j]==null)
+                    if (distance <= threshold && connected[i][j] == null)
                     {
                         theParticle.addNeighbour(neighbourParticle);
                         neighbourParticle.addNeighbour(theParticle);
 
-                        Spring newSpring = new Spring(theParticle, neighbourParticle, springStiffness, springLength, springFriction);
+                        newSpring = new Spring(theParticle, neighbourParticle, springStiffness, springLength, springFriction);
                         connected[i][j] = newSpring;
                     }
                     else if (distance > disconnectThreshold && connected[i][j] != null)
@@ -188,7 +199,7 @@ namespace Blob_P2
         public void moveParticles()
         {
             BlobParticle theParticle;
-            for (int i = 0; i < theParticles.Count; i++)
+            for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
                 theParticle.position += theParticle.velocity;
@@ -200,17 +211,23 @@ namespace Blob_P2
             }
         }
 
+        public void applyViscosity()
+        {
+
+        }
+
         private void simpleCollisionDetection(BlobParticle theParticle)
         {
-            if (theParticle.position.X < 0)
+
+            if (theParticle.position.X < 0 + drawingOffset)
             {
                 theParticle.velocity.X *= -0.5f;
-                theParticle.position.X = 0;
+                theParticle.position.X = 0 + drawingOffset;
             }
-            else if (theParticle.position.X > 500)
+            else if (theParticle.position.X > 800 - drawingOffset)
             {
                 theParticle.velocity.X *= -0.5f;
-                theParticle.position.X = 500;
+                theParticle.position.X = 800 - drawingOffset;
             }
 
             if (theParticle.position.Y < 0)
