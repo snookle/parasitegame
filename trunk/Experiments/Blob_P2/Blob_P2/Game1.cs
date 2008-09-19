@@ -82,6 +82,11 @@ namespace Blob_P2
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                theBlob.stopstart();
+            }
+
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
                 theBlob.increaseParticles();

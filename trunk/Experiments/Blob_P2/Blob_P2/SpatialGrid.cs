@@ -56,14 +56,49 @@ namespace Blob_P2
             int y = (int)Math.Floor(particle.position.Y / gridSize);
 
             List<BlobParticle> returnList = new List<BlobParticle>();
-
-            for (int i = x - (x == 0 ? 0 : 1); i < x + (x == width + 1 ? 0 : 1); i++)
+            
+            /*for (int i = x - (x == 0 ? 0 : 1); i <= x + (x == width + 1 ? 0 : 1); i++)
             {
-                for (int j = y - (y == 0 ? 0 : 1); j < y + (y == height + 1 ? 0 : 1); j++)
+                for (int j = y - (y == 0 ? 0 : 1); j <= y + (y == height + 1 ? 0 : 1); j++)
+                {
+                    returnList.AddRange(grid[i][j]);
+                }
+            }*/
+
+            int xStart = x - 1;
+            int xEnd = x + 1;
+            int yStart = y - 1;
+            int yEnd = y + 1;
+
+            if (xStart <= 0)
+            {
+                xStart = 0;
+            }
+
+            if (xEnd >= width)
+            {
+                xEnd = width;
+            }
+
+            if (yStart <= 0)
+            {
+                yStart = 0;
+            }
+
+            if (yEnd >= height)
+            {
+                yEnd = height;
+            }
+
+            for (int i = xStart; i <= xEnd; i++)
+            {
+                for (int j = yStart; j <= yEnd; j++)
                 {
                     returnList.AddRange(grid[i][j]);
                 }
             }
+
+            returnList.Remove(particle);
 
             return returnList;
         }

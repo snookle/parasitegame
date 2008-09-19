@@ -37,12 +37,14 @@ namespace Blob_P2
 
         // Spring Variables
         private List<Spring> theSprings;
-        public float springStiffness = 0.5f;
+        public float springStiffness = 0.3f;
         public float springLength = 20;
-        public float springFriction = 0.05f;
+        public float springFriction = 0.1f;
 
         private SpriteBatch spriteBatch;
         private SpriteFont spriteFont;
+
+        private bool simulating = true;
 
         public BlobManager(Game game)
             : base(game)
@@ -83,19 +85,33 @@ namespace Blob_P2
         {
             // TODO: Add your drawing code here
 
-            this.spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
+            this.spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None);
 
             BlobParticle theParticle;
             spriteBatch.DrawString(spriteFont, particleCount.ToString(), new Vector2(10, 10), Color.Black);
-            Color particleColour = Color.Blue;
+            Vector2 mousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+            float theDistance;
             for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
-                if (Mouse.GetState().X == theParticle.position.X && Mouse.GetState().Y == theParticle.position.Y)
+
+                theParticle.colour = Color.Black;
+
+                theDistance = (mousePos - theParticle.position).Length();
+
+                if (theDistance < 5)
                 {
-                    particleColour = Color.Red;
+                    // Mouseover
+                    theParticle.colour = Color.Red;
+                    // Set Neighbour Colour
+                    List<BlobParticle> theNeighbours = grid.GetNeighbours(theParticle);
+                    spriteBatch.DrawString(spriteFont, "Num Neighbours : "+theNeighbours.Count.ToString(), new Vector2(10, 20), Color.Black);
+                    for (int j = 0; j < theNeighbours.Count; j++)
+                    {
+                        this.spriteBatch.Draw(theSprite, theNeighbours[j].position, null, Color.Chartreuse, 0, theNeighbours[j].centre, 1, SpriteEffects.None, 0);
+                    }
                 }
-                this.spriteBatch.Draw(theSprite, theParticle.position, null, particleColour, 0, theParticle.centre, 1, SpriteEffects.None, 0);
+                this.spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 1, SpriteEffects.None, 1);
             }
             this.spriteBatch.End();
 
@@ -109,7 +125,10 @@ namespace Blob_P2
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-            doSimulation();
+            if (simulating)
+            {
+                doSimulation();
+            }
             base.Update(gameTime);
         }
 
@@ -119,7 +138,7 @@ namespace Blob_P2
             theParticles = new List<BlobParticle>();
             theSprings = new List<Spring>();
 
-            grid = new SpatialGrid(800+drawingOffset, 500, disconnectThreshold);
+            grid = new SpatialGrid(800, 600, disconnectThreshold);
 
             connected = new Spring[maxParticles + 1][];
             for (int i = 0; i < maxParticles; i++)
@@ -131,6 +150,18 @@ namespace Blob_P2
         public void increaseParticles()
         {
             currentNumParticles++;
+        }
+
+        public void stopstart()
+        {
+            if (simulating)
+            {
+                simulating = false;
+            }
+            else
+            {
+                simulating = true;
+            }
         }
 
         public void addParticles(int num)
@@ -207,6 +238,8 @@ namespace Blob_P2
                         connected[theParticle.id][neighbourParticle.id].solve();
                     }
                 }
+
+                
             }
         }
 
@@ -249,7 +282,7 @@ namespace Blob_P2
             if (theParticle.position.Y < 0)
             {
                 theParticle.velocity.Y *= -0.5f;
-                theParticle.position.Y = 0;
+                theParticle.position.Y = 1;
             }
             else if (theParticle.position.Y > 500)
             {
