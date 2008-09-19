@@ -69,7 +69,7 @@ namespace Blob_P2
             int xEnd = x + 1;
             int yStart = y - 1;
             int yEnd = y + 1;
-
+            
             if (xStart <= 0)
             {
                 xStart = 0;
