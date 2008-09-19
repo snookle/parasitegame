@@ -12,12 +12,12 @@ namespace Blob_P2
         private int width;
         private int height;
 
-        private int gridSize;
+        private float gridSize;
 
-        public SpatialGrid(int gridWidth, int gridHeight, int gridSize)
+        public SpatialGrid(int gridWidth, int gridHeight, float gridSize)
         {
-            this.width = gridWidth / gridSize;
-            this.height = gridHeight / gridSize;
+            this.width = Convert.ToInt32(gridWidth / gridSize);
+            this.height = Convert.ToInt32(gridHeight / gridSize);
 
             this.gridSize = gridSize;
 
@@ -57,9 +57,9 @@ namespace Blob_P2
 
             List<BlobParticle> returnList = new List<BlobParticle>();
 
-            for (int i = x - (x == 0 ? 0 : 1); i < x + (x == width+1 ? 0 : 1); i++)
+            for (int i = x - (x == 0 ? 0 : 1); i < x + (x == width + 1 ? 0 : 1); i++)
             {
-                for (int j = y - (y == 0 ? 0 : 1); j < y + (y == height+1 ? 0 : 1); j++)
+                for (int j = y - (y == 0 ? 0 : 1); j < y + (y == height + 1 ? 0 : 1); j++)
                 {
                     returnList.AddRange(grid[i][j]);
                 }

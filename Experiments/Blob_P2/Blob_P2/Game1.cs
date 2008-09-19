@@ -21,6 +21,8 @@ namespace Blob_P2
 
         BlobManager theBlob;
 
+        FrameRateCounter frc;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -42,6 +44,10 @@ namespace Blob_P2
             theBlob = new BlobManager(this);
             this.Components.Add(theBlob);
             theBlob.Initialize();
+
+            frc = new FrameRateCounter(this);
+            Components.Add(frc);
+            frc.Initialize();
         }
 
         /// <summary>
@@ -80,7 +86,7 @@ namespace Blob_P2
             {
                 theBlob.increaseParticles();
             }
-
+            this.IsMouseVisible = true;
             // TODO: Add your update logic here
 
             base.Update(gameTime);
