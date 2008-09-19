@@ -17,10 +17,13 @@ namespace Blob_P2
 
         public List<BlobParticle> neighbours;
 
-        public BlobParticle(Vector2 position, Texture2D sprite)
+        public int id;
+
+        public BlobParticle(Vector2 position, Texture2D sprite, int id)
         {
             this.position = position;
             this.sprite = sprite;
+            this.id = id;
 
             centre = new Vector2(sprite.Width / 2, sprite.Height / 2);
 

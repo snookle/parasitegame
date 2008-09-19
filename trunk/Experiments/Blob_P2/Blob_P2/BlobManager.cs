@@ -16,7 +16,7 @@ namespace Blob_P2
     public class BlobManager : Microsoft.Xna.Framework.DrawableGameComponent
     {
         // Variables
-        public int numParticles = 500;
+        public int maxParticles = 1500;
         public int currentNumParticles = 0;
         public int particleCount = 0;
         private List<BlobParticle> theParticles;
@@ -42,6 +42,7 @@ namespace Blob_P2
         public float springFriction = 0.05f;
 
         private SpriteBatch spriteBatch;
+        private SpriteFont spriteFont;
 
         public BlobManager(Game game)
             : base(game)
@@ -67,6 +68,8 @@ namespace Blob_P2
         {
             spriteBatch = new SpriteBatch(this.GraphicsDevice);
             theSprite = this.Game.Content.Load<Texture2D>("Sprites\\Particle");
+            spriteFont = Game.Content.Load<SpriteFont>("DebugFont");
+            
             initSimulation();
 
             base.LoadContent();
@@ -79,14 +82,20 @@ namespace Blob_P2
         public override void Draw(GameTime gameTime)
         {
             // TODO: Add your drawing code here
+
             this.spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
 
             BlobParticle theParticle;
-
+            spriteBatch.DrawString(spriteFont, particleCount.ToString(), new Vector2(10, 10), Color.Black);
+            Color particleColour = Color.Blue;
             for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
-                this.spriteBatch.Draw(theSprite, theParticle.position, null, Color.White, 0, theParticle.centre, 1, SpriteEffects.None, 0);
+                if (Mouse.GetState().X == theParticle.position.X && Mouse.GetState().Y == theParticle.position.Y)
+                {
+                    particleColour = Color.Red;
+                }
+                this.spriteBatch.Draw(theSprite, theParticle.position, null, particleColour, 0, theParticle.centre, 1, SpriteEffects.None, 0);
             }
             this.spriteBatch.End();
 
@@ -110,12 +119,12 @@ namespace Blob_P2
             theParticles = new List<BlobParticle>();
             theSprings = new List<Spring>();
 
-            grid = new SpatialGrid(500+drawingOffset, 500, (int)disconnectThreshold);
+            grid = new SpatialGrid(800+drawingOffset, 500, disconnectThreshold);
 
-            connected = new Spring[numParticles + 1][];
-            for (int i = 0; i < numParticles; i++)
+            connected = new Spring[maxParticles + 1][];
+            for (int i = 0; i < maxParticles; i++)
             {
-                connected[i] = new Spring[numParticles + 1];
+                connected[i] = new Spring[maxParticles + 1];
             }
         }
 
@@ -133,10 +142,11 @@ namespace Blob_P2
                 float randomXVelocity = RandomGenerator.Next(20);
                 float randomYVelocity = RandomGenerator.Next(20);
 
-                BlobParticle theParticle = new BlobParticle(new Vector2(300, 100), theSprite);
+                BlobParticle theParticle = new BlobParticle(new Vector2(300, 100), theSprite, particleCount);
                 theParticle.velocity = new Vector2(randomXVelocity / 20 - 0.5f, randomYVelocity / 20 - 0.5f);
 
                 theParticles.Add(theParticle);
+                grid.AddParticle(theParticle);
 
                 particleCount++;
                 currentNumParticles--;
@@ -148,7 +158,7 @@ namespace Blob_P2
         {
             if (currentNumParticles > 0)
             {
-                if (theParticles.Count < numParticles)
+                if (particleCount < maxParticles)
                 {
                     addParticles(1);
                 }
@@ -162,35 +172,39 @@ namespace Blob_P2
             BlobParticle theParticle;
             BlobParticle neighbourParticle;
             Spring newSpring;
+            Vector2 differenceVector;
+            int neighourCount;
 
             for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
-                for (int j = i + 1; j < particleCount; j++)
+                List<BlobParticle> neighbours = grid.GetNeighbours(theParticle);
+                neighourCount = neighbours.Count;
+                for (int j = 0; j < neighourCount; j++)
                 {
-                    neighbourParticle = theParticles[j];
+                    neighbourParticle = neighbours[j];
 
-                    Vector2 differenceVector = theParticle.position - neighbourParticle.position;
+                    differenceVector = theParticle.position - neighbourParticle.position;
                     float distance = differenceVector.Length();
 
-                    if (distance <= threshold && connected[i][j] == null)
+                    if (distance <= threshold && connected[theParticle.id][neighbourParticle.id] == null)
                     {
                         theParticle.addNeighbour(neighbourParticle);
                         neighbourParticle.addNeighbour(theParticle);
 
                         newSpring = new Spring(theParticle, neighbourParticle, springStiffness, springLength, springFriction);
-                        connected[i][j] = newSpring;
+                        connected[theParticle.id][neighbourParticle.id] = newSpring;
                     }
-                    else if (distance > disconnectThreshold && connected[i][j] != null)
+                    else if (distance > disconnectThreshold && connected[theParticle.id][neighbourParticle.id] != null)
                     {
                         theParticle.removeNeighbour(neighbourParticle);
                         neighbourParticle.removeNeighbour(theParticle);
-                        connected[i][j] = null;
+                        connected[theParticle.id][neighbourParticle.id] = null;
                     }
 
-                    if (connected[i][j] != null)
+                    if (connected[theParticle.id][neighbourParticle.id] != null)
                     {
-                        connected[i][j].solve();
+                        connected[theParticle.id][neighbourParticle.id].solve();
                     }
                 }
             }
@@ -202,12 +216,14 @@ namespace Blob_P2
             for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
+                grid.RemoveParticle(theParticle);
                 theParticle.position += theParticle.velocity;
 
                 // Apply Gravity
                 theParticle.applyForce(gravity);
 
                 simpleCollisionDetection(theParticle);
+                grid.AddParticle(theParticle);
             }
         }
 
