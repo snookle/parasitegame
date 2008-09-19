@@ -16,3 +16,21 @@ C:\benk\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Debug\Blob_P2.exe
 C:\benk\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Debug\Blob_P2.pdb
 C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Debug\Content\DebugFont.xnb
 E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Debug\Content\DebugFont.xnb
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Debug\Content\Sprites\Particle.xnb
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Debug\Content\DebugFont.xnb
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Debug\Blob_P2.exe
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Debug\Blob_P2.pdb
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Debug\Blob_P2.obj.x86.Debug.Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Debug\Blob_P2.exe
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Debug\Blob_P2.pdb
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\Sprites\Particle.xnb
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\DebugFont.xnb
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Blob_P2.exe
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Blob_P2.pdb
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Release\ResolveAssemblyReference.cache
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Release\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Release\Blob_P2.obj.x86.Release.Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Release\Blob_P2.exe
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Release\Blob_P2.pdb

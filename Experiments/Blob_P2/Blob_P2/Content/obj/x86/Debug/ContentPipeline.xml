@@ -7,8 +7,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Debug\Content\Sprites\Particle.xnb</Output>
-      <Time>2008-09-19T15:27:15.230669+10:00</Time>
+      <Output>C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Debug\Content\Sprites\Particle.xnb</Output>
+      <Time>2008-09-19T20:12:46.769375+10:00</Time>
     </Item>
     <Item>
       <Source>DebugFont.spritefont</Source>
@@ -16,38 +16,38 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Debug\Content\DebugFont.xnb</Output>
-      <Time>2008-09-19T15:23:11.859527+10:00</Time>
+      <Output>C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Debug\Content\DebugFont.xnb</Output>
+      <Time>2008-09-19T20:12:47.12875+10:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
       <BuildConfiguration>Debug</BuildConfiguration>
-      <RootDirectory>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\Content\</RootDirectory>
-      <LoggerRootDirectory>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\</LoggerRootDirectory>
-      <IntermediateDirectory>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\Content\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\dev\parasite\Experiments\Blob_P2\Blob_P2\Content\</RootDirectory>
+      <LoggerRootDirectory>C:\dev\parasite\Experiments\Blob_P2\Blob_P2\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\dev\parasite\Experiments\Blob_P2\Blob_P2\Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
-        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
-        <Value>2007-11-28T13:08:00+10:00</Value>
+        <Key>E:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2007-11-28T14:08:00+11:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
-        <Value>2007-11-28T13:08:42+10:00</Value>
+        <Key>E:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2007-11-28T14:08:42+11:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
-        <Value>2007-11-28T13:08:30+10:00</Value>
+        <Key>E:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2007-11-28T14:08:30+11:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
-        <Value>2007-11-28T13:07:44+10:00</Value>
+        <Key>E:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2007-11-28T14:07:44+11:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Windows\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\2.0.0.0__6d5c3888ef60e27d\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2008-07-03T17:44:33.0977515+10:00</Value>
+        <Key>E:\WINDOWS\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\2.0.0.0__6d5c3888ef60e27d\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2008-07-05T18:00:19.359375+10:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

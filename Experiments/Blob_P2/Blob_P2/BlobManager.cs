@@ -23,7 +23,7 @@ namespace Blob_P2
         public Texture2D theSprite;
         private Spring[][] connected;
 
-        private int drawingOffset = 100;
+        private int drawingOffset = 10;
 
         // Spatial Grid
         private SpatialGrid grid;
@@ -91,6 +91,9 @@ namespace Blob_P2
             spriteBatch.DrawString(spriteFont, particleCount.ToString(), new Vector2(10, 10), Color.Black);
             Vector2 mousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
             float theDistance;
+            List<BlobParticle> theNeighbours;
+            int neighbourCount;
+            int j;
             for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
@@ -104,9 +107,10 @@ namespace Blob_P2
                     // Mouseover
                     theParticle.colour = Color.Red;
                     // Set Neighbour Colour
-                    List<BlobParticle> theNeighbours = grid.GetNeighbours(theParticle);
+                    theNeighbours = grid.GetNeighbours(theParticle);
                     spriteBatch.DrawString(spriteFont, "Num Neighbours : "+theNeighbours.Count.ToString(), new Vector2(10, 20), Color.Black);
-                    for (int j = 0; j < theNeighbours.Count; j++)
+                    neighbourCount = theNeighbours.Count;
+                    for (j = 0; j < neighbourCount; j++)
                     {
                         this.spriteBatch.Draw(theSprite, theNeighbours[j].position, null, Color.Chartreuse, 0, theNeighbours[j].centre, 1, SpriteEffects.None, 0);
                     }
@@ -195,21 +199,46 @@ namespace Blob_P2
                 }
             }
             moveParticles();
-            checkSprings();
+           // checkSprings();
         }
 
         public void checkSprings()
         {
-            BlobParticle theParticle;
+            /*BlobParticle theParticle;
             BlobParticle neighbourParticle;
-            Spring newSpring;
             Vector2 differenceVector;
             int neighourCount;
+            List<BlobParticle> neighbours;
 
+           /* for (int i = 0; i < particleCount; i++)
+            {
+ 
+
+                
+            }*/
+        }
+
+        public void moveParticles()
+        {
+            BlobParticle theParticle;
+            BlobParticle neighbourParticle;
+            Vector2 differenceVector;
+            int neighourCount;
+            List<BlobParticle> neighbours;
             for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
-                List<BlobParticle> neighbours = grid.GetNeighbours(theParticle);
+                grid.RemoveParticle(theParticle);
+                theParticle.position += theParticle.velocity;
+
+                // Apply Gravity
+                theParticle.applyForce(gravity);
+
+                simpleCollisionDetection(theParticle);
+                grid.AddParticle(theParticle);
+
+                //BEGIN CHECK SPRINGS
+                neighbours = grid.GetNeighbours(theParticle);
                 neighourCount = neighbours.Count;
                 for (int j = 0; j < neighourCount; j++)
                 {
@@ -223,8 +252,7 @@ namespace Blob_P2
                         theParticle.addNeighbour(neighbourParticle);
                         neighbourParticle.addNeighbour(theParticle);
 
-                        newSpring = new Spring(theParticle, neighbourParticle, springStiffness, springLength, springFriction);
-                        connected[theParticle.id][neighbourParticle.id] = newSpring;
+                        connected[theParticle.id][neighbourParticle.id] = new Spring(theParticle, neighbourParticle, springStiffness, springLength, springFriction);
                     }
                     else if (distance > disconnectThreshold && connected[theParticle.id][neighbourParticle.id] != null)
                     {
@@ -238,25 +266,7 @@ namespace Blob_P2
                         connected[theParticle.id][neighbourParticle.id].solve();
                     }
                 }
-
-                
-            }
-        }
-
-        public void moveParticles()
-        {
-            BlobParticle theParticle;
-            for (int i = 0; i < particleCount; i++)
-            {
-                theParticle = theParticles[i];
-                grid.RemoveParticle(theParticle);
-                theParticle.position += theParticle.velocity;
-
-                // Apply Gravity
-                theParticle.applyForce(gravity);
-
-                simpleCollisionDetection(theParticle);
-                grid.AddParticle(theParticle);
+                //END CHECK SPRINGS
             }
         }
 
