@@ -13,7 +13,10 @@ namespace Blob_P2
         public BlobParticle object1;        // First Mass @ Tip of Spring
         public BlobParticle object2;        // Second Mass @ Other Spring
 
-        public float springConstant;
+        public float springYeildRatio = 0.3f;
+        public float plasticityConstant = 0.3f;
+
+        public float springConstant;        // Stiffness
         public float springLength;
         public float frictionConstant;
 
@@ -42,6 +45,8 @@ namespace Blob_P2
             if (r != 0)
             {
                 // Spring Force Applied
+
+
                 Vector2 temp = (springVector / r) * ((r - springLength) * (-springConstant));
                 force += temp;
             }
@@ -54,7 +59,41 @@ namespace Blob_P2
             object2.applyForce(force * -1);
         }
 
+        public void viscoSolve()
+        {
+            Vector2 springVector = object2.position - object1.position;
+            Vector2 force = Vector2.Zero;
 
+            float theDistance = springVector.Length();
+
+            if (theDistance != 0)
+            {
+                float deformation = springYeildRatio * theDistance;
+
+                if (theDistance > (springLength + deformation))
+                {
+                    // Stretch
+                    springLength += plasticityConstant * (theDistance - springLength - deformation);
+                }
+                else if (theDistance < (springLength - deformation))
+                {
+                    // Compress
+                    springLength -= plasticityConstant * (springLength - deformation - theDistance);
+                }
+
+                float displacementValue = springConstant * (1 - (springLength / 20)) * (springLength - theDistance);
+
+                Vector2 unitR = Vector2.Normalize(springVector);
+                force += (unitR * displacementValue) / 2;
+
+                //Vector2 frictionForce = object1.velocity - object2.velocity;
+                //frictionForce *= -frictionConstant;
+                //force += frictionForce;
+
+                object1.applyForce(force * -1);
+                object2.applyForce(force);         
+            }
+        }
 
 
     }

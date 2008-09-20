@@ -41,6 +41,11 @@ namespace Blob_P2
         public float springLength = 20;
         public float springFriction = 0.1f;
 
+        // DDR
+        private float restDensity = 20f;
+        private float stiffness = 0.5f;
+        private float nearStiffness = 0.01f;
+
         private SpriteBatch spriteBatch;
         private SpriteFont spriteFont;
 
@@ -174,11 +179,31 @@ namespace Blob_P2
             {
                 Random RandomGenerator = new Random();
 
-                float randomXVelocity = RandomGenerator.Next(20);
-                float randomYVelocity = RandomGenerator.Next(20);
+                float randomXVelocity = 1;
 
-                BlobParticle theParticle = new BlobParticle(new Vector2(300, 100), theSprite, particleCount);
-                theParticle.velocity = new Vector2(randomXVelocity / 20 - 0.5f, randomYVelocity / 20 - 0.5f);
+                float xPos = Mouse.GetState().X;
+                float yPos = Mouse.GetState().Y;
+
+                if (xPos < drawingOffset)
+                {
+                    xPos = drawingOffset + 1;
+                }
+                else if (xPos > 800 - drawingOffset)
+                {
+                    xPos = 800 - drawingOffset - 1;
+                }
+
+                if (yPos < 0)
+                {
+                    yPos = 1;
+                }
+                else if (yPos > 500)
+                {
+                    yPos = 499;
+                }
+
+                BlobParticle theParticle = new BlobParticle(new Vector2(xPos, yPos), theSprite, particleCount);
+                theParticle.velocity = new Vector2(0,0);
 
                 theParticles.Add(theParticle);
                 grid.AddParticle(theParticle);
@@ -199,6 +224,7 @@ namespace Blob_P2
                 }
             }
             moveParticles();
+           // doubleDensityRelaxation();
            // checkSprings();
         }
 
@@ -263,7 +289,9 @@ namespace Blob_P2
 
                     if (connected[theParticle.id][neighbourParticle.id] != null)
                     {
+                        //connected[theParticle.id][neighbourParticle.id].viscoSolve();
                         connected[theParticle.id][neighbourParticle.id].solve();
+
                     }
                 }
                 //END CHECK SPRINGS
@@ -273,6 +301,106 @@ namespace Blob_P2
         public void applyViscosity()
         {
 
+        }
+
+        public void doubleDensityRelaxation()
+        {
+            //foreach (BlobParticle theParticle in theParticles)
+            BlobParticle theParticle;
+            BlobParticle theNeighbour;
+
+            Vector2 differenceVector;
+
+            int neighbourCount;
+
+            float density;
+            float nearDensity;
+
+            int i;
+            int j;
+
+            float theDistance;
+            float q;
+
+            float pressure;
+            float nearPressure;
+
+            Vector2 unitR;
+
+            Vector2 displacement;
+
+            Vector2 dx;
+
+            for (i = 0; i < theParticles.Count; i++)
+            {
+                theParticle = theParticles[i];
+                density = 0;
+                nearDensity = 0;
+
+                List<BlobParticle> theNeighbours = grid.GetNeighbours(theParticle);
+                neighbourCount = theNeighbours.Count;
+
+                for (j = 0; j < neighbourCount; j++)
+                {
+                    theNeighbour = theNeighbours[j];
+
+                    differenceVector = theNeighbour.position - theParticle.position;
+                    if (differenceVector.X == 0 && differenceVector.Y == 0)
+                    {
+                        differenceVector.X = 0.000001f;
+                        differenceVector.Y = 0.000001f;
+                    }
+
+                    theDistance = differenceVector.Length();
+
+                    q = theDistance / threshold;
+
+                    if (q < 1)
+                    {
+                        density += (float)Math.Pow((1 - q), 2);
+                        nearDensity += (float)Math.Pow((1 - q), 3);
+                    }
+                }
+
+                // Compute Pressure and Near Pressure
+                pressure = stiffness * (density - restDensity);
+                nearPressure = nearStiffness * nearDensity;
+
+                dx = Vector2.Zero;
+
+                //foreach (BlobParticle theNeighbour in theNeighbours)
+                for (j = 0; j < neighbourCount; j++)
+                {
+                    theNeighbour = theNeighbours[j];
+
+                    differenceVector = theNeighbour.position - theParticle.position;
+                    if (differenceVector.X == 0 && differenceVector.Y == 0)
+                    {
+                        differenceVector.X = 0.000001f;
+                        differenceVector.Y = 0.000001f;
+                    }
+
+                    theDistance = differenceVector.Length();
+
+                    q = theDistance / threshold;
+
+                    if (q < 1)
+                    {
+                        // Get Unit Vector
+                        unitR = Vector2.Normalize(differenceVector);
+
+                        // Apply Displacements
+                        float displacementValue = (pressure * (1 - q)) + (nearPressure * (float)Math.Pow((1 - q), 2));
+
+                        displacement = (unitR * displacementValue) / 2;
+
+                        theNeighbour.applyForce(displacement);
+
+                        dx -= displacement;
+                    }
+                }
+                theParticle.applyForce(dx);
+            }
         }
 
         private void simpleCollisionDetection(BlobParticle theParticle)
