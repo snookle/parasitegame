@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Blob_P2
 {
-    class BlobParticle
+    class BlobParticle : PhysicsObject
     {
         public Vector2 velocity;
         public Vector2 position;
@@ -16,9 +16,11 @@ namespace Blob_P2
         public Texture2D sprite;
         public Color colour = Color.Black;
 
-        public List<BlobParticle> neighbours;
+        public float threshold = 20;
+        public float disconnectThreshold = 20;
+        public int numLinks = 6;
 
-        public int id;
+        public List<BlobParticle> neighbours;
 
         public BlobParticle(Vector2 position, Texture2D sprite, int id)
         {

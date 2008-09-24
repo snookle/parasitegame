@@ -31,10 +31,6 @@ namespace Blob_P2
         // Forces
         public Vector2 gravity = new Vector2(0, 0.5f);
 
-        public float threshold = 20;
-        public float disconnectThreshold = 20;
-        public int numLinks = 6;
-
         // Spring Variables
         private List<Spring> theSprings;
         public float springStiffness = 0.3f;
