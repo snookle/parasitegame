@@ -25,6 +25,10 @@ namespace Blob_P2
 
         private int drawingOffset = 10;
 
+        public float threshold = 20;
+        public float disconnectThreshold = 20;
+        public int numLinks = 6;
+
         // Spatial Grid
         private SpatialGrid grid;
         
@@ -47,6 +51,11 @@ namespace Blob_P2
 
         private bool simulating = true;
 
+        VertexPositionColor[] line;         // Start / End Points
+        Matrix world, projection, view;             // Transformation matrix
+        BasicEffect basicEffect;                    // Standard Drawing Effects
+        VertexDeclaration vertexDeclaration; 
+
         public BlobManager(Game game)
             : base(game)
         {
@@ -60,8 +69,15 @@ namespace Blob_P2
         public override void Initialize()
         {
             // TODO: Add your initialization code here
-
             base.Initialize();
+            vertexDeclaration = new VertexDeclaration(GraphicsDevice, VertexPositionNormalTexture.VertexElements);
+
+            line = new VertexPositionColor[2];
+
+            basicEffect = new BasicEffect(GraphicsDevice, null);
+            basicEffect.DiffuseColor = new Vector3(0.5f, 0.2f, 0.2f);
+            basicEffect.Alpha = 0.5f;
+
         }
 
         /// <summary>
@@ -69,13 +85,12 @@ namespace Blob_P2
         /// </summary>
         protected override void LoadContent()
         {
+            base.LoadContent();
             spriteBatch = new SpriteBatch(this.GraphicsDevice);
             theSprite = this.Game.Content.Load<Texture2D>("Sprites\\Particle");
             spriteFont = Game.Content.Load<SpriteFont>("DebugFont");
             
             initSimulation();
-
-            base.LoadContent();
         }
 
         /// <summary>
@@ -84,8 +99,6 @@ namespace Blob_P2
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Draw(GameTime gameTime)
         {
-            // TODO: Add your drawing code here
-
             this.spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None);
 
             BlobParticle theParticle;
@@ -114,6 +127,16 @@ namespace Blob_P2
                     for (j = 0; j < neighbourCount; j++)
                     {
                         this.spriteBatch.Draw(theSprite, theNeighbours[j].position, null, Color.Chartreuse, 0, theNeighbours[j].centre, 1, SpriteEffects.None, 0);
+                        
+                        line[0] = new VertexPositionColor(new Vector3(theNeighbours[j].position, 0), Color.Red);
+                        line[1] = new VertexPositionColor(new Vector3(theParticle.position, 0), Color.Red);
+
+                        foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
+                        {
+                            pass.Begin();
+                            GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColor>(PrimitiveType.LineList, line, 0, 2, new short[2] { 0, 1 }, 0, 1);
+                            pass.End();
+                        }
                     }
                 }
                 this.spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 1, SpriteEffects.None, 1);

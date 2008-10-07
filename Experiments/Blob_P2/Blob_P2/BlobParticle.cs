@@ -16,10 +16,6 @@ namespace Blob_P2
         public Texture2D sprite;
         public Color colour = Color.Black;
 
-        public float threshold = 20;
-        public float disconnectThreshold = 20;
-        public int numLinks = 6;
-
         public List<BlobParticle> neighbours;
 
         public BlobParticle(Vector2 position, Texture2D sprite, int id)
