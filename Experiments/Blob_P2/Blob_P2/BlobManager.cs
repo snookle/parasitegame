@@ -35,6 +35,14 @@ namespace Blob_P2
         // Forces
         public Vector2 gravity = new Vector2(0, 0.5f);
 
+<<<<<<< .mine
+        public float threshold = 20;
+        public float disconnectThreshold = 20;
+        public int numLinks = 6;
+        public float particleRadius = 5.0f;
+
+=======
+>>>>>>> .r129
         // Spring Variables
         private List<Spring> theSprings;
         public float springStiffness = 0.3f;
@@ -198,7 +206,7 @@ namespace Blob_P2
             {
                 Random RandomGenerator = new Random();
 
-                float randomXVelocity = 1;
+                float randomXVelocity = 5;
 
                 float xPos = Mouse.GetState().X;
                 float yPos = Mouse.GetState().Y;
@@ -221,8 +229,8 @@ namespace Blob_P2
                     yPos = 499;
                 }
 
-                BlobParticle theParticle = new BlobParticle(new Vector2(xPos, yPos), theSprite, particleCount);
-                theParticle.velocity = new Vector2(0,0);
+                BlobParticle theParticle = new BlobParticle(new Vector2(xPos, yPos), theSprite, particleCount, particleRadius);
+                theParticle.velocity = new Vector2(5,5);
 
                 theParticles.Add(theParticle);
                 grid.AddParticle(theParticle);
@@ -428,11 +436,17 @@ namespace Blob_P2
             if (theParticle.position.X < 0 + drawingOffset)
             {
                 theParticle.velocity.X *= -0.5f;
+                if (theParticle.velocity.X < 2.0f && theParticle.velocity.X > -2.0f)
+                    theParticle.velocity.X = 0.0f;
+            
                 theParticle.position.X = 0 + drawingOffset;
             }
             else if (theParticle.position.X > 800 - drawingOffset)
             {
                 theParticle.velocity.X *= -0.5f;
+                if (theParticle.velocity.X < 2.0f && theParticle.velocity.X > -2.0f)
+                    theParticle.velocity.X = 0.0f;
+            
                 theParticle.position.X = 800 - drawingOffset;
             }
 
@@ -444,6 +458,8 @@ namespace Blob_P2
             else if (theParticle.position.Y > 500)
             {
                 theParticle.velocity.Y *= -0.5f;
+                if (theParticle.velocity.Y < 2.0f && theParticle.velocity.Y > -2.0f )
+                    theParticle.velocity.Y = 0.0f;
                 theParticle.position.Y = 500;
             }
         }

@@ -15,14 +15,19 @@ namespace Blob_P2
         public Vector2 centre;
         public Texture2D sprite;
         public Color colour = Color.Black;
+        public float radius;
+        public float radiusSquared;
 
         public List<BlobParticle> neighbours;
 
-        public BlobParticle(Vector2 position, Texture2D sprite, int id)
+        public BlobParticle(Vector2 position, Texture2D sprite, int id, float radius)
         {
             this.position = position;
             this.sprite = sprite;
             this.id = id;
+
+            this.radius = radius;
+            this.radiusSquared = radius * radius;
 
             centre = new Vector2(sprite.Width / 2, sprite.Height / 2);
 

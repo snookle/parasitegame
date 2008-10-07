@@ -59,7 +59,11 @@
     <Compile Include="BlobManager.cs" />
     <Compile Include="BlobParticle.cs" />
     <Compile Include="FrameRateCounter.cs" />
+<<<<<<< .mine
+    <Compile Include="MarchingCube.cs" />
+=======
     <Compile Include="PhysicsObject.cs" />
+>>>>>>> .r129
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
