@@ -34,3 +34,12 @@ C:\dev\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Release\Microsoft.Xna.Framew
 C:\dev\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Release\Blob_P2.obj.x86.Release.Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\dev\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Release\Blob_P2.exe
 C:\dev\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Release\Blob_P2.pdb
+C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\Sprites\Particle.xnb
+C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\DebugFont.xnb
+C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Blob_P2.exe
+C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Blob_P2.pdb
+C:\benk\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Release\ResolveAssemblyReference.cache
+C:\benk\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Release\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\benk\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Release\Blob_P2.obj.x86.Release.Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\benk\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Release\Blob_P2.exe
+C:\benk\parasite\Experiments\Blob_P2\Blob_P2\obj\x86\Release\Blob_P2.pdb
