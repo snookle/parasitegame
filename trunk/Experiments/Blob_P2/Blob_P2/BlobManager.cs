@@ -28,6 +28,7 @@ namespace Blob_P2
         public float threshold = 20;
         public float disconnectThreshold = 20;
         public int numLinks = 6;
+        public float particleRadius = 5.0f;
 
         // Spatial Grid
         private SpatialGrid grid;
@@ -35,14 +36,6 @@ namespace Blob_P2
         // Forces
         public Vector2 gravity = new Vector2(0, 0.5f);
 
-<<<<<<< .mine
-        public float threshold = 20;
-        public float disconnectThreshold = 20;
-        public int numLinks = 6;
-        public float particleRadius = 5.0f;
-
-=======
->>>>>>> .r129
         // Spring Variables
         private List<Spring> theSprings;
         public float springStiffness = 0.3f;
@@ -107,10 +100,9 @@ namespace Blob_P2
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Draw(GameTime gameTime)
         {
-            this.spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None);
-
-            BlobParticle theParticle;
+            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.SaveState);
             spriteBatch.DrawString(spriteFont, particleCount.ToString(), new Vector2(10, 10), Color.Black);
+            BlobParticle theParticle;
             Vector2 mousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
             float theDistance;
             List<BlobParticle> theNeighbours;
@@ -132,13 +124,12 @@ namespace Blob_P2
                     theNeighbours = grid.GetNeighbours(theParticle);
                     spriteBatch.DrawString(spriteFont, "Num Neighbours : "+theNeighbours.Count.ToString(), new Vector2(10, 20), Color.Black);
                     neighbourCount = theNeighbours.Count;
+                    basicEffect.Begin();
                     for (j = 0; j < neighbourCount; j++)
                     {
-                        this.spriteBatch.Draw(theSprite, theNeighbours[j].position, null, Color.Chartreuse, 0, theNeighbours[j].centre, 1, SpriteEffects.None, 0);
-                        
-                        line[0] = new VertexPositionColor(new Vector3(theNeighbours[j].position, 0), Color.Red);
-                        line[1] = new VertexPositionColor(new Vector3(theParticle.position, 0), Color.Red);
-
+                        spriteBatch.Draw(theSprite, theNeighbours[j].position, null, Color.Chartreuse, 0, theNeighbours[j].centre, 1, SpriteEffects.None, 0);
+                        line[0] = new VertexPositionColor(new Vector3((theNeighbours[j].position.X / 400) - 1, ((theNeighbours[j].position.Y / 300) - 1) * -1, 0), Color.Black);
+                        line[1] = new VertexPositionColor(new Vector3((theParticle.position.X / 400) - 1, ((theParticle.position.Y / 300) - 1) * -1, 0), Color.Black);
                         foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
                         {
                             pass.Begin();
@@ -146,11 +137,12 @@ namespace Blob_P2
                             pass.End();
                         }
                     }
+                    basicEffect.End();
                 }
-                this.spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 1, SpriteEffects.None, 1);
-            }
-            this.spriteBatch.End();
+                spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 1, SpriteEffects.None, 1);
 
+            }
+            spriteBatch.End();
             base.Draw(gameTime);
         }
 

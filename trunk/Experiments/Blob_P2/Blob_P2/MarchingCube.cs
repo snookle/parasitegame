@@ -17,10 +17,17 @@ namespace Blob_P2
         byte TOPRIGHT = (1 << 1);
         byte BOTTOMLEFT = (1 << 2);
         byte BOTTOMRIGHT = (1 << 3);
+        byte CORNERALL;
+        byte CORNERNONE = 0;
 
-        public MarchingCube()
+        Vector2 SkinStartLocation;
+
+        float threshold;
+
+        public MarchingCube(float threshold)
         {
-
+            this.threshold = threshold;
+            this.CORNERALL = (byte)(TOPLEFT | TOPRIGHT | BOTTOMLEFT | BOTTOMRIGHT);
         }
 
         public float CalculateFieldStrength(BlobParticle particle, Vector2 point)
@@ -40,83 +47,47 @@ namespace Blob_P2
         {
             int i = 0;
             int j = 0;
-
-            for (var i = 0; i < numXDivisions; i++)
+            //SkinStartLocation = null;
+            for (i = 0; i < numXDivisions; i++)
             {
-                for (var j = 0; j < numYDivisions; j++)
+                for (j = 0; j < numYDivisions; j++)
                 {
                     CheckCorners(i, j, ref particles);
                 }
             }
         }
 
-        private void checkCorners(int xValue, int yValue, ref List<BlobParticle> particles)
+        private byte CheckCorners(int xValue, int yValue, ref List<BlobParticle> particles)
         {
-			// Boolean array holds corner values
-			// [0,1,2,3]
-			//
-			// or in the square : 
-			//
-			// 0 1
-			// 2 3
-			
-			byte corners = 0;
+			byte corners = CORNERNONE;
 			bool checkValue = false;
 			int particleCount = particles.Count;
             Vector2 topLeft = new Vector2(xValue * boxWidth, yValue * boxHeight);
-			Vector2 topRight = new Vector2((xValue * boxWidth) + boxWidth, TopLeft.Y);
+			Vector2 topRight = new Vector2((xValue * boxWidth) + boxWidth, topLeft.Y);
 			Vector2 bottomLeft = new Vector2(topLeft.X, (yValue * boxHeight) + boxHeight);
 			Vector2 bottomRight = new Vector2(topRight.X, bottomLeft.Y);
             BlobParticle particle;
 
             for (int i = 0; i < particleCount; i++) {		
-				// Top Left
                 particle = particles[i];
 				if (Vector2.Distance(particle.position, topLeft) <= threshold) {
 					corners |= TOPLEFT;
 				} else if (Vector2.Distance(particle.position, topRight) <= threshold) {
-					corners |
-					if(dotHighlight){
-						highlightSprite.graphics.beginFill(0x88D372, 0.5);
-						highlightSprite.graphics.drawCircle(topRightX, topRightY, 2);
-						highlightSprite.graphics.endFill();
-					}
-				}
-				
-				// Bottom Left
-				if (getDistance(theParticles[i], bottomLeftX, bottomLeftY) <= threshold) {
-					booleanArray[2] = true;
-					if(dotHighlight){
-						highlightSprite.graphics.beginFill(0x88D372, 0.5);
-						highlightSprite.graphics.drawCircle(bottomLeftX, bottomLeftY, 2);
-						highlightSprite.graphics.endFill();
-					}
-				}
-				
-				// Bottom Right
-				if (getDistance(theParticles[i], bottomRightX, bottomRightY) <= threshold) {
-					booleanArray[3] = true;
-					if(dotHighlight){
-						highlightSprite.graphics.beginFill(0x88D372, 0.5);
-						highlightSprite.graphics.drawCircle(bottomRightX, bottomRightY, 2);
-						highlightSprite.graphics.endFill();
-					}
+					corners |= TOPRIGHT;
+				} else if (Vector2.Distance(particle.position, bottomLeft) <= threshold) {
+                    corners |= BOTTOMLEFT;
+				} else if (Vector2.Distance(particle.position, bottomRight) <= threshold) {
+                    corners |= BOTTOMRIGHT;				
 				}
 			}
 			
 			
-			if (booleanArray[0] == false && booleanArray[1] == false && booleanArray[2] == false && booleanArray[3] == false) {
-				// if all 4 corners are empty...Do nothing
-				return null
-			} else if (booleanArray[0] == true && booleanArray[1] == true && booleanArray[2] == true && booleanArray[3] == true) {
-				// If all 4 corners are full... Do nothing
-				return null
+			if (corners == CORNERNONE || corners == CORNERALL) {
+				// if all 4 corners are empty or full...Do nothing
+                return 0;
 			} else {
-				if (showSkin) {
-					// Draw the skin for the selected point...
-					drawSkin(booleanArray, xValue, yValue);
-				}
-				return booleanArray;
+                SkinStartLocation = (SkinStartLocation == null ? new Vector2(xValue, yValue) : SkinStartLocation);
+				return corners;
 			}
 		}
     }

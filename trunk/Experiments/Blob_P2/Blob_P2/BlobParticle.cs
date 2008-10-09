@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Blob_P2
 {
-    class BlobParticle : PhysicsObject
+    class BlobParticle
     {
         public Vector2 velocity;
         public Vector2 position;
@@ -17,6 +17,7 @@ namespace Blob_P2
         public Color colour = Color.Black;
         public float radius;
         public float radiusSquared;
+        public int id;
 
         public List<BlobParticle> neighbours;
 
