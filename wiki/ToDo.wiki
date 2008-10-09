@@ -43,6 +43,11 @@ if(has neighbours){
   * STEP 3 : Place a series of 'perimeter springs' around the circumference of the blob
   * STEP 4 : Use Drawing Tools to draw skin, using Perimeter springs as guide points
  * Drawing of exterior blob surface
+  * Set up a texture as Render Target
+  * Render each particle to render Target as a Blob, 255 alpha @ centre, 0 at edges.
+  * Create a pixel shader that will draw the pixel if its alpha value is above a certain threshold
+  * Draw that texture to the screen using that pixel shader
+   * if(Color.r<0.2 || Color.r>0.8) Color.r=0.0f; else Color.r = 1.0f;
  * Need to figure out how to handle cases where small blobs consist of less particles than max neighbours.
  ===Centre of Gravity ( ie, to form 'ball' )===
  * Experiment with this anyway, we'll see how it works.  Last on the 'to do' list imo
