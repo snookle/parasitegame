@@ -36,13 +36,7 @@ if(has neighbours){
 }
 }}}
 
- * Any particles that have less than the max neighbours are considered to be on the "outside" of the blob.
-  * STEP 1 : Determine which particles are on the inside, and which are on the outside 
-   * In Demo Program, Change colour of those particles with all points full
-  * STEP 2 : Determine particle dense point ( ie 'centre' ) or perpendicular angle ( to know which direction the 'outside' is
-  * STEP 3 : Place a series of 'perimeter springs' around the circumference of the blob
-  * STEP 4 : Use Drawing Tools to draw skin, using Perimeter springs as guide points
- * Drawing of exterior blob surface
+ * Drawing of exterior blob surface *TONIGHT!*
   * Set up a texture as Render Target
   * Render each particle to render Target as a Blob, 255 alpha @ centre, 0 at edges.
   * Create a pixel shader that will draw the pixel if its alpha value is above a certain threshold
