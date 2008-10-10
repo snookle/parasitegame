@@ -27,11 +27,10 @@ namespace IKParasite_xna
 
         public IKMember(ParasiteBodyPart skin)
         {
-            distance = 20;      // default distance
+            distance = 10;      // default distance
             this.skin = skin;
             
-            // init nnb and fpr
-
+            // init nnb
             nnb = new List<IKMember>();            
         }
 
@@ -85,7 +84,7 @@ namespace IKParasite_xna
                 MakeMove(this, father);
             }
 
-            SetAngle(father);
+            // SetAngle(father);
 
             for (int i = 0; i < nnb.Count; i++)
             {
@@ -100,15 +99,15 @@ namespace IKParasite_xna
         {
             if (!lockAngle)
             {
-                float dx = father.skin.position.X - child.skin.position.X;
-                float dy = father.skin.position.Y - child.skin.position.Y;
+                float dy = child.skin.position.Y - father.skin.position.Y;
+                float dx = child.skin.position.X - father.skin.position.X;
                 float a1 = (float)Math.Atan2(dy, dx);
 
                 currentAngle = a1;
 
                 child.skin.position.X = father.skin.position.X + (float)Math.Cos(a1) * distance;
                 child.skin.position.Y = father.skin.position.Y + (float)Math.Sin(a1) * distance;
-                child.skin.rotation = (float)((Math.PI * a1) * 180 / Math.PI);
+                //child.skin.rotation = (float)((Math.PI * a1) * 180 / Math.PI);
             }
             else
             {

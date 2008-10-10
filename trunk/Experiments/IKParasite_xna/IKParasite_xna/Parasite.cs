@@ -63,7 +63,7 @@ namespace IKParasite_xna
 			 * -Tail
 			 */
             init();
-            CreateParasite(3);
+            CreateParasite(10);
         }
 
         /// <summary>
@@ -91,10 +91,14 @@ namespace IKParasite_xna
 
             for (int i = 0; i < bodyparts.Count; i++)
             {
-                spriteBatch.Draw(theSprite, bodyparts[i].position, null, Color.White, bodyparts[i].rotation, bodyparts[i].centre, 1, SpriteEffects.None, 1);
+                //spriteBatch.Draw(theSprite, bodyparts[i].position, null, Color.White, bodyparts[i].rotation, bodyparts[i].centre, 1, SpriteEffects.None, 1);
+                float scale = (bodyparts.Count - i);
+                scale /= bodyparts.Count;
+                spriteBatch.Draw(theSprite, bodyparts[i].position, null, Color.White, bodyparts[i].rotation, bodyparts[i].centre, new Vector2(scale, scale), SpriteEffects.None, 1);
             }
 
-            spriteBatch.Draw(theSprite, tail.position, null, Color.White, tail.rotation, tail.centre, 1, SpriteEffects.None, 1);
+            //spriteBatch.Draw(theSprite, tail.position, null, Color.White, tail.rotation, tail.centre, 1, SpriteEffects.None, 1);
+            spriteBatch.Draw(theSprite, tail.position, null, Color.White, tail.rotation, tail.centre, new Vector2(0.5f, 0.5f), SpriteEffects.None, 1);
 
             spriteBatch.End();
 
