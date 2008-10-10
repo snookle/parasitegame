@@ -155,7 +155,7 @@ namespace IKParasite_xna
 
             // IKPoints
 
-            IKMember headIK = new IKMember(head);
+            IKMember headIK = new IKMember(head,10);
             IKMember lastIK = headIK;
 
             IKMember currentIK;
@@ -165,7 +165,8 @@ namespace IKParasite_xna
             for (int i = 0; i < numParts; i++)
             {
                 theParasite.Add(bodyparts[i]);
-                currentIK = new IKMember(bodyparts[i]);
+
+                currentIK = new IKMember(bodyparts[i],10-i);
                  
                 if (i != 0)
                 {
@@ -180,8 +181,10 @@ namespace IKParasite_xna
             }
 
             theParasite.Add(tail);
-
-            currentIK = new IKMember(tail);
+            // Uncomment for Rad Wiggle Motion!
+            // currentIK = new IKMember(tail, 1);
+            
+            currentIK = new IKMember(tail, 10);
 
             currentIK.addNeighbour(lastIK);
             lastIK.addNeighbour(currentIK);
