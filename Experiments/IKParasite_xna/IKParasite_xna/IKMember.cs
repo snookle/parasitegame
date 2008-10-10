@@ -25,9 +25,9 @@ namespace IKParasite_xna
         public float currentAngle = 0;
         public bool rigid = false;
 
-        public IKMember(ParasiteBodyPart skin)
+        public IKMember(ParasiteBodyPart skin, float distance)
         {
-            distance = 10;      // default distance
+            this.distance = distance;      // default distance
             this.skin = skin;
             
             // init nnb
