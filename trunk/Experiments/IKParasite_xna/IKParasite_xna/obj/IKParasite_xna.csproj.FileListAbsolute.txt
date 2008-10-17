@@ -6,3 +6,5 @@ E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\IKParasite_xna\IKPara
 E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\IKParasite_xna\IKParasite_xna\obj\x86\Debug\IKParasite_xna.exe
 E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\IKParasite_xna\IKParasite_xna\obj\x86\Debug\IKParasite_xna.pdb
 E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\IKParasite_xna\IKParasite_xna\bin\x86\Debug\Content\Sprites\ParasiteBodyPart.xnb
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\IKParasite_xna\IKParasite_xna\bin\x86\Debug\Content\Sprites\BackgroundMask01.xnb
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\IKParasite_xna\IKParasite_xna\bin\x86\Debug\Content\Sprites\BackgroundMask02.xnb
