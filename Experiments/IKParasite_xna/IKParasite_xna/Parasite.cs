@@ -23,6 +23,9 @@ namespace IKParasite_xna
 
         private ParasiteTail tail;
 
+        private RenderTarget2D mBackgroundRender;
+        private RenderTarget2D mBackgroundRenderRotated;
+
         // Whole Parasite
         private List<ParasiteBodyPart> theParasite;
 
@@ -63,7 +66,7 @@ namespace IKParasite_xna
 			 * -Tail
 			 */
             init();
-            CreateParasite(10);
+            CreateParasite(1);
         }
 
         /// <summary>
@@ -76,6 +79,9 @@ namespace IKParasite_xna
             base.LoadContent();
             spriteBatch = new SpriteBatch(this.GraphicsDevice);
             theSprite = this.Game.Content.Load<Texture2D>("Sprites\\ParasiteBodyPart");
+
+            mBackgroundRender = new RenderTarget2D(this.GraphicsDevice, 100, 100, 1, SurfaceFormat.Color);
+            mBackgroundRenderRotated = new RenderTarget2D(this.GraphicsDevice, 100, 100, 1, SurfaceFormat.Color);
         }
 
         /// <summary>
@@ -91,14 +97,14 @@ namespace IKParasite_xna
 
             for (int i = 0; i < bodyparts.Count; i++)
             {
-                //spriteBatch.Draw(theSprite, bodyparts[i].position, null, Color.White, bodyparts[i].rotation, bodyparts[i].centre, 1, SpriteEffects.None, 1);
-                float scale = (bodyparts.Count - i);
-                scale /= bodyparts.Count;
-                spriteBatch.Draw(theSprite, bodyparts[i].position, null, Color.White, bodyparts[i].rotation, bodyparts[i].centre, new Vector2(scale, scale), SpriteEffects.None, 1);
+                spriteBatch.Draw(theSprite, bodyparts[i].position, null, Color.White, bodyparts[i].rotation, bodyparts[i].centre, 1, SpriteEffects.None, 1);
+                //float scale = (bodyparts.Count - i);
+                //scale /= bodyparts.Count;
+                //spriteBatch.Draw(theSprite, bodyparts[i].position, null, Color.White, bodyparts[i].rotation, bodyparts[i].centre, new Vector2(scale, scale), SpriteEffects.None, 1);
             }
 
-            //spriteBatch.Draw(theSprite, tail.position, null, Color.White, tail.rotation, tail.centre, 1, SpriteEffects.None, 1);
-            spriteBatch.Draw(theSprite, tail.position, null, Color.White, tail.rotation, tail.centre, new Vector2(0.5f, 0.5f), SpriteEffects.None, 1);
+            spriteBatch.Draw(theSprite, tail.position, null, Color.White, tail.rotation, tail.centre, 1, SpriteEffects.None, 1);
+            //spriteBatch.Draw(theSprite, tail.position, null, Color.White, tail.rotation, tail.centre, new Vector2(0.5f, 0.5f), SpriteEffects.None, 1);
 
             spriteBatch.End();
 
@@ -112,18 +118,37 @@ namespace IKParasite_xna
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
+            //Vector2 mousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+            //head.position = mousePos;
 
-            Vector2 mousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-            head.position = mousePos;
-            //head.IKPoint.moveTo(mousePos.X, mousePos.Y);
+            KeyboardState aKeyboard = Keyboard.GetState();
+            MouseState aMouse = Mouse.GetState();
+            Vector2 mousePos = new Vector2(aMouse.X,aMouse.Y);
 
-            //head.velocity.Y += 0.2f;
+            if (aKeyboard.IsKeyDown(Keys.Left))
+            {
+                head.position.X -= 1;
+            }
+            else if (aKeyboard.IsKeyDown(Keys.Right))
+            {
+                head.position.X += 1;
+            }
 
+            if ((tail.position - mousePos).Length() < 50)
+            {
+                tail.position = mousePos;
+                //head.position = mousePos;
+            }
+            
             for (int i = 0; i < theParasite.Count; i++)
             {
                 theParasite[i].Init();
                 theParasite[i].UpdatePoint();
             }
+            
+            //head.IKPoint.moveTo(mousePos.X, mousePos.Y);
+
+            //head.velocity.Y += 0.2f;
 
             base.Update(gameTime);
         }
@@ -139,6 +164,7 @@ namespace IKParasite_xna
             // Create the Tail
             tail = new ParasiteTail(theSprite, 1.0f);
             tail.position = new Vector2(150 + (50 * numParts), 100);
+            theParasite.Add(tail);
 
             // Create Body Parts
             for (int i = 0; i < numParts; i++)
@@ -155,7 +181,7 @@ namespace IKParasite_xna
 
             // IKPoints
 
-            IKMember headIK = new IKMember(head,10);
+            IKMember headIK = new IKMember(head, 10);
             IKMember lastIK = headIK;
 
             IKMember currentIK;
@@ -164,10 +190,8 @@ namespace IKParasite_xna
 
             for (int i = 0; i < numParts; i++)
             {
-                theParasite.Add(bodyparts[i]);
-
-                currentIK = new IKMember(bodyparts[i],10-i);
-                 
+                currentIK = new IKMember(bodyparts[i], 10);
+                  
                 if (i != 0)
                 {
                     currentIK.addNeighbour(lastIK);
@@ -175,21 +199,25 @@ namespace IKParasite_xna
 
                 lastIK.addNeighbour(currentIK);
                 bodyparts[i].AddIKPoint(currentIK);
-                lastIK = currentIK;
 
-                currentIK = null;
+                lastIK = currentIK;
+                //currentIK = null;
+                theParasite.Add(bodyparts[i]);
             }
 
-            theParasite.Add(tail);
             // Uncomment for Rad Wiggle Motion!
             // currentIK = new IKMember(tail, 1);
+
+            //currentIK = new IKMember(tail, 10);
             
-            currentIK = new IKMember(tail, 10);
+            IKMember tailIK = new IKMember(tail, 10);
 
-            currentIK.addNeighbour(lastIK);
-            lastIK.addNeighbour(currentIK);
+            tailIK.addNeighbour(lastIK);
+            lastIK.addNeighbour(tailIK);
 
-            tail.AddIKPoint(currentIK);
+            tail.AddIKPoint(tailIK);
+
+            //theParasite.Add(tail);
 
             tail.initTail();
         }

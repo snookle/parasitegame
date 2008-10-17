@@ -19,6 +19,9 @@ namespace IKParasite_xna
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        SpriteBatch mspriteBatch;
+        Texture2D mBackground;
+
         Parasite theParasite;
 
         public Game1()
@@ -54,6 +57,8 @@ namespace IKParasite_xna
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            mspriteBatch = new SpriteBatch(graphics.GraphicsDevice);
+            mBackground = Content.Load<Texture2D>("Sprites\\BackgroundMask01");
         }
 
         /// <summary>
@@ -92,6 +97,9 @@ namespace IKParasite_xna
             graphics.GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
+            mspriteBatch.Begin();
+            mspriteBatch.Draw(mBackground, new Rectangle(0, 0, mBackground.Width, mBackground.Height), Color.White);
+            mspriteBatch.End();
 
             base.Draw(gameTime);
         }

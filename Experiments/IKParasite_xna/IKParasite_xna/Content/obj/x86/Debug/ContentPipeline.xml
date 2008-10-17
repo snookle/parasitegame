@@ -10,6 +10,24 @@
       <Output>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\IKParasite_xna\IKParasite_xna\bin\x86\Debug\Content\Sprites\ParasiteBodyPart.xnb</Output>
       <Time>2008-10-10T00:01:53.5215975+10:00</Time>
     </Item>
+    <Item>
+      <Source>Sprites\BackgroundMask01.png</Source>
+      <Name>Sprites\BackgroundMask01</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\IKParasite_xna\IKParasite_xna\bin\x86\Debug\Content\Sprites\BackgroundMask01.xnb</Output>
+      <Time>2008-10-17T17:11:02.169692+10:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\BackgroundMask02.png</Source>
+      <Name>Sprites\BackgroundMask02</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\IKParasite_xna\IKParasite_xna\bin\x86\Debug\Content\Sprites\BackgroundMask02.xnb</Output>
+      <Time>2008-10-17T17:11:02.1745745+10:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
