@@ -64,6 +64,28 @@ namespace IKParasite_xna
 
             velocity *= 0.95f;
             position += velocity;
+
+            if (position.Y > 500)
+            {
+                position.Y = 500;
+                velocity.Y = 0;
+            }
+            else if (position.Y < 0)
+            {
+                position.Y = 0;
+                velocity.Y = 0;
+            }
+
+            if (position.X > 800)
+            {
+                position.X = 800;
+                velocity.X *= -0.5f;
+            }
+            else if (position.X < 0)
+            {
+                position.X = 0;
+                velocity.X *= -0.5f;
+            }
         }
 
         public void SpecialMovement()

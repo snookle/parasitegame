@@ -9,6 +9,7 @@ namespace IKParasite_xna
     {
         public IKMember father = null;
         public float distance;
+        public float defaultdistance;
         public String name = "";
 
         public ParasiteBodyPart skin;
@@ -19,7 +20,7 @@ namespace IKParasite_xna
 
         private List<IKMember> nnb;
 
-        public bool lockAngle;
+        public bool IKLocked;
         public float lockedAngle;
 
         public float currentAngle = 0;
@@ -27,7 +28,8 @@ namespace IKParasite_xna
 
         public IKMember(ParasiteBodyPart skin, float distance)
         {
-            this.distance = distance;      // default distance
+            this.distance = distance;
+            this.defaultdistance = distance;        // default distance
             this.skin = skin;
             
             // init nnb
@@ -95,9 +97,16 @@ namespace IKParasite_xna
             }
         }
 
+        public void lockAngle(Boolean locked)
+        {
+            IKLocked = locked;
+
+            lockedAngle = currentAngle;
+        }
+
         public void MakeMove(IKMember child, IKMember father)
         {
-            if (!lockAngle)
+            if (!IKLocked)
             {
                 float dy = child.skin.position.Y - father.skin.position.Y;
                 float dx = child.skin.position.X - father.skin.position.X;
@@ -112,6 +121,8 @@ namespace IKParasite_xna
             else
             {
                 // Locked angle code ?
+                child.skin.position.X = father.skin.position.X + (float)Math.Cos(lockedAngle) * distance;
+                child.skin.position.Y = father.skin.position.Y + (float)Math.Sin(lockedAngle) * distance;
             }
         }
 
