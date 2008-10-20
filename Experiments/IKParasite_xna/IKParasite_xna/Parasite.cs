@@ -33,8 +33,11 @@ namespace IKParasite_xna
         private bool leftMovement = false;
         private bool rightMovement = false;
 
+        private Vector2 gravity = new Vector2(0f, 0.9f);
+
         private bool rigid = false;
         private bool tailMoving = false;
+        private float launchForce;
 
         private Texture2D theSprite;
 
@@ -66,7 +69,7 @@ namespace IKParasite_xna
 			 * -Tail
 			 */
             init();
-            CreateParasite(1);
+            CreateParasite(6);
         }
 
         /// <summary>
@@ -93,18 +96,18 @@ namespace IKParasite_xna
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            spriteBatch.Draw(theSprite, head.position, null, Color.White, head.rotation, head.centre, 1, SpriteEffects.None, 1);
+            spriteBatch.Draw(theSprite, head.position, null, Color.White, 0, head.centre, 1, SpriteEffects.None, 1);
 
             for (int i = 0; i < bodyparts.Count; i++)
             {
-                spriteBatch.Draw(theSprite, bodyparts[i].position, null, Color.White, bodyparts[i].rotation, bodyparts[i].centre, 1, SpriteEffects.None, 1);
-                //float scale = (bodyparts.Count - i);
-                //scale /= bodyparts.Count;
-                //spriteBatch.Draw(theSprite, bodyparts[i].position, null, Color.White, bodyparts[i].rotation, bodyparts[i].centre, new Vector2(scale, scale), SpriteEffects.None, 1);
+                //spriteBatch.Draw(theSprite, bodyparts[i].position, null, Color.White, 0f, bodyparts[i].centre, 1, SpriteEffects.None, 1);
+                float scale = (bodyparts.Count - i+1);
+                scale /= bodyparts.Count;
+                spriteBatch.Draw(theSprite, bodyparts[i].position, null, Color.White, bodyparts[i].rotation, bodyparts[i].centre, new Vector2(scale, scale), SpriteEffects.None, 1);
             }
 
-            spriteBatch.Draw(theSprite, tail.position, null, Color.White, tail.rotation, tail.centre, 1, SpriteEffects.None, 1);
-            //spriteBatch.Draw(theSprite, tail.position, null, Color.White, tail.rotation, tail.centre, new Vector2(0.5f, 0.5f), SpriteEffects.None, 1);
+            //spriteBatch.Draw(theSprite, tail.position, null, Color.Chocolate, 0, tail.centre, 1, SpriteEffects.None, 1);
+            spriteBatch.Draw(theSprite, tail.position, null, Color.Chocolate, tail.rotation, tail.centre, new Vector2(0.8f, 0.8f), SpriteEffects.None, 1);
 
             spriteBatch.End();
 
@@ -125,32 +128,121 @@ namespace IKParasite_xna
             MouseState aMouse = Mouse.GetState();
             Vector2 mousePos = new Vector2(aMouse.X,aMouse.Y);
 
-            if (aKeyboard.IsKeyDown(Keys.Left))
+            Boolean applyGravity = true;
+
+            if (!rigid)
             {
-                head.position.X -= 1;
-            }
-            else if (aKeyboard.IsKeyDown(Keys.Right))
-            {
-                head.position.X += 1;
+                if (aKeyboard.IsKeyDown(Keys.Left))
+                {
+                    head.position.X -= 2;
+                }
+                else if (aKeyboard.IsKeyDown(Keys.Right))
+                {
+                    head.position.X += 2;
+                }
+
             }
 
-            if ((tail.position - mousePos).Length() < 50)
+            if ((tail.position - mousePos).Length() < 10 * bodyparts.Count)
             {
                 tail.position = mousePos;
                 //head.position = mousePos;
+
+                applyGravity = false;
             }
-            
-            for (int i = 0; i < theParasite.Count; i++)
+
+            if (aMouse.LeftButton == ButtonState.Pressed && (tail.position - mousePos).Length() < 15)
             {
-                theParasite[i].Init();
-                theParasite[i].UpdatePoint();
+                // LOCK all angles
+                if (rigid)
+                {
+                    float maxDistance = theParasite.Count * 10;
+                    float theDistance = (head.position - tail.position).Length();
+
+                    // max distance between head/tail = theParasite.Count * defaultDistance.
+                    // in this case, it is : 8 * 10 = 80.
+                    head.IKPoint.distance = (theDistance / theParasite.Count);
+                    tail.IKPoint.distance = (theDistance / theParasite.Count);
+                    for (int i = 0; i < bodyparts.Count; i++)
+                    {
+                        bodyparts[i].IKPoint.distance = (theDistance / theParasite.Count);
+                    }
+
+                    launchForce = maxDistance - theDistance;
+                }
+                else
+                {
+                    lockAngles();
+                    rigid = true;
+                }
             }
-            
+            else
+            {
+                if (rigid)
+                {
+                    unlockAngles();
+
+                    head.IKPoint.distance = head.IKPoint.defaultdistance;
+                    tail.IKPoint.distance = tail.IKPoint.defaultdistance;
+                    for (int i = 0; i < bodyparts.Count; i++)
+                    {
+                        bodyparts[i].IKPoint.distance = bodyparts[i].IKPoint.defaultdistance;
+                    }
+
+                    rigid = false;
+
+                    if (launchForce > 0)
+                    {
+                        // Shoot him off!
+                        head.velocity.X = (float)Math.Cos(tail.IKPoint.currentAngle) * launchForce;
+                        head.velocity.Y = (float)Math.Sin(tail.IKPoint.currentAngle) * launchForce;
+                    }
+                    
+                }
+            }
+
+            tail.Init();
+            tail.UpdatePoint();
+
+            if (applyGravity)
+                tail.ApplyForce(gravity);
+
+            for (int i = 0; i < bodyparts.Count; i++)
+            {
+                bodyparts[i].Init();
+                bodyparts[i].UpdatePoint();
+
+                if(applyGravity)
+                    bodyparts[i].ApplyForce(gravity);
+            }
+
+            head.Init();
+            head.UpdatePoint();
+            head.ApplyForce(gravity);
+
             //head.IKPoint.moveTo(mousePos.X, mousePos.Y);
 
             //head.velocity.Y += 0.2f;
 
             base.Update(gameTime);
+        }
+
+        public void lockAngles()
+        {
+            tail.IKPoint.lockAngle(true);
+            for (int i = 0; i < bodyparts.Count; i++)
+            {
+               bodyparts[i].IKPoint.lockAngle(true);
+            }
+        }
+
+        public void unlockAngles()
+        {
+            tail.IKPoint.lockAngle(false);
+            for (int i = 0; i < bodyparts.Count; i++)
+            {
+                bodyparts[i].IKPoint.lockAngle(false);
+            }
         }
 
         public void init()
@@ -164,7 +256,6 @@ namespace IKParasite_xna
             // Create the Tail
             tail = new ParasiteTail(theSprite, 1.0f);
             tail.position = new Vector2(150 + (50 * numParts), 100);
-            theParasite.Add(tail);
 
             // Create Body Parts
             for (int i = 0; i < numParts; i++)
@@ -173,42 +264,45 @@ namespace IKParasite_xna
                 bodyPart.position = new Vector2(150 + (50 * i), 100);
                 bodyparts.Add(bodyPart);
             }
-
+            
             // Create the Head
             head = new ParasiteHead(theSprite, 1);
             head.position = new Vector2(100, 100);
-            theParasite.Add(head);
 
             // IKPoints
+
+            theParasite.Add(head);
 
             IKMember headIK = new IKMember(head, 10);
             IKMember lastIK = headIK;
 
-            IKMember currentIK;
-
             head.AddIKPoint(headIK);
 
-            for (int i = 0; i < numParts; i++)
+            for (int i = 0; i < bodyparts.Count; i++)
             {
-                currentIK = new IKMember(bodyparts[i], 10);
+                ParasiteBodyPart bodyPart = bodyparts[i];
+
+                theParasite.Add(bodyPart);
+
+                IKMember ik = new IKMember(bodyPart, 10);
                   
                 if (i != 0)
                 {
-                    currentIK.addNeighbour(lastIK);
+                    ik.addNeighbour(lastIK);
                 }
 
-                lastIK.addNeighbour(currentIK);
-                bodyparts[i].AddIKPoint(currentIK);
+                lastIK.addNeighbour(ik);
 
-                lastIK = currentIK;
-                //currentIK = null;
-                theParasite.Add(bodyparts[i]);
+                bodyPart.AddIKPoint(ik);
+
+                lastIK = ik;
             }
 
             // Uncomment for Rad Wiggle Motion!
             // currentIK = new IKMember(tail, 1);
 
             //currentIK = new IKMember(tail, 10);
+            theParasite.Add(tail);
             
             IKMember tailIK = new IKMember(tail, 10);
 
@@ -216,8 +310,6 @@ namespace IKParasite_xna
             lastIK.addNeighbour(tailIK);
 
             tail.AddIKPoint(tailIK);
-
-            //theParasite.Add(tail);
 
             tail.initTail();
         }

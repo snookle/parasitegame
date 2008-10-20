@@ -98,7 +98,7 @@ namespace IKParasite_xna
 
             // TODO: Add your drawing code here
             mspriteBatch.Begin();
-            mspriteBatch.Draw(mBackground, new Rectangle(0, 0, mBackground.Width, mBackground.Height), Color.White);
+            //mspriteBatch.Draw(mBackground, new Rectangle(0, 0, mBackground.Width, mBackground.Height), Color.White);
             mspriteBatch.End();
 
             base.Draw(gameTime);
