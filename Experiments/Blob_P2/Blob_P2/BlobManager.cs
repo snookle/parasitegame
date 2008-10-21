@@ -99,6 +99,7 @@ namespace Blob_P2
             base.LoadContent();
             spriteBatch = new SpriteBatch(this.GraphicsDevice);
             theSprite = this.Game.Content.Load<Texture2D>("Sprites\\blobshaderdot");
+
             spriteFont = Game.Content.Load<SpriteFont>("DebugFont");
 
             blobShader = Game.Content.Load<Effect>("blobshader");
@@ -134,7 +135,7 @@ namespace Blob_P2
             {
                 theParticle = theParticles[i];
                 theParticle.colour = Color.Black;
-                spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 1, SpriteEffects.None, 1);
+                spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 4, SpriteEffects.None, 1);
 
             }
             spriteBatch.End();
