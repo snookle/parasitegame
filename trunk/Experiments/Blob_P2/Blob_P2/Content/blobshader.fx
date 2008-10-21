@@ -11,27 +11,18 @@ float2 centerCoord;		// 0.5,0.5 is the screen center
 
 float4 PixelShader(float2 texCoord: TEXCOORD0) : COLOR
 {
-	float2 distance = abs(texCoord - centerCoord);
-	float scalar = length(distance);
+float4 Color;
+Color.a = 1.0f;
+Color = tex2D(ScreenS, texCoord.xy);
+Color.rgb = (Color.r+Color.g+Color.b)/3.0f;
+ 	
+if (Color.r>0.5) Color.r = 1.0f;// else Color.r = 0.0f;
+if (Color.g>0.5) Color.g = 1.0f;// else Color.g = 0.0f;
+if (Color.b>0.5) Color.b = 1.0f;// else Color.b = 0.0f;
 
-	// invert the scale so 1 is centerpoint
-	scalar = abs(1 - scalar);
-		
-	// calculate how far to distort for this pixel	
-	float sinoffset = sin(wave / scalar);
-	sinoffset = clamp(sinoffset, 0, 1);
 	
-	// calculate which direction to distort
-	float sinsign = cos(wave / scalar);	
-	
-	// reduce the distortion effect
-	sinoffset = sinoffset * distortion/32;
-	
-	// pick a pixel on the screen for this pixel, based on
-	// the calculated offset and direction
-	float4 color = tex2D(ScreenS, texCoord+(sinoffset*sinsign));	
 			
-	return color;
+	return Color;
 }
 technique
 {
