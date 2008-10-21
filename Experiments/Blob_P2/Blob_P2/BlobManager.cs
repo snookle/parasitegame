@@ -62,10 +62,6 @@ namespace Blob_P2
         RenderTarget2D blobRenderTarget;
         Texture2D blobTexture;
         Vector2 blobCenterCoord = new Vector2(0.5f);
-        float distortion = 1.0f;
-        float divisor = 0.75f;
-        float wave = MathHelper.Pi;
-
 
         public BlobManager(Game game)
             : base(game)
@@ -121,30 +117,33 @@ namespace Blob_P2
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.Clear(Color.White);
             //save old render target (backbuffer)
             RenderTarget2D temp = (RenderTarget2D)GraphicsDevice.GetRenderTarget(0);
             
-            //render to the blob target
+            //render to the blob rendertarget
             GraphicsDevice.SetRenderTarget(0, blobRenderTarget);
             GraphicsDevice.Clear(Color.White);
 
 
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.SaveState);
+            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
             BlobParticle theParticle;
             for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
                 theParticle.colour = Color.Black;
+                //draw the particle sprites to the blob texture
                 spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 4, SpriteEffects.None, 1);
 
             }
             spriteBatch.End();
 
+            //set the render target back to our old one
             GraphicsDevice.SetRenderTarget(0, temp);
+            //grab the texture we just drew particles on
             blobTexture = blobRenderTarget.GetTexture();
 
-            // Use Immediate mode and our effect to draw the scene
-            // again, using our pixel shader.
+            // use Immediate mode and our effect to draw the scene again, using our pixel shader.
             spriteBatch.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.None);
             blobShader.Begin();
             blobShader.CurrentTechnique.Passes[0].Begin();
@@ -152,7 +151,6 @@ namespace Blob_P2
             spriteBatch.End();
             blobShader.CurrentTechnique.Passes[0].End();
             blobShader.End();
-            base.Draw(gameTime);
 
             base.Draw(gameTime);
         }
@@ -168,9 +166,7 @@ namespace Blob_P2
             {
                 doSimulation();
             }
-            waveParam.SetValue(wave);
-            distortionParam.SetValue(distortion);
-            //centerCoordParam.SetValue(centerCoord);
+
             base.Update(gameTime);
         }
 
@@ -284,6 +280,7 @@ namespace Blob_P2
             Vector2 differenceVector;
             int neighourCount;
             List<BlobParticle> neighbours;
+
             for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
