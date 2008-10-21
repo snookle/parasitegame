@@ -55,7 +55,17 @@ namespace Blob_P2
         VertexPositionColor[] line;         // Start / End Points
         Matrix world, projection, view;             // Transformation matrix
         BasicEffect basicEffect;                    // Standard Drawing Effects
-        VertexDeclaration vertexDeclaration; 
+        VertexDeclaration vertexDeclaration;
+        //blob shading
+        Effect blobShader;
+        EffectParameter waveParam, distortionParam, centerCoordParam;
+        RenderTarget2D blobRenderTarget;
+        Texture2D blobTexture;
+        Vector2 blobCenterCoord = new Vector2(0.5f);
+        float distortion = 1.0f;
+        float divisor = 0.75f;
+        float wave = MathHelper.Pi;
+
 
         public BlobManager(Game game)
             : base(game)
@@ -88,9 +98,19 @@ namespace Blob_P2
         {
             base.LoadContent();
             spriteBatch = new SpriteBatch(this.GraphicsDevice);
-            theSprite = this.Game.Content.Load<Texture2D>("Sprites\\Particle");
+            theSprite = this.Game.Content.Load<Texture2D>("Sprites\\blobshaderdot");
             spriteFont = Game.Content.Load<SpriteFont>("DebugFont");
-            
+
+            blobShader = Game.Content.Load<Effect>("blobshader");
+            waveParam = blobShader.Parameters["wave"];
+            distortionParam = blobShader.Parameters["distortion"];
+            centerCoordParam = blobShader.Parameters["centerCoord"];
+
+            blobRenderTarget = Game1.CloneRenderTarget(GraphicsDevice, 1);
+            blobTexture = new Texture2D(GraphicsDevice, blobRenderTarget.Width, blobRenderTarget.Height, 1,
+                TextureUsage.None, blobRenderTarget.Format);
+
+
             initSimulation();
         }
 
@@ -100,49 +120,39 @@ namespace Blob_P2
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Draw(GameTime gameTime)
         {
+            //save old render target (backbuffer)
+            RenderTarget2D temp = (RenderTarget2D)GraphicsDevice.GetRenderTarget(0);
+            
+            //render to the blob target
+            GraphicsDevice.SetRenderTarget(0, blobRenderTarget);
+            GraphicsDevice.Clear(Color.White);
+
+
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.SaveState);
-            spriteBatch.DrawString(spriteFont, particleCount.ToString(), new Vector2(10, 10), Color.Black);
             BlobParticle theParticle;
-            Vector2 mousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-            float theDistance;
-            List<BlobParticle> theNeighbours;
-            int neighbourCount;
-            int j;
             for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
-
                 theParticle.colour = Color.Black;
-
-                theDistance = (mousePos - theParticle.position).Length();
-
-                if (theDistance < 5)
-                {
-                    // Mouseover
-                    theParticle.colour = Color.Red;
-                    // Set Neighbour Colour
-                    theNeighbours = grid.GetNeighbours(theParticle);
-                    spriteBatch.DrawString(spriteFont, "Num Neighbours : "+theNeighbours.Count.ToString(), new Vector2(10, 20), Color.Black);
-                    neighbourCount = theNeighbours.Count;
-                    basicEffect.Begin();
-                    for (j = 0; j < neighbourCount; j++)
-                    {
-                        spriteBatch.Draw(theSprite, theNeighbours[j].position, null, Color.Chartreuse, 0, theNeighbours[j].centre, 1, SpriteEffects.None, 0);
-                        line[0] = new VertexPositionColor(new Vector3((theNeighbours[j].position.X / 400) - 1, ((theNeighbours[j].position.Y / 300) - 1) * -1, 0), Color.Black);
-                        line[1] = new VertexPositionColor(new Vector3((theParticle.position.X / 400) - 1, ((theParticle.position.Y / 300) - 1) * -1, 0), Color.Black);
-                        foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
-                        {
-                            pass.Begin();
-                            GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColor>(PrimitiveType.LineList, line, 0, 2, new short[2] { 0, 1 }, 0, 1);
-                            pass.End();
-                        }
-                    }
-                    basicEffect.End();
-                }
                 spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 1, SpriteEffects.None, 1);
 
             }
             spriteBatch.End();
+
+            GraphicsDevice.SetRenderTarget(0, temp);
+            blobTexture = blobRenderTarget.GetTexture();
+
+            // Use Immediate mode and our effect to draw the scene
+            // again, using our pixel shader.
+            spriteBatch.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.None);
+            blobShader.Begin();
+            blobShader.CurrentTechnique.Passes[0].Begin();
+            spriteBatch.Draw(blobTexture, Vector2.Zero, Color.White);
+            spriteBatch.End();
+            blobShader.CurrentTechnique.Passes[0].End();
+            blobShader.End();
+            base.Draw(gameTime);
+
             base.Draw(gameTime);
         }
 
@@ -157,6 +167,9 @@ namespace Blob_P2
             {
                 doSimulation();
             }
+            waveParam.SetValue(wave);
+            distortionParam.SetValue(distortion);
+            //centerCoordParam.SetValue(centerCoord);
             base.Update(gameTime);
         }
 

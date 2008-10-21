@@ -109,5 +109,17 @@ namespace Blob_P2
 
             base.Draw(gameTime);
         }
+
+        public static RenderTarget2D CloneRenderTarget(GraphicsDevice device, int numberLevels)
+        {
+            return new RenderTarget2D(device,
+                device.PresentationParameters.BackBufferWidth,
+                device.PresentationParameters.BackBufferHeight,
+                numberLevels,
+                device.DisplayMode.Format,
+                device.PresentationParameters.MultiSampleType,
+                device.PresentationParameters.MultiSampleQuality
+            );
+        }
     }
 }
