@@ -94,7 +94,7 @@ namespace Blob_P2
         {
             base.LoadContent();
             spriteBatch = new SpriteBatch(this.GraphicsDevice);
-            theSprite = this.Game.Content.Load<Texture2D>("Sprites\\blobshaderdot");
+            theSprite = this.Game.Content.Load<Texture2D>("Sprites\\100xparticle");
 
             spriteFont = Game.Content.Load<SpriteFont>("DebugFont");
 
@@ -126,14 +126,26 @@ namespace Blob_P2
             GraphicsDevice.Clear(Color.White);
 
 
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
+            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None);
             BlobParticle theParticle;
+            Vector2 mouseLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
             for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
-                theParticle.colour = Color.Black;
+                if (Vector2.Distance(theParticle.position, mouseLocation) <= 5)
+                {
+                    theParticle.colour = Color.Green;
+                    spriteBatch.DrawString(spriteFont, theParticle.position.ToString(), new Vector2(15, 15), Color.Blue);
+                    spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 0.5f, SpriteEffects.None, 0);
+                }
+                else
+                {
+                    theParticle.colour = Color.Red;
+
+                    spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 0.5f, SpriteEffects.None, 1);
+                }
                 //draw the particle sprites to the blob texture
-                spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 4, SpriteEffects.None, 1);
+
 
             }
             spriteBatch.End();
@@ -232,10 +244,11 @@ namespace Blob_P2
                 }
 
                 BlobParticle theParticle = new BlobParticle(new Vector2(xPos, yPos), theSprite, particleCount, particleRadius);
+                theParticle.colour = Color.Red;
                 theParticle.velocity = new Vector2(5,5);
 
                 theParticles.Add(theParticle);
-                grid.AddParticle(theParticle);
+                grid.AddObject(theParticle);
 
                 particleCount++;
                 currentNumParticles--;
@@ -276,52 +289,56 @@ namespace Blob_P2
         public void moveParticles()
         {
             BlobParticle theParticle;
-            BlobParticle neighbourParticle;
+            PhysicsObject neighbourObject;
             Vector2 differenceVector;
             int neighourCount;
-            List<BlobParticle> neighbours;
+            int j;
+            float distance;
+            List<PhysicsObject> neighbours;
 
             for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
-                grid.RemoveParticle(theParticle);
+                grid.RemoveObject(theParticle);
                 theParticle.position += theParticle.velocity;
 
                 // Apply Gravity
                 theParticle.applyForce(gravity);
 
                 simpleCollisionDetection(theParticle);
-                grid.AddParticle(theParticle);
+                grid.AddObject(theParticle);
 
                 //BEGIN CHECK SPRINGS
                 neighbours = grid.GetNeighbours(theParticle);
                 neighourCount = neighbours.Count;
-                for (int j = 0; j < neighourCount; j++)
+                for (j = 0; j < neighourCount; j++)
                 {
-                    neighbourParticle = neighbours[j];
-
-                    differenceVector = theParticle.position - neighbourParticle.position;
-                    float distance = differenceVector.Length();
-
-                    if (distance <= threshold && connected[theParticle.id][neighbourParticle.id] == null)
+                    neighbourObject = neighbours[j];
+                    if (neighbourObject.type == PhysicsObjectType.potBlobParticle)
                     {
-                        theParticle.addNeighbour(neighbourParticle);
-                        neighbourParticle.addNeighbour(theParticle);
+                        differenceVector = theParticle.position - ((BlobParticle)neighbourObject).position;
+                        distance = differenceVector.Length();
 
-                        connected[theParticle.id][neighbourParticle.id] = new Spring(theParticle, neighbourParticle, springStiffness, springLength, springFriction);
-                    }
-                    else if (distance > disconnectThreshold && connected[theParticle.id][neighbourParticle.id] != null)
-                    {
-                        theParticle.removeNeighbour(neighbourParticle);
-                        neighbourParticle.removeNeighbour(theParticle);
-                        connected[theParticle.id][neighbourParticle.id] = null;
-                    }
+                        if (distance <= threshold && connected[theParticle.id][((BlobParticle)neighbourObject).id] == null)
+                        {
+                            theParticle.addNeighbour(((BlobParticle)neighbourObject));
+                            ((BlobParticle)neighbourObject).addNeighbour(theParticle);
 
-                    if (connected[theParticle.id][neighbourParticle.id] != null)
-                    {
-                        //connected[theParticle.id][neighbourParticle.id].viscoSolve();
-                        connected[theParticle.id][neighbourParticle.id].solve();
+                            connected[theParticle.id][((BlobParticle)neighbourObject).id] = new Spring(theParticle, ((BlobParticle)neighbourObject), springStiffness, springLength, springFriction);
+                        }
+                        else if (distance > disconnectThreshold && connected[theParticle.id][((BlobParticle)neighbourObject).id] != null)
+                        {
+                            theParticle.removeNeighbour(((BlobParticle)neighbourObject));
+                            ((BlobParticle)neighbourObject).removeNeighbour(theParticle);
+                            connected[theParticle.id][((BlobParticle)neighbourObject).id] = null;
+                        }
 
+                        if (connected[theParticle.id][((BlobParticle)neighbourObject).id] != null)
+                        {
+                            //connected[theParticle.id][neighbourParticle.id].viscoSolve();
+                            connected[theParticle.id][((BlobParticle)neighbourObject).id].solve();
+
+                        }
                     }
                 }
                 //END CHECK SPRINGS
@@ -367,7 +384,7 @@ namespace Blob_P2
                 density = 0;
                 nearDensity = 0;
 
-                List<BlobParticle> theNeighbours = grid.GetNeighbours(theParticle);
+                List<BlobParticle> theNeighbours = null;// grid.GetNeighbours(theParticle);
                 neighbourCount = theNeighbours.Count;
 
                 for (j = 0; j < neighbourCount; j++)
