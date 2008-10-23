@@ -19,9 +19,9 @@ float4 PixelShader(float2 texCoord: TEXCOORD0) : COLOR
 	
 	//Color.rgb = (Color.r+Color.g+Color.b)/3.0f;
  	
-	if (Color.r > 0.2) Color.r *= 2.0f; else Color.r = 0.0f;
-	if (Color.g > 0.2) Color.b *= 2.0f; else Color.g = 0.0f;
-	if (Color.b > 0.2) Color.g *= 2.0f; else Color.b = 0.0f;
+	if (Color.r > 0.3) Color.r *= 2.0f; else Color.r = 0.0f;
+	if (Color.g > 0.3) Color.b *= 2.0f; else Color.g = 0.0f;
+	if (Color.b > 0.3) Color.g *= 2.0f; else Color.b = 0.0f;
 	
 	//this will be the final colour of the pixel.
 	return Color;
