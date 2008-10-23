@@ -7,7 +7,7 @@ namespace Blob_P2
 {
     class SpatialGrid
     {
-        private List<BlobParticle>[][] grid;        // The Grid of Particles
+        private Dictionary<int, PhysicsObject>[][] grid;        // The Grid of Particles
 
         private int width;
         private int height;
@@ -22,40 +22,52 @@ namespace Blob_P2
             this.gridSize = gridSize;
 
             // Initialise the Grid
-            grid = new List<BlobParticle>[width+1][];
+            grid = new Dictionary<int, PhysicsObject>[width+1][];
 
             for (int i = 0; i < this.width+1; i++)
             {
-                grid[i] = new List<BlobParticle>[height+1];
+                grid[i] = new Dictionary<int, PhysicsObject>[height+1];
                 for (int j = 0; j < this.height+1; j++)
                 {
-                    grid[i][j] = new List<BlobParticle>();
+                    grid[i][j] = new Dictionary<int, PhysicsObject>();
                 }
             }
         }
 
-        public void AddParticle(BlobParticle particle)
+        public void AddObject(PhysicsObject obj)
         {
-            int x = (int)Math.Floor(particle.position.X / gridSize);
-            int y = (int)Math.Floor(particle.position.Y / gridSize);
-
-            grid[x][y].Add(particle);
+            if (obj.type == PhysicsObjectType.potBlobParticle)
+            {
+                int x = (int)Math.Floor(((BlobParticle)obj).position.X / gridSize);
+                int y = (int)Math.Floor(((BlobParticle)obj).position.Y / gridSize);
+                grid[x][y].Add(obj.id, obj);
+            }
+            else if (obj.type == PhysicsObjectType.potStaticBody)
+            {
+                //here we have to calculate all the gridsquares that the object may occupy
+                //and add a reference to the object to all grid squares
+            }
         }
 
-        public void RemoveParticle(BlobParticle particle)
+        public void RemoveObject(PhysicsObject obj)
         {
-            int x = (int)Math.Floor(particle.position.X / gridSize);
-            int y = (int)Math.Floor(particle.position.Y / gridSize);
+            if (obj.type == PhysicsObjectType.potBlobParticle)
+            {
 
-            grid[x][y].Remove(particle);
+                int x = (int)Math.Floor(((BlobParticle)obj).position.X / gridSize);
+                int y = (int)Math.Floor(((BlobParticle)obj).position.Y / gridSize);
+                grid[x][y].Remove(((BlobParticle)obj).id);
+            }
+
+
         }
 
-        public List<BlobParticle> GetNeighbours(BlobParticle particle)
+        public List<PhysicsObject> GetNeighbours(BlobParticle particle)
         {
             int x = (int)Math.Floor(particle.position.X / gridSize);
             int y = (int)Math.Floor(particle.position.Y / gridSize);
 
-            List<BlobParticle> returnList = new List<BlobParticle>();
+            List<PhysicsObject> returnList = new List<PhysicsObject>();
             
             /*for (int i = x - (x == 0 ? 0 : 1); i <= x + (x == width + 1 ? 0 : 1); i++)
             {
@@ -94,7 +106,7 @@ namespace Blob_P2
             {
                 for (int j = yStart; j <= yEnd; j++)
                 {
-                    returnList.AddRange(grid[i][j]);
+                    returnList.AddRange(grid[i][j].Values);
                 }
             }
 
