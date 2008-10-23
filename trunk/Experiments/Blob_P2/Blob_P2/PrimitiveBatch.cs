@@ -260,5 +260,3 @@ namespace Blob_P2
     }
 }
 
-    }
-}

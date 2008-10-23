@@ -25,8 +25,8 @@ namespace Blob_P2
 
         private int drawingOffset = 10;
 
-        public float threshold = 20;
-        public float disconnectThreshold = 20;
+        public float threshold = 30;
+        public float disconnectThreshold = 30;
         public int numLinks = 6;
         public float particleRadius = 5.0f;
 
@@ -39,7 +39,7 @@ namespace Blob_P2
         // Spring Variables
         private List<Spring> theSprings;
         public float springStiffness = 0.3f;
-        public float springLength = 20;
+        public float springLength = 30;
         public float springFriction = 0.1f;
 
         // DDR
@@ -136,13 +136,13 @@ namespace Blob_P2
                 {
                     theParticle.colour = Color.Green;
                     spriteBatch.DrawString(spriteFont, theParticle.position.ToString(), new Vector2(15, 15), Color.Blue);
-                    spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 0.5f, SpriteEffects.None, 0);
+                    spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 1.0f, SpriteEffects.None, 0);
                 }
                 else
                 {
                     theParticle.colour = Color.Red;
 
-                    spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 0.5f, SpriteEffects.None, 1);
+                    spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 1.0f, SpriteEffects.None, 1);
                 }
                 //draw the particle sprites to the blob texture
 
