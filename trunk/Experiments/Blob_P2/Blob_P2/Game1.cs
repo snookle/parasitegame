@@ -41,6 +41,32 @@ namespace Blob_P2
 
             base.Initialize();
 
+      
+        }
+
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
+        ///
+        Vector2[] sourceVertices;
+        StaticBody sb;
+        public static SpatialGrid grid;
+        protected override void LoadContent()
+        {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);            
+            // TODO: use this.Content to load your game content here
+            sourceVertices = new Vector2[]
+			{
+				new Vector2(100, 100),
+				new Vector2(200, 100),
+                new Vector2(300, 300),
+                new Vector2(71, 363)
+			};
+
+            sb = new StaticBody(PhysicsOverlord.GetInstance().GetID(), GraphicsDevice, Color.Yellow, sourceVertices);
+
             theBlob = new BlobManager(this);
             this.Components.Add(theBlob);
             theBlob.Initialize();
@@ -48,18 +74,9 @@ namespace Blob_P2
             frc = new FrameRateCounter(this);
             Components.Add(frc);
             frc.Initialize();
-        }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
-        protected override void LoadContent()
-        {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            grid.AddObject(sb);
 
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -104,10 +121,15 @@ namespace Blob_P2
         protected override void Draw(GameTime gameTime)
         {
             graphics.GraphicsDevice.Clear(Color.White);
-
-            // TODO: Add your drawing code here
+            
 
             base.Draw(gameTime);
+
+            spriteBatch.Begin();
+            spriteBatch.DrawString(Content.Load<SpriteFont>("DebugFont"), Mouse.GetState().ToString(), new Vector2(10, 10), Color.Red);
+            spriteBatch.End();
+            // TODO: Add your drawing code here
+            sb.Draw();
         }
 
         public static RenderTarget2D CloneRenderTarget(GraphicsDevice device, int numberLevels)

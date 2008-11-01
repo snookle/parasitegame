@@ -31,7 +31,6 @@ namespace Blob_P2
         public float particleRadius = 5.0f;
 
         // Spatial Grid
-        private SpatialGrid grid;
         
         // Forces
         public Vector2 gravity = new Vector2(0, 0.5f);
@@ -132,20 +131,9 @@ namespace Blob_P2
             for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
-                if (Vector2.Distance(theParticle.position, mouseLocation) <= 5)
-                {
-                    theParticle.colour = Color.Green;
-                    spriteBatch.DrawString(spriteFont, theParticle.position.ToString(), new Vector2(15, 15), Color.Blue);
-                    spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 1.0f, SpriteEffects.None, 0);
-                }
-                else
-                {
-                    theParticle.colour = Color.Red;
+                theParticle.colour = Color.Red;
 
-                    spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 1.0f, SpriteEffects.None, 1);
-                }
-                //draw the particle sprites to the blob texture
-
+                spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 1.0f, SpriteEffects.None, 1);
 
             }
             spriteBatch.End();
@@ -188,7 +176,7 @@ namespace Blob_P2
             theParticles = new List<BlobParticle>();
             theSprings = new List<Spring>();
 
-            grid = new SpatialGrid(800, 600, disconnectThreshold);
+            Game1.grid = new SpatialGrid(800, 600, disconnectThreshold);
 
             connected = new Spring[maxParticles + 1][];
             for (int i = 0; i < maxParticles; i++)
@@ -243,12 +231,12 @@ namespace Blob_P2
                     yPos = 499;
                 }
 
-                BlobParticle theParticle = new BlobParticle(new Vector2(xPos, yPos), theSprite, particleCount, particleRadius);
+                BlobParticle theParticle = new BlobParticle(new Vector2(xPos, yPos), theSprite, PhysicsOverlord.GetInstance().GetID(), particleRadius);
                 theParticle.colour = Color.Red;
                 theParticle.velocity = new Vector2(5,5);
 
                 theParticles.Add(theParticle);
-                grid.AddObject(theParticle);
+                Game1.grid.AddObject(theParticle);
 
                 particleCount++;
                 currentNumParticles--;
@@ -299,17 +287,18 @@ namespace Blob_P2
             for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
-                grid.RemoveObject(theParticle);
+                Game1.grid.RemoveObject(theParticle);
+                theParticle.oldPosition = theParticle.position;
                 theParticle.position += theParticle.velocity;
 
                 // Apply Gravity
                 theParticle.applyForce(gravity);
 
                 simpleCollisionDetection(theParticle);
-                grid.AddObject(theParticle);
+                Game1.grid.AddObject(theParticle);
 
                 //BEGIN CHECK SPRINGS
-                neighbours = grid.GetNeighbours(theParticle);
+                neighbours = Game1.grid.GetNeighbours(theParticle);
                 neighourCount = neighbours.Count;
                 for (j = 0; j < neighourCount; j++)
                 {
@@ -339,6 +328,21 @@ namespace Blob_P2
                             connected[theParticle.id][((BlobParticle)neighbourObject).id].solve();
 
                         }
+                    }
+                    else if (neighbourObject.type == PhysicsObjectType.potStaticBody)
+                    {
+                        Vector2 result;
+                        if ((result = ((StaticBody)neighbourObject).Collides(theParticle)) != Vector2.Zero)
+                        {
+                            theParticle.velocity = Vector2.Reflect(theParticle.velocity, result);
+
+                            //move the partcle back before it collided to stop particles getting stuck.
+                //            while (((StaticBody)neighbourObject).Collides(theParticle) != Vector2.Zero) {
+                  //              theParticle.position *= theParticle.velocity;
+                    //        }
+                            //theParticle.position = theParticle.oldPosition;
+                        }
+                         
                     }
                 }
                 //END CHECK SPRINGS
