@@ -1,16 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Storage;
+using Microsoft.Xna.Framework.Content;
 
 namespace Blob_P2
 {
+   
     public class PrimitiveShape
     {
         public Color ShapeColor = Color.White;
-
         Vector2[] vertices;
         Vector2[] transformedVertices;
-        BoundingRectangle bounds;
+        Rectangle bounds;
         Vector2 position = Vector2.Zero;
         float rotation = 0f;
 
@@ -40,7 +47,7 @@ namespace Blob_P2
             }
         }
 
-        public BoundingRectangle Bounds
+        public Rectangle Bounds
         {
             get { return bounds; }
         }
@@ -64,6 +71,20 @@ namespace Blob_P2
             batch.End();
         }
 
+        private Rectangle MakeBoundingRectangle(Vector2[] verticies)
+        {
+            Vector2 xy = new Vector2(0,0);
+            Vector2 wh = new Vector2(0,0);
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                Math.Min(xy.X, vertices[i].X);
+                Math.Min(xy.Y, vertices[i].Y);
+                Math.Max(wh.X, vertices[i].X);
+                Math.Max(wh.Y, vertices[i].Y);
+            }
+            return new Rectangle((int)xy.X, (int)xy.Y, (int)(wh.X - xy.X), (int)(wh.Y - xy.Y));
+        }
+
         private void CalculatePointsAndBounds()
         {
             for (int i = 0; i < vertices.Length; i++)
@@ -72,7 +93,8 @@ namespace Blob_P2
                                      vertices[i],
                                      Matrix.CreateRotationZ(rotation)) + position;
 
-            bounds = new BoundingRectangle(transformedVertices);
+            bounds = MakeBoundingRectangle(transformedVertices);
+
         }
 
         public static bool TestCollision(PrimitiveShape shape1, PrimitiveShape shape2)

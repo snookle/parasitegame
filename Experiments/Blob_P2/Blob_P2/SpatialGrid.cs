@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace Blob_P2
 {
-    class SpatialGrid
+    public class SpatialGrid
     {
         private Dictionary<int, PhysicsObject>[][] grid;        // The Grid of Particles
 
@@ -36,17 +36,44 @@ namespace Blob_P2
 
         public void AddObject(PhysicsObject obj)
         {
+
             if (obj.type == PhysicsObjectType.potBlobParticle)
             {
                 int x = (int)Math.Floor(((BlobParticle)obj).position.X / gridSize);
                 int y = (int)Math.Floor(((BlobParticle)obj).position.Y / gridSize);
+                if (grid[x][y].ContainsKey(obj.id))
+                    RemoveObject(obj);
                 grid[x][y].Add(obj.id, obj);
             }
             else if (obj.type == PhysicsObjectType.potStaticBody)
             {
                 //here we have to calculate all the gridsquares that the object may occupy
                 //and add a reference to the object to all grid squares
+                StaticBody body = (StaticBody)obj;
+                int xStart = (int)Math.Floor(body.BoundingBox.l / gridSize);
+                int yStart = (int)Math.Floor(body.BoundingBox.t / gridSize);
+                //throw new Exception(body.x.ToString());
+                if (body.BoundingBox.r > gridSize || body.BoundingBox.b > gridSize)
+                {
+                    //calculate the number of squares this body is going to cover
+                    int xEnd = (int)(xStart + Math.Floor(body.BoundingBox.r / gridSize));
+                    int yEnd = (int)(yStart + Math.Floor(body.BoundingBox.b / gridSize));
+                   // throw new Exception(xStart.ToString() + " to " + xEnd.ToString() + " " + yEnd.ToString());
+                    for (int i = xStart; i < xEnd; i++)
+                    {
+                        for (int j = yStart; j < yEnd; j++)
+                        {
+                            grid[i][j].Add(obj.id, obj);
+                        }
+                    }
+                }
+                else //the body is not bigger than a single gridsquare, so it only needs to be added to one.
+                {
+                    grid[xStart][yStart].Add(obj.id, obj);
+                }
             }
+            else
+                throw new Exception("OMFG DIDNT ADD ANYTHING TO THE GRID FUCK!");
         }
 
         public void RemoveObject(PhysicsObject obj)
@@ -58,8 +85,31 @@ namespace Blob_P2
                 int y = (int)Math.Floor(((BlobParticle)obj).position.Y / gridSize);
                 grid[x][y].Remove(((BlobParticle)obj).id);
             }
-
-
+            else if (obj.type == PhysicsObjectType.potStaticBody)
+            {
+                StaticBody body = (StaticBody)obj;
+                int xStart = (int)Math.Floor(body.BoundingBox.l / gridSize);
+                int yStart = (int)Math.Floor(body.BoundingBox.t / gridSize);
+                //th    row new Exception(body.x.ToString());
+                if (body.BoundingBox.r > gridSize || body.BoundingBox.b > gridSize)
+                {
+                    //calculate the number of squares this body is going to cover
+                    int xEnd = (int)(xStart + Math.Floor(body.BoundingBox.r / gridSize));
+                    int yEnd = (int)(yStart + Math.Floor(body.BoundingBox.b / gridSize));
+                    // throw new Exception(xStart.ToString() + " to " + xEnd.ToString() + " " + yEnd.ToString());
+                    for (int i = xStart; i < xEnd; i++)
+                    {
+                        for (int j = yStart; j < yEnd; j++)
+                        {
+                            grid[i][j].Remove(obj.id);
+                        }
+                    }
+                }
+                else //the body is not bigger than a single gridsquare, so it only needs to be added to one.
+                {
+                    grid[xStart][yStart].Add(obj.id, obj);
+                }
+            }
         }
 
         public List<PhysicsObject> GetNeighbours(BlobParticle particle)

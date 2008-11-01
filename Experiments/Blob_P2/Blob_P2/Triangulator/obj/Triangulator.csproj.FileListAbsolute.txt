@@ -1,0 +1,7 @@
+C:\benk\parasite\Experiments\Blob_P2\Blob_P2\Triangulator\bin\x86\Release\Triangulator.dll
+C:\benk\parasite\Experiments\Blob_P2\Blob_P2\Triangulator\bin\x86\Release\Triangulator.pdb
+C:\benk\parasite\Experiments\Blob_P2\Blob_P2\Triangulator\obj\x86\Release\ResolveAssemblyReference.cache
+C:\benk\parasite\Experiments\Blob_P2\Blob_P2\Triangulator\obj\x86\Release\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\benk\parasite\Experiments\Blob_P2\Blob_P2\Triangulator\obj\x86\Release\Triangulator.obj.x86.Release.Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\benk\parasite\Experiments\Blob_P2\Blob_P2\Triangulator\obj\x86\Release\Triangulator.dll
+C:\benk\parasite\Experiments\Blob_P2\Blob_P2\Triangulator\obj\x86\Release\Triangulator.pdb
