@@ -59,10 +59,10 @@ namespace Blob_P2
             // TODO: use this.Content to load your game content here
             sourceVertices = new Vector2[]
 			{
-				new Vector2(100, 100),
-				new Vector2(200, 100),
-                new Vector2(300, 300),
-                new Vector2(71, 363)
+			new Vector2(100, 100),
+new Vector2(500, 300),
+new Vector2(500, 350),
+new Vector2(100, 150)
 			};
 
             sb = new StaticBody(PhysicsOverlord.GetInstance().GetID(), GraphicsDevice, Color.Yellow, sourceVertices);

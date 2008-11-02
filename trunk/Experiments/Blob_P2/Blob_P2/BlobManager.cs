@@ -334,13 +334,8 @@ namespace Blob_P2
                         Vector2 result;
                         if ((result = ((StaticBody)neighbourObject).Collides(theParticle)) != Vector2.Zero)
                         {
-                            theParticle.velocity = Vector2.Reflect(theParticle.velocity, result);
-
-                            //move the partcle back before it collided to stop particles getting stuck.
-                //            while (((StaticBody)neighbourObject).Collides(theParticle) != Vector2.Zero) {
-                  //              theParticle.position *= theParticle.velocity;
-                    //        }
-                            //theParticle.position = theParticle.oldPosition;
+                            theParticle.velocity = Vector2.Reflect(theParticle.velocity, result) * 0.95f;
+                            theParticle.position = theParticle.oldPosition;
                         }
                          
                     }
