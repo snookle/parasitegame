@@ -34,10 +34,12 @@ namespace Blob_P2
             base.Initialize();
         }
 
-        public void NewBody(float x, float y, float width, float height)
+        public void NewBody(Color colour, params Vector2[] vertices)
         {
-            //StaticBody sb = new StaticBody(PhysicsOverlord.GetInstance().GetID(), x, y, width, height);
-            //bodies.Add(sb.id, sb);
+            StaticBody sb = new StaticBody(PhysicsOverlord.GetInstance().GetID(), GraphicsDevice, colour, vertices);
+
+            bodies.Add(sb.id, sb);
+            SpatialGrid.GetInstance().AddObject(sb);
         }
 
         /// <summary>
@@ -53,7 +55,11 @@ namespace Blob_P2
 
         public override void Draw(GameTime gameTime)
         {
-
+            foreach(StaticBody body in bodies.Values)
+            {
+                //StaticBody body = bodies[i];
+                body.Draw();
+            }
             base.Draw(gameTime);
         }
     }

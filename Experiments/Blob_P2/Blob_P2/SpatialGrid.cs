@@ -7,12 +7,15 @@ namespace Blob_P2
 {
     public class SpatialGrid
     {
+        private static SpatialGrid instance = null;
         private Dictionary<int, PhysicsObject>[][] grid;        // The Grid of Particles
 
         private int width;
         private int height;
 
         private float gridSize;
+
+        private bool setup = false;
 
         public SpatialGrid(int gridWidth, int gridHeight, float gridSize)
         {
@@ -34,8 +37,28 @@ namespace Blob_P2
             }
         }
 
+        public static SpatialGrid GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new SpatialGrid(0,0,1);
+            }       
+            return instance;
+
+        }
+
+        public void SetDimensions(int gridWidth, int gridHeight, float gridSize)
+        {
+            if (setup)
+                throw new Exception("Dimensions already set!");
+            instance = new SpatialGrid(gridWidth, gridHeight, gridSize);
+            instance.setup = true;
+        }
+
         public void AddObject(PhysicsObject obj)
         {
+            if (!setup)
+                throw new Exception("SetDimensions must be called first!");
 
             if (obj.type == PhysicsObjectType.potBlobParticle)
             {
@@ -78,6 +101,9 @@ namespace Blob_P2
 
         public void RemoveObject(PhysicsObject obj)
         {
+            if (!setup)
+                throw new Exception("SetDimensions must be called first!");
+
             if (obj.type == PhysicsObjectType.potBlobParticle)
             {
 
@@ -114,6 +140,9 @@ namespace Blob_P2
 
         public List<PhysicsObject> GetNeighbours(BlobParticle particle)
         {
+            if (!setup)
+                throw new Exception("SetDimensions must be called first!");
+
             int x = (int)Math.Floor(particle.position.X / gridSize);
             int y = (int)Math.Floor(particle.position.Y / gridSize);
 
