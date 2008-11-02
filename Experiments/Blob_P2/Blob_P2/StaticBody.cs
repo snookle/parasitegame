@@ -154,10 +154,9 @@ namespace Blob_P2
                         }
                         if (linePoint1 != -1 && linePoint1 < 500)
                         {
-                            Vector2 one = sourceVertices[linePoint1];
-                            Vector2 two = sourceVertices[linePoint2];
-                            Vector2 returnvec = Vector2.Multiply(one, two);
-                            return Vector2.Normalize(returnvec);
+                            Vector2 v = sourceVertices[linePoint2] - sourceVertices[linePoint1];
+                            return Vector2.Normalize(new Vector2(-v.Y, v.X));
+
                         }
                     }
                 }

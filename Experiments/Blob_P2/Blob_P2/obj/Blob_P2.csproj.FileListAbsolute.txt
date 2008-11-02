@@ -51,3 +51,5 @@ C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\Sprites\100x
 C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\Sprites\100xparticle.xnb
 C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Triangulator.dll
 C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Triangulator.pdb
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Triangulator.dll
+C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Triangulator.pdb
