@@ -14,19 +14,24 @@ namespace Blob_P2
     /// <summary>
     /// This is the main type for your game
     /// </summary>
+    /// 
+    public enum GameState { gsEdit, gsSimulate };
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         BlobManager theBlob;
+        StaticBodyManager staticBodyManager;
 
         FrameRateCounter frc;
+        GameState state;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            state = GameState.gsEdit;
         }
 
         /// <summary>
@@ -37,10 +42,8 @@ namespace Blob_P2
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            this.IsMouseVisible = true;
             base.Initialize();
-
       
         }
 
@@ -49,23 +52,11 @@ namespace Blob_P2
         /// all of your content.
         /// </summary>
         ///
-        Vector2[] sourceVertices;
-        StaticBody sb;
-        public static SpatialGrid grid;
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);            
             // TODO: use this.Content to load your game content here
-            sourceVertices = new Vector2[]
-			{
-			new Vector2(100, 100),
-new Vector2(500, 300),
-new Vector2(500, 350),
-new Vector2(100, 150)
-			};
-
-            sb = new StaticBody(PhysicsOverlord.GetInstance().GetID(), GraphicsDevice, Color.Yellow, sourceVertices);
 
             theBlob = new BlobManager(this);
             this.Components.Add(theBlob);
@@ -75,7 +66,9 @@ new Vector2(100, 150)
             Components.Add(frc);
             frc.Initialize();
 
-            grid.AddObject(sb);
+            staticBodyManager = new StaticBodyManager(this);
+            this.Components.Add(staticBodyManager);
+            staticBodyManager.Initialize();
 
         }
 
@@ -88,6 +81,8 @@ new Vector2(100, 150)
             // TODO: Unload any non ContentManager content here
         }
 
+        List<Vector2> shape = new List<Vector2>();
+        bool makingShape = false;
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -99,18 +94,54 @@ new Vector2(100, 150)
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (state == GameState.gsSimulate)
             {
-                theBlob.stopstart();
-            }
+                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                {
+                    theBlob.increaseParticles();
+                }
 
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                if (Keyboard.GetState().IsKeyDown(Keys.Space)) //was simulating, now edit mode.
+                {
+                    state = GameState.gsEdit;
+                    theBlob.stopstart();
+                }
+            }
+            else if (state == GameState.gsEdit)
             {
-                theBlob.increaseParticles();
-            }
-            this.IsMouseVisible = true;
-            // TODO: Add your update logic here
+                if (Keyboard.GetState().IsKeyDown(Keys.Space)) //was editing, now simulate.
+                {
+                    state = GameState.gsSimulate;
+                    theBlob.stopstart();
+                }
 
+                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                {
+                    if (!makingShape)
+                    {
+                        makingShape = true;
+                    }
+                    else
+                    {
+                        if (!shape.Contains(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)))
+                            shape.Add(new Vector2(Mouse.GetState().X, Mouse.GetState().Y));
+                        if (Keyboard.GetState().IsKeyDown(Keys.F))
+                        {
+                            if (shape.Count > 1)
+                            {
+                                Vector2[] shape2 = new Vector2[shape.Count];
+                                shape.CopyTo(shape2);
+
+                                staticBodyManager.NewBody(Color.Green, shape2);
+                                makingShape = false;
+                                shape.Clear();
+                            }
+                        }
+                    }
+                }
+
+            }
+                
             base.Update(gameTime);
         }
 
@@ -126,10 +157,10 @@ new Vector2(100, 150)
             base.Draw(gameTime);
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(Content.Load<SpriteFont>("DebugFont"), Mouse.GetState().ToString(), new Vector2(10, 10), Color.Red);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("DebugFont"), "MOUSE: " + Mouse.GetState().ToString(), new Vector2(10, 10), Color.Red);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("DebugFont"), "MODE: " + ((state == GameState.gsEdit) ? "Edit" : "Simulate"), new Vector2(10, 30), (state == GameState.gsEdit) ? Color.Red : Color.Green);
             spriteBatch.End();
             // TODO: Add your drawing code here
-            sb.Draw();
         }
 
         public static RenderTarget2D CloneRenderTarget(GraphicsDevice device, int numberLevels)

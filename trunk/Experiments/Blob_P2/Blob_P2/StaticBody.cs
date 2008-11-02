@@ -36,8 +36,8 @@ namespace Blob_P2
 	    {
             this.id = id;
             this.type = PhysicsObjectType.potStaticBody;
-            BoundingBox = new BoundingRectangle(newpoints);
             sourceVertices = newpoints;
+            BoundingBox = new BoundingRectangle(sourceVertices);
             this.graphics = graphics;
             this.colour = drawColour;
             Init();
@@ -58,15 +58,14 @@ namespace Blob_P2
 
         private void Rotate(float angle)
         {
-            Game1.grid.RemoveObject(this);
+            SpatialGrid.GetInstance().RemoveObject(this);
             for (int i = 0; i < sourceVertices.Length; i++)
             {
-
                 sourceVertices[i] = RotateAroundPoint(sourceVertices[i], centre, Vector3.Backward, angle);
             }
             BoundingBox = new BoundingRectangle(sourceVertices);
             TriangulatePoly();
-            Game1.grid.AddObject(this);
+            SpatialGrid.GetInstance().AddObject(this);
         }
 
         private void Init()
@@ -200,99 +199,6 @@ ref Vector2 point)
             }
 
             return oddNodes;
-        }
-
-        //thanks to Joseph Duchesne for this method
-        //http://www.idevgames.com/forum/showthread.php?t=7458
-        private bool segmentsIntersect(Vector2 a, Vector2 b, Vector2 c, Vector2 d)
-        {
-            float[,] tarray = new float[4, 2];  //<===== Find the inner bounding of rect ABCD
-
-            float ax = a.X;
-            float ay = a.Y;
-            float bx = b.X;
-            float by = b.Y;
-            float cx = c.X;
-            float cy = c.Y;
-            float dx = d.X;
-            float dy = d.Y;
-
-            if (ax < bx)
-            {
-                tarray[0, 0] = ax;
-                tarray[1, 0] = bx;
-            }
-            else
-            {
-                tarray[0, 0] = bx;
-                tarray[1, 0] = ax;
-            }
-            if (ay < by)
-            {
-                tarray[0, 1] = ay;
-                tarray[1, 1] = by;
-            }
-            else
-            {
-                tarray[0, 1] = by;
-                tarray[1, 1] = ay;
-            }
-            if (cx < dx)
-            {
-                tarray[2, 0] = cx;
-                tarray[3, 0] = dx;
-            }
-            else
-            {
-                tarray[2, 0] = dx;
-                tarray[3, 0] = cx;
-            }
-            if (cy < dy)
-            {
-                tarray[2, 1] = cy;
-                tarray[3, 1] = dy;
-            }
-            else
-            {
-                tarray[2, 1] = dy;
-                tarray[3, 1] = cy;
-            }
-
-            float[,] tarray2 = new float[2, 2];
-
-            if (tarray[0, 0] < tarray[2, 0])
-                tarray2[0, 0] = tarray[2, 0];
-            else
-                tarray2[0, 0] = tarray[0, 0];
-            if (tarray[0, 1] < tarray[2, 1])
-                tarray2[0, 1] = tarray[2, 1];
-            else
-                tarray2[0, 1] = tarray[0, 1];
-            if (tarray[1, 0] < tarray[3, 0])
-                tarray2[1, 0] = tarray[1, 0];
-            else
-                tarray2[1, 0] = tarray[3, 0];
-            if (tarray[1, 1] < tarray[3, 1])
-                tarray2[1, 1] = tarray[1, 1];
-            else
-                tarray2[1, 1] = tarray[3, 1];
-
-            float mab = (ay - by) / (ax - bx); //<===== Find Slopes of Lines
-            float mcd = (cy - dy) / (cx - dx);
-
-            if (mab == mcd)
-                return false;  //the lines are parallel
-
-            float yiab = ((ax - bx) * ay - ax * (ay - by)) / (ax - bx);
-            float yicd = ((cx - dx) * cy - cx * (cy - dy)) / (cx - dx);
-            float x = (yicd - yiab) / (mab - mcd);
-            float y = mab * x + yiab;
-
-            return (
-                x > tarray2[0, 0] &&
-                x < tarray2[1, 0] &&
-                y > tarray2[0, 1] &&
-                y < tarray2[1, 1]);
         }
 
         public void Draw()

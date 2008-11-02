@@ -49,7 +49,7 @@ namespace Blob_P2
         private SpriteBatch spriteBatch;
         private SpriteFont spriteFont;
 
-        private bool simulating = true;
+        private bool simulating = false;
 
         VertexPositionColor[] line;         // Start / End Points
         Matrix world, projection, view;             // Transformation matrix
@@ -176,7 +176,8 @@ namespace Blob_P2
             theParticles = new List<BlobParticle>();
             theSprings = new List<Spring>();
 
-            Game1.grid = new SpatialGrid(800, 600, disconnectThreshold);
+            //TODO: SHOULD BE DONE SOMEWHERE ELSE!!!
+            SpatialGrid.GetInstance().SetDimensions(800, 600, disconnectThreshold);
 
             connected = new Spring[maxParticles + 1][];
             for (int i = 0; i < maxParticles; i++)
@@ -236,7 +237,7 @@ namespace Blob_P2
                 theParticle.velocity = new Vector2(5,5);
 
                 theParticles.Add(theParticle);
-                Game1.grid.AddObject(theParticle);
+                SpatialGrid.GetInstance().AddObject(theParticle);
 
                 particleCount++;
                 currentNumParticles--;
@@ -287,7 +288,7 @@ namespace Blob_P2
             for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
-                Game1.grid.RemoveObject(theParticle);
+                SpatialGrid.GetInstance().RemoveObject(theParticle);
                 theParticle.oldPosition = theParticle.position;
                 theParticle.position += theParticle.velocity;
 
@@ -295,10 +296,10 @@ namespace Blob_P2
                 theParticle.applyForce(gravity);
 
                 simpleCollisionDetection(theParticle);
-                Game1.grid.AddObject(theParticle);
+                SpatialGrid.GetInstance().AddObject(theParticle);
 
                 //BEGIN CHECK SPRINGS
-                neighbours = Game1.grid.GetNeighbours(theParticle);
+                neighbours = SpatialGrid.GetInstance().GetNeighbours(theParticle);
                 neighourCount = neighbours.Count;
                 for (j = 0; j < neighourCount; j++)
                 {
@@ -334,7 +335,7 @@ namespace Blob_P2
                         Vector2 result;
                         if ((result = ((StaticBody)neighbourObject).Collides(theParticle)) != Vector2.Zero)
                         {
-                            theParticle.velocity = Vector2.Reflect(theParticle.velocity, result) * 0.95f;
+                            theParticle.velocity = Vector2.Reflect(theParticle.velocity, result) * 0.8f;
                             theParticle.position = theParticle.oldPosition;
                         }
                          
