@@ -21,8 +21,8 @@ namespace Blob_P2
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        BlobManager theBlob;
-        StaticBodyManager staticBodyManager;
+        BlobManager theBlob;                    // Blob Manager - Handles Particles
+        StaticBodyManager staticBodyManager;    // Static Manager - Handles Static Bodies
 
         FrameRateCounter frc;
         GameState state;
@@ -83,6 +83,7 @@ namespace Blob_P2
 
         List<Vector2> shape = new List<Vector2>();
         bool makingShape = false;
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -96,11 +97,13 @@ namespace Blob_P2
 
             if (state == GameState.gsSimulate)
             {
+                // LEFT BUTTON - Increase Particles
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
                     theBlob.increaseParticles();
                 }
 
+                // SPACE - Change Mode
                 if (Keyboard.GetState().IsKeyDown(Keys.Space)) //was simulating, now edit mode.
                 {
                     state = GameState.gsEdit;
@@ -109,12 +112,14 @@ namespace Blob_P2
             }
             else if (state == GameState.gsEdit)
             {
+                // SPACE - Change Mode
                 if (Keyboard.GetState().IsKeyDown(Keys.Space)) //was editing, now simulate.
                 {
                     state = GameState.gsSimulate;
                     theBlob.stopstart();
                 }
 
+                // LEFT BUTTON - Create Shape Vertex
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
                     if (!makingShape)
@@ -127,12 +132,13 @@ namespace Blob_P2
                             shape.Add(new Vector2(Mouse.GetState().X, Mouse.GetState().Y));
                         if (Keyboard.GetState().IsKeyDown(Keys.F))
                         {
+                            // if F key, Complete Shape
                             if (shape.Count > 1)
                             {
                                 Vector2[] shape2 = new Vector2[shape.Count];
                                 shape.CopyTo(shape2);
 
-                                staticBodyManager.NewBody(Color.Green, shape2);
+                                staticBodyManager.NewBody(Color.Black, shape2);
                                 makingShape = false;
                                 shape.Clear();
                             }

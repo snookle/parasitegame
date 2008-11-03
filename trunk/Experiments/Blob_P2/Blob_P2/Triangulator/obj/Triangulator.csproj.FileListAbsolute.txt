@@ -12,3 +12,10 @@ C:\dev\parasite\Experiments\Blob_P2\Blob_P2\Triangulator\obj\x86\Release\Microso
 C:\dev\parasite\Experiments\Blob_P2\Blob_P2\Triangulator\obj\x86\Release\Triangulator.obj.x86.Release.Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\dev\parasite\Experiments\Blob_P2\Blob_P2\Triangulator\obj\x86\Release\Triangulator.dll
 C:\dev\parasite\Experiments\Blob_P2\Blob_P2\Triangulator\obj\x86\Release\Triangulator.pdb
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\Triangulator\bin\x86\Release\Triangulator.dll
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\Triangulator\bin\x86\Release\Triangulator.pdb
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\Triangulator\obj\x86\Release\ResolveAssemblyReference.cache
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\Triangulator\obj\x86\Release\Microsoft.Xna.Framework.RuntimeProfile.txt
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\Triangulator\obj\x86\Release\Triangulator.obj.x86.Release.Microsoft.Xna.Framework.RuntimeProfile.txt
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\Triangulator\obj\x86\Release\Triangulator.dll
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\Triangulator\obj\x86\Release\Triangulator.pdb
