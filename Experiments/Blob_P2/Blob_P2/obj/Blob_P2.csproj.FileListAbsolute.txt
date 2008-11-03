@@ -53,3 +53,17 @@ C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Triangulator.dll
 C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Triangulator.pdb
 C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Triangulator.dll
 C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Triangulator.pdb
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\Sprites\Particle.xnb
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\Sprites\blobshaderdot.xnb
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\Sprites\100xparticle.xnb
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\DebugFont.xnb
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\blobshader.xnb
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Blob_P2.exe
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Blob_P2.pdb
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Triangulator.dll
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Triangulator.pdb
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\obj\x86\Release\ResolveAssemblyReference.cache
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\obj\x86\Release\Microsoft.Xna.Framework.RuntimeProfile.txt
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\obj\x86\Release\Blob_P2.obj.x86.Release.Microsoft.Xna.Framework.RuntimeProfile.txt
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\obj\x86\Release\Blob_P2.exe
+E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\obj\x86\Release\Blob_P2.pdb
