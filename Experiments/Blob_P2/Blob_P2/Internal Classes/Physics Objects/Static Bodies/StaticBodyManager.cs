@@ -61,18 +61,15 @@ namespace Blob_P2
                 reader.Read();
                 if (reader.Name == "StaticBodyList")
                 {
-                    //processs static body data
-                    reader.ReadStartElement("StaticBodyList");
-                    reader.ReadAttributeValue(); //read count;
-                    if (reader.Name != "Count")
-                        throw new Exception("INVALID XML!");
-                    int count = Convert.ToInt32(reader.Value);
+                    //node is now on StaticBodyList
+                    //so processs static body data
+                    int count = Convert.ToInt32(reader.GetAttribute("Count"));
+                    
                     for (int i = 0; i < count; i++)
                     {
-                        StaticBody sb = new StaticBody(reader);
-                        
+                        NewBody(new StaticBody(reader, GraphicsDevice));               
                     }
-                    
+                    reader.ReadEndElement(); //</StaticBodyList>
                     done = true;
                 }
             }
