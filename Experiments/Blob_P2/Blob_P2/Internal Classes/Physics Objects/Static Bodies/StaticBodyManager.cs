@@ -1,4 +1,5 @@
 using System;
+using System.Xml;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -42,9 +43,57 @@ namespace Blob_P2
         public void NewBody(Color colour, params Vector2[] vertices)
         {
             StaticBody sb = new StaticBody(PhysicsOverlord.GetInstance().GetID(), GraphicsDevice, colour, vertices);
+            NewBody(sb);
+        }
 
-            bodies.Add(sb.id, sb);
-            SpatialGrid.GetInstance().AddObject(sb);
+        public void NewBody(StaticBody newbody)
+        {
+            bodies.Add(newbody.id, newbody);
+            SpatialGrid.GetInstance().AddObject(newbody);
+        }
+
+        public void Load()
+        {
+            XmlReader reader = XmlReader.Create("bob.xml");
+            bool done = false;
+            while (!done)
+            {
+                reader.Read();
+                if (reader.Name == "StaticBodyList")
+                {
+                    //processs static body data
+                    reader.ReadStartElement("StaticBodyList");
+                    reader.ReadAttributeValue(); //read count;
+                    if (reader.Name != "Count")
+                        throw new Exception("INVALID XML!");
+                    int count = Convert.ToInt32(reader.Value);
+                    for (int i = 0; i < count; i++)
+                    {
+                        StaticBody sb = new StaticBody(reader);
+                        
+                    }
+                    
+                    done = true;
+                }
+            }
+        }
+
+        public void Save()
+        {
+            XmlWriterSettings settings = new XmlWriterSettings();
+            //settings.ConformanceLevel = ConformanceLevel.Fragment;
+            settings.Indent = true;
+            XmlWriter writer = XmlWriter.Create("bob.xml", settings);
+            writer.WriteStartDocument();
+            writer.WriteStartElement("StaticBodyList");
+            writer.WriteAttributeString("Count", bodies.Count.ToString());
+            foreach (StaticBody sb in bodies.Values)
+            {
+                sb.SaveBody(ref writer);
+            }
+            writer.WriteEndElement(); //</StaticBodyList>
+            writer.WriteEndDocument();
+            writer.Close();
         }
 
         /// <summary>

@@ -60,6 +60,7 @@
     <Compile Include="Internal Classes\Physics Objects\Blob Particles\BlobParticle.cs" />
     <Compile Include="Internal Classes\Physics Objects\Generic\BoundingRectangle.cs" />
     <Compile Include="Internal Classes\Information\FrameRateCounter.cs" />
+    <Compile Include="Internal Classes\StaticBodyEditor.cs" />
     <Compile Include="Internal Classes\Unused\MarchingCube.cs" />
     <Compile Include="Internal Classes\Physics Objects\Generic\PhysicsObject.cs">
       <SubType>Code</SubType>
