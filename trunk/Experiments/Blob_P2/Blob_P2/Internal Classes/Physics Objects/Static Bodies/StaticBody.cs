@@ -12,7 +12,7 @@ using System.Xml;
 
 namespace Blob_P2
 {
-    class StaticBody : PhysicsObject
+    public class StaticBody : PhysicsObject
     {
         public BoundingRectangle BoundingBox;       // The Static Object Bounding Box
         private PrimitiveBatch batch;
@@ -54,15 +54,35 @@ namespace Blob_P2
     	}
         
         //Contructor to load from an xml file.
-        public StaticBody(XmlReader reader)
+        public StaticBody(XmlReader reader, GraphicsDevice graphics)
         {
             this.id = PhysicsOverlord.GetInstance().GetID();
-            reader.ReadStartElement("StaticBody");
-            Color colour = new Color(reader.ReadElementString("Color");
-            reader.ReadAttributeValue();
-            if (reader.Name != "Count")
-                throw new Exception("INVALID XML!");
-            int count = reader.Value;
+            Color colour = new Color();
+        
+            //node is now on colour
+            colour.PackedValue = Convert.ToUInt32(reader.GetAttribute("Color"));
+            reader.ReadToDescendant("VertexList");
+            //move node up one to VertexList
+            int count = int.Parse(reader.GetAttribute("Count"));
+            sourceVertices = new Vector2[count];
+            reader.ReadToDescendant("Vertex");
+            for (int i = 0; i < count; i++)
+            {
+                Vector2 newVertex = new Vector2();
+                newVertex.X = float.Parse(reader.GetAttribute("X"));
+                newVertex.Y = float.Parse(reader.GetAttribute("Y"));
+                sourceVertices[i] = newVertex;
+                reader.ReadToNextSibling("Vertex"); //</Vertex>
+            }
+            reader.ReadEndElement(); //</VertexList>
+            reader.ReadEndElement(); //</StaticBody>
+            BoundingBox = new BoundingRectangle(sourceVertices);
+            this.graphics = graphics;
+            this.colour = colour;
+            this.type = PhysicsObjectType.potStaticBody;
+            Init();
+            TriangulatePoly();
+            centre = new Vector2(BoundingBox.l + ((BoundingBox.r - BoundingBox.l) / 2), BoundingBox.t + ((BoundingBox.b - BoundingBox.t) / 2));
         }
 
         /// <summary>
@@ -312,8 +332,8 @@ namespace Blob_P2
             foreach (Vector2 v in sourceVertices)
             {
                 writer.WriteStartElement("Vertex");
-                writer.WriteElementString("X", v.X.ToString());
-                writer.WriteElementString("Y", v.Y.ToString());
+                writer.WriteAttributeString("X", v.X.ToString());
+                writer.WriteAttributeString("Y", v.Y.ToString());
                 writer.WriteEndElement(); //</Vertex>
             }
             writer.WriteEndElement(); //</VertexList>
