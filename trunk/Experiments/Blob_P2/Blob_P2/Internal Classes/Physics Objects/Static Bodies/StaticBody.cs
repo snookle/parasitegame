@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml;
 
 namespace Blob_P2
 {
@@ -51,6 +52,18 @@ namespace Blob_P2
             TriangulatePoly();
             centre = new Vector2(BoundingBox.l + ((BoundingBox.r - BoundingBox.l) / 2), BoundingBox.t + ((BoundingBox.b - BoundingBox.t) / 2));
     	}
+        
+        //Contructor to load from an xml file.
+        public StaticBody(XmlReader reader)
+        {
+            this.id = PhysicsOverlord.GetInstance().GetID();
+            reader.ReadStartElement("StaticBody");
+            Color colour = new Color(reader.ReadElementString("Color");
+            reader.ReadAttributeValue();
+            if (reader.Name != "Count")
+                throw new Exception("INVALID XML!");
+            int count = reader.Value;
+        }
 
         /// <summary>
         /// Rotates the static body around a point
@@ -288,6 +301,23 @@ namespace Blob_P2
                 pass.End();
             }
             effect.End();
+        }
+
+        public void SaveBody(ref XmlWriter writer)
+        {
+            writer.WriteStartElement("StaticBody");
+            writer.WriteElementString("Colour", colour.PackedValue.ToString());
+            writer.WriteStartElement("VertexList");
+            writer.WriteAttributeString("Count", sourceVertices.Length.ToString());
+            foreach (Vector2 v in sourceVertices)
+            {
+                writer.WriteStartElement("Vertex");
+                writer.WriteElementString("X", v.X.ToString());
+                writer.WriteElementString("Y", v.Y.ToString());
+                writer.WriteEndElement(); //</Vertex>
+            }
+            writer.WriteEndElement(); //</VertexList>
+            writer.WriteEndElement(); //</StaticBody>
         }
     }
 }
