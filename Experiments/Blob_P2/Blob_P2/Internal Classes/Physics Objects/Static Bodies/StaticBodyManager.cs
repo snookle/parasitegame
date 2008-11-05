@@ -17,7 +17,8 @@ namespace Blob_P2
     public class StaticBodyManager : Microsoft.Xna.Framework.DrawableGameComponent
     {
 
-        private Dictionary<int, StaticBody> bodies = new Dictionary<int, StaticBody>();
+        protected Dictionary<int, PhysicsObject> bodies = new Dictionary<int, PhysicsObject>();
+
         public StaticBodyManager(Game game)
             : base(game)
         {
@@ -25,7 +26,7 @@ namespace Blob_P2
         }
 
         /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
+        /// Allows the gamnewBoe component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
         public override void Initialize()
@@ -40,13 +41,13 @@ namespace Blob_P2
         /// </summary>
         /// <param name="colour">The Colour of the Static Body</param>
         /// <param name="vertices">The vertices that make up the shape</param>
-        public void NewBody(Color colour, params Vector2[] vertices)
+        public virtual void NewBody(Color colour, params Vector2[] vertices)
         {
             StaticBody sb = new StaticBody(PhysicsOverlord.GetInstance().GetID(), GraphicsDevice, colour, vertices);
             NewBody(sb);
         }
 
-        public void NewBody(StaticBody newbody)
+        public virtual void NewBody(PhysicsObject newbody)
         {
             bodies.Add(newbody.id, newbody);
             SpatialGrid.GetInstance().AddObject(newbody);

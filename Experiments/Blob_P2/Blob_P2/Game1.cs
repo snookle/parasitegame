@@ -23,6 +23,7 @@ namespace Blob_P2
 
         public BlobManager theBlob;                    // Blob Manager - Handles Particles
         public StaticBodyManager staticBodyManager;    // Static Manager - Handles Static Bodies
+        public RigidBodyManager rigidBodyManager;      // Rigid Manager - Handles Rigid Bodies      **Better way to do this ? We could end up with a million managers...?
         public StaticBodyEditor staticBodyEditor;
         FrameRateCounter frc;
         public GameState state;
@@ -69,6 +70,10 @@ namespace Blob_P2
             staticBodyManager = new StaticBodyManager(this);
             this.Components.Add(staticBodyManager);
             staticBodyManager.Initialize();
+
+            rigidBodyManager = new RigidBodyManager(this);
+            this.Components.Add(rigidBodyManager);
+            rigidBodyManager.Initialize();
 
             staticBodyEditor = new StaticBodyEditor(this);
             this.Components.Add(staticBodyEditor);

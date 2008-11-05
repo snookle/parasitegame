@@ -30,7 +30,7 @@ namespace Blob_P2
         IndexBuffer indexBuffer;
         
         //rotation
-        float angle = 0.0f;
+       protected float angle = 0.0f;
         Vector2 centre;
 
         /// <summary>
@@ -47,7 +47,11 @@ namespace Blob_P2
             sourceVertices = newpoints;
             BoundingBox = new BoundingRectangle(sourceVertices);
             this.graphics = graphics;
+
             this.colour = drawColour;
+            // TRANSPARENT COLOUR
+            //this.colour = new Color(this.colour.R, this.colour.G, this.colour.B, 128);
+
             Init();
             TriangulatePoly();
             centre = new Vector2(BoundingBox.l + ((BoundingBox.r - BoundingBox.l) / 2), BoundingBox.t + ((BoundingBox.b - BoundingBox.t) / 2));
@@ -108,7 +112,7 @@ namespace Blob_P2
         /// Rotates the shape
         /// </summary>
         /// <param name="angle">Number of degrees to rotate</param>
-        private void Rotate(float angle)
+        protected void Rotate(float angle)
         {
             SpatialGrid.GetInstance().RemoveObject(this);
             for (int i = 0; i < sourceVertices.Length; i++)
@@ -264,10 +268,11 @@ namespace Blob_P2
         /// <summary>
         /// Draws the static body
         /// </summary>
-        public void Draw()
+        /// 
+        public virtual void Draw()
         {
-            //Rotation
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            // Rotation Disabled for Static Shapes
+            /*if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
                 angle = 0.01f;
                 //angle = MathHelper.Clamp(angle, -360, 360);
@@ -278,7 +283,7 @@ namespace Blob_P2
                 angle = -0.01f;
                 //angle = MathHelper.Clamp(angle, -360, 360);
                 Rotate(angle);
-            }
+            }*/
 
 
             //show bounding box

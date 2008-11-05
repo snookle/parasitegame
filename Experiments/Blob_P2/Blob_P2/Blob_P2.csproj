@@ -60,6 +60,8 @@
     <Compile Include="Internal Classes\Physics Objects\Blob Particles\BlobParticle.cs" />
     <Compile Include="Internal Classes\Physics Objects\Generic\BoundingRectangle.cs" />
     <Compile Include="Internal Classes\Information\FrameRateCounter.cs" />
+    <Compile Include="Internal Classes\Physics Objects\Rigid Bodies\RigidBody.cs" />
+    <Compile Include="Internal Classes\Physics Objects\Rigid Bodies\RigidBodyManager.cs" />
     <Compile Include="Internal Classes\StaticBodyEditor.cs" />
     <Compile Include="Internal Classes\Unused\MarchingCube.cs" />
     <Compile Include="Internal Classes\Physics Objects\Generic\PhysicsObject.cs">
@@ -93,9 +95,6 @@
       <Project>{C6EDD4AE-30A0-411A-A909-59F9A99F2CF5}</Project>
       <Name>Triangulator</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Internal Classes\Physics Objects\Rigid Bodies\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v2.0\Microsoft.Xna.GameStudio.Common.targets" />

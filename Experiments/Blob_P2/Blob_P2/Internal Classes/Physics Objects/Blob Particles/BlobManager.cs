@@ -350,8 +350,10 @@ namespace Blob_P2
 
                             Vector2 collisionImpulse = velocityN - (slip * velocityT);
 
+                            SpatialGrid.GetInstance().RemoveObject(theParticle);
+                            theParticle.velocity = collisionImpulse;// * -0.8f;
                             theParticle.position = theParticle.oldPosition;
-                            theParticle.velocity = collisionImpulse * -0.8f;
+                            SpatialGrid.GetInstance().AddObject(theParticle);
                             //theParticle.applyForce(collisionImpulse);
                         }
                          
