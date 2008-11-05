@@ -24,6 +24,8 @@ namespace Blob_P2
         SpriteBatch finishText;
         SpriteFont finishFont;
 
+        bool mouseDown = false;
+
         public StaticBodyEditor(Game game)
             : base(game)
         {
@@ -76,7 +78,7 @@ namespace Blob_P2
             }
             else if (game.state == GameState.gsEdit)
             {
-                // SPACE - Change Mode
+                // SPACE - Change Mode 
                 if (Keyboard.GetState().IsKeyDown(Keys.Space)) //was editing, now simulate.
                 {
                     game.state = GameState.gsSimulate;
@@ -84,8 +86,9 @@ namespace Blob_P2
                 }
 
                 // LEFT BUTTON - Create Shape Vertex
-                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                if (Mouse.GetState().LeftButton == ButtonState.Pressed && !mouseDown)
                 {
+                    mouseDown = true;
                     if (!makingShape)
                     {
                         makingShape = true;
@@ -108,10 +111,30 @@ namespace Blob_P2
                             //first vertex then complete Shape
                             if (shape.Count > 1)
                             {
-                                FinishShape();
+                                if (Keyboard.GetState().IsKeyDown(Keys.R))
+                                {
+                                    // Create Rigid Shape
+                                    Vector2[] shape2 = new Vector2[shape.Count];
+                                    shape.CopyTo(shape2);
+
+                                    game.rigidBodyManager.NewBody(Color.SlateGray, shape2);
+                                    makingShape = false;
+                                    finishShape = false;
+                                    shape.Clear();
+                                }
+                                else
+                                {
+                                    // Default
+                                    FinishShape();
+                                }
+                                mouseDown = false;
                             }
-                        }
+
+                        } 
                     }
+                } else if (Mouse.GetState().LeftButton == ButtonState.Released)
+                {
+                    mouseDown = false;
                 }
 
             }
