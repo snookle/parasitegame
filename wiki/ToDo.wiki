@@ -3,53 +3,38 @@
 
 = Introduction =
 
-Selection of To Dos.  Probably best to keep this page to stuff that has to be done within the next week or so
+Selection of work to be done.
 
 = 'Blob' Prototype ([http://tenfiftyfour.com/akAGames/design/Blob%20Prototypes/Blob%20Dump/BlobTest15.swf Latest Iteration])=
  ===Optomisation===
- * Only check appropriate spatial grid squares
-  * I really think there are problems in the spatial grid , I think we need to think of some sort of alternative, or a different approach - if only to test if it's working correctly.  Possibility of a testing program ? 
- * ~~Attempt to Limit Number of Springs per Particle~~
-  * Added, and removed, I don't believe this will help at all.
- * Replace vector += vector. with vector.x += vector.x;
- * Implement suggestions from Mr Kot.
-  * _"well, apart from the neighbor searching algorithm, there are also many redundant calculations. such as the distance and things like that. in the more recent versions, i kind of strayed a little from the paper and so i just store all the forces that the particles are exerting on each other, and apply them after they've all been calculated instead of moving in the middle so you can just store distance and density and things like that."_
-  * Find Redundant Distance Calculations
-   * I don't understand what calculations he means.
-  * Collate All Forces, and Apply at end
- ===Extra Sliders===
- * ~~Slider for Particle Size~~
+ * None required at the present time.
  ===Additions===
  * ~~Spatial Grid~~
  ===Modification of Particle Behaviour===
  * ~~Viscoelastic~~
  ===Skin===
-{{{
-if(has neighbours){
-  if(max neighbours){
-    highlight(green);
-  } else {
-    highlight(grey);
-  }
-} else {
-  highlight(red);
-}
-}}}
-
- * Drawing of exterior blob surface *TONIGHT!*
-  * Set up a texture as Render Target
-  * Render each particle to render Target as a Blob, 255 alpha @ centre, 0 at edges.
-  * Create a pixel shader that will draw the pixel if its alpha value is above a certain threshold
-  * Draw that texture to the screen using that pixel shader
-   * if(Color.r<0.2 || Color.r>0.8) Color.r=0.0f; else Color.r = 1.0f;
- * Need to figure out how to handle cases where small blobs consist of less particles than max neighbours.
+ * ~~Prototype Skin~~
  ===Centre of Gravity ( ie, to form 'ball' )===
- * Experiment with this anyway, we'll see how it works.  Last on the 'to do' list imo
+ * Experiment with this anyway, we'll see how it works.
+ ===Physics
+ * Rigid Bodies
+ * Improved Collisions
+ ===Environmental
+ * Scrolling/Rotating Screen
 
 = Parasite Prototype ([http://tenfiftyfour.com/akAGames/design/Movement%20Prototypes/Flash_IKParasite3.swf Latest Iteration])=
  ===Stiffness===
- * 'locking' the angles in place
-  * Have to figure out way to get the current angle, and tell IK to stay at that angle
-  * From there, have to unlock dynamic IK Lengths
+ * ~~'locking' the angles in place~~
+ * ~~Have to figure out way to get the current angle, and tell IK to stay at that angle~~
+ * ~~From there, have to unlock dynamic IK Lengths~~
  ===Springing===
- * Simple Parabolic Motion, Power Determined by current width / original width
+ * ~~Simple Parabolic Motion, Power Determined by current width / original width~~
+ * Springing Facing the Correct Direction
+ ===Movement===
+ * Worm/Caterpillar Movement Trial.
+ * Interaction with Physics Objects
+  * Walking up/down Surfaces
+  * Climbing Specific Wall Types
+  * Sticking into Roof with Tail
+ ===Mucus===
+ * Test Mucus System
