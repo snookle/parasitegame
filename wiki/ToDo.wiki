@@ -5,7 +5,7 @@
 
 Selection of work to be done.
 
-= 'Blob' Prototype ([http://tenfiftyfour.com/akAGames/design/Blob%20Prototypes/Blob%20Dump/BlobTest15.swf Latest Iteration])=
+= 'Blob' Prototype =
  ===Optomisation===
  * None required at the present time.
  ===Additions===
@@ -22,7 +22,7 @@ Selection of work to be done.
  ===Environmental===
  * Scrolling/Rotating Screen
 
-= Parasite Prototype ([http://tenfiftyfour.com/akAGames/design/Movement%20Prototypes/Flash_IKParasite3.swf Latest Iteration])=
+= Parasite Prototype =
  ===Stiffness===
  * ~~'locking' the angles in place~~
  * ~~Have to figure out way to get the current angle, and tell IK to stay at that angle~~
