@@ -16,10 +16,10 @@ Selection of work to be done.
  * ~~Prototype Skin~~
  ===Centre of Gravity ( ie, to form 'ball' )===
  * Experiment with this anyway, we'll see how it works.
- ===Physics
+ ===Physics===
  * Rigid Bodies
  * Improved Collisions
- ===Environmental
+ ===Environmental===
  * Scrolling/Rotating Screen
 
 = Parasite Prototype ([http://tenfiftyfour.com/akAGames/design/Movement%20Prototypes/Flash_IKParasite3.swf Latest Iteration])=
