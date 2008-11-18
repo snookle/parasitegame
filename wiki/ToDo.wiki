@@ -7,7 +7,7 @@ Selection of work to be done.
 
 = 'Blob' Prototype =
  ===Optomisation===
- * None required at the present time.
+ * Increase Drawing Speed by Generating Texture during Update, removing loop from draw.
  ===Additions===
  * ~~Spatial Grid~~
  ===Modification of Particle Behaviour===
