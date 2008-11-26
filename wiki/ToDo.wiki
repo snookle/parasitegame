@@ -21,6 +21,7 @@ Selection of work to be done.
  * Improved Collisions
  ===Environmental===
  * Scrolling/Rotating Screen
+  * Camera
 
 = Parasite Prototype =
  ===Stiffness===
