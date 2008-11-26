@@ -15,6 +15,10 @@
  * Optional
   * Loading Level Art
 
+=Future Goals=
+
+None Listed.
+
 =Past Goals=
 
 ==Simple Static Body System : Achieved==
