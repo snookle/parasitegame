@@ -4,7 +4,7 @@
 
 ==Get Parasite Walking and Interacting with a Level==
  * 2D Camera
-  * Movement
+  * Movement *(Current : Ben)*
   * Zooming
   * Smooth Locking/Following Targets.
  * Parasite Interaction with Static Bodies
