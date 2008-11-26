@@ -1,0 +1,21 @@
+#summary List of Immediate and Past Goals
+
+=Immediate Goal=
+
+==Get Parasite Walking and Interacting with a Level==
+ * 2D Camera
+  * Movement
+  * Zooming
+  * Smooth Locking/Following Targets.
+ * Parasite Interaction with Static Bodies
+  * Add Parasite to Simulation *(Current : Anthony)*
+  * Crawling
+  * Climbing
+  * Attaching ( After Spring )
+ * Optional
+  * Loading Level Art
+
+=Past Goals=
+
+==Simple Static Body System==
+==Fluid Simulation Prototype==
