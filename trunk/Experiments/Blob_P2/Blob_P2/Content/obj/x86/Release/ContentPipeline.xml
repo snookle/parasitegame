@@ -44,7 +44,16 @@
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
       <Output>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\blobshader.xnb</Output>
-      <Time>2008-11-02T14:11:39.842862+10:00</Time>
+      <Time>2008-11-27T23:48:48.946391+10:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\ParasiteBodyPart.png</Source>
+      <Name>Sprites\ParasiteBodyPart</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\Sprites\ParasiteBodyPart.xnb</Output>
+      <Time>2008-10-10T00:01:53.5215975+10:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

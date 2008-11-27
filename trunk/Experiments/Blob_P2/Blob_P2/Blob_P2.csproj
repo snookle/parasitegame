@@ -56,6 +56,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Internal Classes\Parasite\IKMember.cs" />
+    <Compile Include="Internal Classes\Parasite\Parasite.cs" />
+    <Compile Include="Internal Classes\Parasite\ParasiteBodyPart.cs" />
+    <Compile Include="Internal Classes\Parasite\ParasiteHead.cs" />
+    <Compile Include="Internal Classes\Parasite\ParasiteTail.cs" />
     <Compile Include="Internal Classes\Physics Objects\Blob Particles\BlobManager.cs" />
     <Compile Include="Internal Classes\Physics Objects\Blob Particles\BlobParticle.cs" />
     <Compile Include="Internal Classes\Physics Objects\Generic\BoundingRectangle.cs" />

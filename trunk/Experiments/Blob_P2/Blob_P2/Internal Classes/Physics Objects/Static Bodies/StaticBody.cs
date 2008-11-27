@@ -19,7 +19,7 @@ namespace Blob_P2
         private GraphicsDevice graphics;
         private Color colour;
         //for triangulation
-        Vector2[] sourceVertices;
+        protected Vector2[] sourceVertices;
         int[] sourceIndices;
         int numVertices;
         int numPrimitives;
@@ -127,7 +127,7 @@ namespace Blob_P2
         /// <summary>
         /// Inititalises the static body
         /// </summary>
-        private void Init()
+        protected void Init()
         {
             effect = new BasicEffect(graphics, null);
             // projection uses CreateOrthographicOffCenter to create 2d projection
@@ -144,7 +144,7 @@ namespace Blob_P2
         /// <summary>
         /// 
         /// </summary>
-        private void TriangulatePoly()
+        protected void TriangulatePoly()
         {
             Triangulator.Triangulator.Triangulate(sourceVertices, Triangulator.WindingOrder.CounterClockwise, out sourceVertices, out sourceIndices);
 

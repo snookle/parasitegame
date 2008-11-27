@@ -64,7 +64,7 @@ namespace Blob_P2
             if (game.state == GameState.gsSimulate)
             {
                 // LEFT BUTTON - Increase Particles
-                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                if (Mouse.GetState().LeftButton == ButtonState.Pressed && Keyboard.GetState().IsKeyDown(Keys.LeftShift))
                 {
                     game.theBlob.increaseParticles();
                 }
@@ -86,7 +86,7 @@ namespace Blob_P2
                 }
 
                 // LEFT BUTTON - Create Shape Vertex
-                if (Mouse.GetState().LeftButton == ButtonState.Pressed && !mouseDown)
+                if (Mouse.GetState().LeftButton == ButtonState.Pressed && !mouseDown && Keyboard.GetState().IsKeyDown(Keys.LeftShift))
                 {
                     mouseDown = true;
                     if (!makingShape)
