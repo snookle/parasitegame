@@ -12,7 +12,10 @@
   * Add to Spatial Grid, Allow Interaction with Other Elements *(Current : Anthony)*
   * Crawling
   * Climbing
+  * Swimming
   * Attaching ( After Spring )
+ * Shaders
+  * Get Blood Transparent, so Parasite can be seen behind it.
  * Optional
   * Loading Level Art
 
