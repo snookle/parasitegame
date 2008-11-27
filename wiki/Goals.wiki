@@ -8,7 +8,7 @@
   * Zooming
   * Smooth Locking/Following Targets.
  * Parasite Interaction with Static Bodies
-  * ~~Add Parasite to Simulation (27/11/08)~~
+  * ~~Add Parasite to Simulation (27/11/08:r168)~~
   * Add to Spatial Grid, Allow Interaction with Other Elements *(Current : Anthony)*
   * Crawling
   * Climbing
