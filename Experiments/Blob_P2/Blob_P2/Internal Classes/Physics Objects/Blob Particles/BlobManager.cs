@@ -131,6 +131,7 @@ namespace Blob_P2
             for (int i = 0; i < particleCount; i++)
             {
                 theParticle = theParticles[i];
+                //theParticle.colour = new Color(147, 66, 66, 255);
                 theParticle.colour = Color.Red;
 
                 spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 0.5f, SpriteEffects.None, 1);

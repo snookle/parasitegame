@@ -28,6 +28,8 @@ namespace Blob_P2
         FrameRateCounter frc;
         public GameState state;
 
+        public Parasite theParasite;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -44,8 +46,14 @@ namespace Blob_P2
         protected override void Initialize()
         {
             this.IsMouseVisible = true;
-            base.Initialize();
-      
+            base.Initialize();      
+        }
+
+        private void createParasite()
+        {
+            theParasite = new Parasite(this);
+            this.Components.Add(theParasite);
+            theParasite.Initialize();
         }
 
         /// <summary>
@@ -108,6 +116,9 @@ namespace Blob_P2
 
             if (Keyboard.GetState().IsKeyDown(Keys.L))
                 staticBodyManager.Load();
+
+            if (Keyboard.GetState().IsKeyDown(Keys.P) && theParasite == null)
+                createParasite();
 
             base.Update(gameTime);
         }

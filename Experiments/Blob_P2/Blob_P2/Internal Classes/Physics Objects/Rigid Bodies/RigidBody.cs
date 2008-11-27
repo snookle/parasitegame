@@ -25,6 +25,15 @@ namespace Blob_P2
 
         public override void Draw()
         {
+            SpatialGrid.GetInstance().RemoveObject(this);
+            // Apply Velocity
+            for (int i = 0; i < sourceVertices.Length; i++)
+            {
+                sourceVertices[i] += this.velocity;
+            }
+            BoundingBox = new BoundingRectangle(sourceVertices);
+            TriangulatePoly();
+            SpatialGrid.GetInstance().AddObject(this);
             // Call Parent Draw Methods
             base.Draw();
         }
