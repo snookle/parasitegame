@@ -7,6 +7,8 @@
   * Movement *(Current : Ben)*
   * Zooming
   * Smooth Locking/Following Targets.
+ * Static Body Changes
+  * Different Wall/Solid Types - ie, sticky, nonsticky
  * Parasite Interaction with Static Bodies
   * ~~Add Parasite to Simulation (27/11/08)~~ : r168
   * Add to Spatial Grid, Allow Interaction with Other Elements *(Current : Anthony)*
