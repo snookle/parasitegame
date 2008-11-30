@@ -2,7 +2,7 @@
 
 =Immediate Goal=
 
-==Get Parasite Walking and Interacting with a Level ( aim : 7/12/08 )==
+==Get Parasite Walking and Interacting with a Level ( aim : Early December )==
  * 2D Camera
   * Movement *(Current : Ben)*
   * Zooming
