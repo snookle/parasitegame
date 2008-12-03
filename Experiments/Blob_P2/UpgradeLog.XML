@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Blob_P2">
+</Property><Property Name="Solution File" Value="E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2.sln">
+</Property><Property Name="User Options File" Value="E:\aA\Game Projects\Parasite Game\parasitegame\Experiments\Blob_P2\Blob_P2.suo">
+</Property><Property Name="Date" Value="Monday, 1 December 2008">
+</Property><Property Name="Time" Value="17:13 PM">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="Blob_P2.sln" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2.sln">
+</Event><Event ErrorLevel="0" Project="" Source="Blob_P2.suo" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2.suo">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Blob_P2.csproj" Description="Upgraded XNA Game Studio nested content projects.">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Blob_P2.csproj" Description="Upgraded XNA Game Studio project.">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Blob_P2.csproj" Description="Project file successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Blob_P2.csproj">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Parasite\IKMember.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Parasite\IKMember.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Parasite\Parasite.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Parasite\Parasite.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Parasite\ParasiteBodyPart.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Parasite\ParasiteBodyPart.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Parasite\ParasiteHead.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Parasite\ParasiteHead.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Parasite\ParasiteTail.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Parasite\ParasiteTail.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Physics Objects\Blob Particles\BlobManager.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Physics Objects\Blob Particles\BlobManager.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Physics Objects\Blob Particles\BlobParticle.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Physics Objects\Blob Particles\BlobParticle.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Physics Objects\Generic\BoundingRectangle.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Physics Objects\Generic\BoundingRectangle.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Information\FrameRateCounter.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Information\FrameRateCounter.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Physics Objects\Rigid Bodies\RigidBody.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Physics Objects\Rigid Bodies\RigidBody.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Physics Objects\Rigid Bodies\RigidBodyManager.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Physics Objects\Rigid Bodies\RigidBodyManager.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\StaticBodyEditor.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\StaticBodyEditor.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Unused\MarchingCube.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Unused\MarchingCube.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Physics Objects\Generic\PhysicsObject.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Physics Objects\Generic\PhysicsObject.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Physics Objects\Generic\PhysicsOverlord.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Physics Objects\Generic\PhysicsOverlord.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Information\PrimitiveBatch.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Information\PrimitiveBatch.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Information\PrimitiveShape.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Information\PrimitiveShape.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Physics Objects\Static Bodies\StaticBody.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Physics Objects\Static Bodies\StaticBody.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Properties\AssemblyInfo.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Program.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Program.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Game1.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Game1.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Physics Objects\Spatial Grid\SpatialGrid.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Physics Objects\Spatial Grid\SpatialGrid.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Physics Objects\Blob Particles\Spring.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Physics Objects\Blob Particles\Spring.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Internal Classes\Physics Objects\Static Bodies\StaticBodyManager.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Internal Classes\Physics Objects\Static Bodies\StaticBodyManager.cs">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Game.ico" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Game.ico">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\GameThumbnail.png" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\GameThumbnail.png">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Blob_P2.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Blob_P2" Source="Blob_P2\Blob_P2.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Triangulator" Source="Blob_P2\Triangulator\Triangulator.csproj" Description="Upgraded XNA Game Studio project.">
+</Event><Event ErrorLevel="0" Project="Triangulator" Source="Blob_P2\Triangulator\Triangulator.csproj" Description="Project file successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Triangulator\Triangulator.csproj">
+</Event><Event ErrorLevel="0" Project="Triangulator" Source="Blob_P2\Triangulator\Internal Classes\CyclicalList.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Triangulator\Internal Classes\CyclicalList.cs">
+</Event><Event ErrorLevel="0" Project="Triangulator" Source="Blob_P2\Triangulator\Internal Classes\IndexableCyclicalLinkedList.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Triangulator\Internal Classes\IndexableCyclicalLinkedList.cs">
+</Event><Event ErrorLevel="0" Project="Triangulator" Source="Blob_P2\Triangulator\Internal Classes\LineSegment.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Triangulator\Internal Classes\LineSegment.cs">
+</Event><Event ErrorLevel="0" Project="Triangulator" Source="Blob_P2\Triangulator\Properties\AssemblyInfo.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Triangulator\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="Triangulator" Source="Blob_P2\Triangulator\Internal Classes\Triangle.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Triangulator\Internal Classes\Triangle.cs">
+</Event><Event ErrorLevel="0" Project="Triangulator" Source="Blob_P2\Triangulator\Triangulator.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Triangulator\Triangulator.cs">
+</Event><Event ErrorLevel="0" Project="Triangulator" Source="Blob_P2\Triangulator\Internal Classes\Vertex.cs" Description="File successfully backed up as E:\aA\Game Projects\Parasite Game\parasitegame\Backup\Backup\Blob_P2\Triangulator\Internal Classes\Vertex.cs">
+</Event><Event ErrorLevel="0" Project="Triangulator" Source="Blob_P2\Triangulator\Triangulator.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Triangulator" Source="Blob_P2\Triangulator\Triangulator.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="Blob_P2.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="Blob_P2.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Blob_P2.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="Blob_P2" Source="Blob_P2\Blob_P2.csproj" Description="Upgraded XNA Framework References.">
+</Event><Event ErrorLevel="0" Project="Content" Source="blobshader.fx.svn-base" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="Content.contentproj.svn-base" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="DebugFont.spritefont.svn-base" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="all-wcprops" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="entries" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="format" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="100xparticle.png.svn-base" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="blobshaderdot.png.svn-base" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="ParasiteBodyPart.png.svn-base" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="Particle.png.svn-base" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="100xparticle.png.svn-base" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="blobshaderdot.png.svn-base" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="ParasiteBodyPart.png.svn-base" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="Particle.png.svn-base" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="all-wcprops" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="entries" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="format" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="100xparticle.png" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="blobshaderdot.png" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="ParasiteBodyPart.png" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="Particle.png" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="blobshader.fx" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="Content.contentproj" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Content" Source="DebugFont.spritefont" Description="Copied XNA Game Studio Content Project content to backup location.">
+</Event><Event ErrorLevel="0" Project="Triangulator" Source="Blob_P2\Triangulator\Triangulator.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="Triangulator" Source="Blob_P2\Triangulator\Triangulator.csproj" Description="Upgraded XNA Framework References.">
+</Event></UpgradeLog>
