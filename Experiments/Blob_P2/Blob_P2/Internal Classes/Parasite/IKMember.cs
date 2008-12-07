@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace Blob_P2
 {
-    class IKMember
+    public class IKMember
     {
         public IKMember father = null;
         public float distance;

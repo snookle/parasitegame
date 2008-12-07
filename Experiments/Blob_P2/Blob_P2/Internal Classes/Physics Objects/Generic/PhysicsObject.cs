@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Blob_P2
 {
-    public enum PhysicsObjectType {potBlobParticle, potStaticBody};
+    public enum PhysicsObjectType { potBlobParticle, potStaticBody, potParasiteBodyPart };
     public class PhysicsObject
     {
         public int id;

@@ -95,6 +95,14 @@ namespace Blob_P2
                     grid[xStart][yStart].Add(obj.id, obj);
                 }
             }
+            else if (obj.type == PhysicsObjectType.potParasiteBodyPart)
+            {
+                int x = (int)Math.Floor(((ParasiteBodyPart)obj).position.X / gridSize);
+                int y = (int)Math.Floor(((ParasiteBodyPart)obj).position.Y / gridSize);
+                if (grid[x][y].ContainsKey(obj.id))
+                    RemoveObject(obj);
+                grid[x][y].Add(obj.id, obj);
+            }
             else
                 throw new Exception("OMFG DIDNT ADD ANYTHING TO THE GRID FUCK!");
         }
@@ -106,7 +114,6 @@ namespace Blob_P2
 
             if (obj.type == PhysicsObjectType.potBlobParticle)
             {
-
                 int x = (int)Math.Floor(((BlobParticle)obj).position.X / gridSize);
                 int y = (int)Math.Floor(((BlobParticle)obj).position.Y / gridSize);
                 grid[x][y].Remove(((BlobParticle)obj).id);
@@ -135,6 +142,12 @@ namespace Blob_P2
                 {
                     grid[xStart][yStart].Add(obj.id, obj);
                 }
+            }
+            else if (obj.type == PhysicsObjectType.potParasiteBodyPart)
+            {
+                int x = (int)Math.Floor(((ParasiteBodyPart)obj).position.X / gridSize);
+                int y = (int)Math.Floor(((ParasiteBodyPart)obj).position.Y / gridSize);
+                grid[x][y].Remove(((ParasiteBodyPart)obj).id);
             }
         }
 
@@ -194,6 +207,53 @@ namespace Blob_P2
             return returnList;
         }
 
+        public List<PhysicsObject> GetPNeighbours(ParasiteBodyPart bodyPart)
+        {
+            if (!setup)
+                throw new Exception("SetDimensions must be called first!");
+
+            int x = (int)Math.Floor(bodyPart.position.X / gridSize);
+            int y = (int)Math.Floor(bodyPart.position.Y / gridSize);
+
+            List<PhysicsObject> returnList = new List<PhysicsObject>();
+
+            int xStart = x - 1;
+            int xEnd = x + 1;
+            int yStart = y - 1;
+            int yEnd = y + 1;
+
+            if (xStart <= 0)
+            {
+                xStart = 0;
+            }
+
+            if (xEnd >= width)
+            {
+                xEnd = width;
+            }
+
+            if (yStart <= 0)
+            {
+                yStart = 0;
+            }
+
+            if (yEnd >= height)
+            {
+                yEnd = height;
+            }
+
+            for (int i = xStart; i <= xEnd; i++)
+            {
+                for (int j = yStart; j <= yEnd; j++)
+                {
+                    returnList.AddRange(grid[i][j].Values);
+                }
+            }
+
+            returnList.Remove(bodyPart);
+
+            return returnList;
+        }
 
     }
 }

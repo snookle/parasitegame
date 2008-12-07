@@ -133,22 +133,60 @@ namespace Blob_P2
                 MouseState aMouse = Mouse.GetState();
                 Vector2 mousePos = new Vector2(aMouse.X, aMouse.Y);
 
+                int swimCount = 0;
+                Boolean swimming = false;
+
+                if (head.status == ParasiteBodyPart.ParasiteStatus.swimming)
+                {
+                    swimCount++;
+                }
+
+                if (tail.status == ParasiteBodyPart.ParasiteStatus.swimming)
+                {
+                    swimCount++;
+                }
+
+                for (int i = 0; i < bodyparts.Count; i++)
+                {
+                    if (bodyparts[i].status == ParasiteBodyPart.ParasiteStatus.swimming)
+                    {
+                        swimCount++;
+                    }
+                }
+
+                if (swimCount > (bodyparts.Count + 2)/2)
+                {
+                    swimming = true;
+                }
+
+
                 Boolean applyGravity = true;
 
                 if (!rigid)
                 {
                     if (aKeyboard.IsKeyDown(Keys.Left))
                     {
-                        head.position.X -= 2;
+                        head.velocity.X -= 0.2f;
                     }
                     else if (aKeyboard.IsKeyDown(Keys.Right))
                     {
-                        head.position.X += 2;
+                        head.velocity.X += 0.2f;
                     }
 
+                    if (swimming)
+                    {
+                        if (aKeyboard.IsKeyDown(Keys.Up))
+                        {
+                            head.velocity.Y -= 0.2f;
+                        }
+                        else if (aKeyboard.IsKeyDown(Keys.Down))
+                        {
+                            head.velocity.Y += 0.2f;
+                        }
+                    }
                 }
 
-                if ((tail.position - mousePos).Length() < 10 * bodyparts.Count)
+                if ((tail.position - mousePos).Length() < 10 * bodyparts.Count && head.velocity.X < 1f && head.velocity.Y < 1f)
                 {
                     tail.position = mousePos;
                     //head.position = mousePos;
@@ -202,7 +240,6 @@ namespace Blob_P2
                             head.velocity.X = (float)Math.Cos(tail.IKPoint.currentAngle) * launchForce;
                             head.velocity.Y = (float)Math.Sin(tail.IKPoint.currentAngle) * launchForce;
                         }
-
                     }
                 }
 
@@ -210,20 +247,27 @@ namespace Blob_P2
                 tail.UpdatePoint();
 
                 if (applyGravity)
-                    tail.ApplyForce(gravity);
+                    tail.ApplyForce(tail.relativeGravity);
 
                 for (int i = 0; i < bodyparts.Count; i++)
                 {
                     bodyparts[i].Init();
                     bodyparts[i].UpdatePoint();
 
+                    if (bodyparts[i].status == ParasiteBodyPart.ParasiteStatus.swimming)
+                    {
+                        applyGravity = false;
+                    }
+
                     if (applyGravity)
-                        bodyparts[i].ApplyForce(gravity);
+                        bodyparts[i].ApplyForce(bodyparts[i].relativeGravity);
                 }
 
                 head.Init();
                 head.UpdatePoint();
-                head.ApplyForce(gravity);
+
+                if(applyGravity)
+                    head.ApplyForce(head.relativeGravity);
 
                 //head.IKPoint.moveTo(mousePos.X, mousePos.Y);
 
@@ -260,20 +304,23 @@ namespace Blob_P2
         public void CreateParasite(int numParts)
         {
             // Create the Tail
-            tail = new ParasiteTail(theSprite, 1.0f);
+            tail = new ParasiteTail(PhysicsOverlord.GetInstance().GetID(), theSprite, 1.0f);
             tail.position = new Vector2(150 + (50 * numParts), 100);
+            tail.relativeGravity = gravity;
 
             // Create Body Parts
             for (int i = 0; i < numParts; i++)
             {
-                ParasiteBodyPart bodyPart = new ParasiteBodyPart(theSprite, 1f);
+                ParasiteBodyPart bodyPart = new ParasiteBodyPart(PhysicsOverlord.GetInstance().GetID(), theSprite, 1f);
                 bodyPart.position = new Vector2(150 + (50 * i), 100);
                 bodyparts.Add(bodyPart);
+                bodyPart.relativeGravity = gravity;
             }
-            
+
             // Create the Head
-            head = new ParasiteHead(theSprite, 1);
+            head = new ParasiteHead(PhysicsOverlord.GetInstance().GetID(), theSprite, 1);
             head.position = new Vector2(100, 100);
+            head.relativeGravity = gravity;
 
             // IKPoints
 
