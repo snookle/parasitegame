@@ -18,6 +18,7 @@ namespace Blob_P2
         public float radius;
         public float radiusSquared;
         public Vector2 oldPosition;
+        public Vector2 currentForce;
 
         public List<BlobParticle> neighbours;
 
@@ -37,6 +38,7 @@ namespace Blob_P2
 
         public void applyForce(Vector2 theForce)
         {
+            currentForce = theForce;
             this.velocity += theForce;
         }
 

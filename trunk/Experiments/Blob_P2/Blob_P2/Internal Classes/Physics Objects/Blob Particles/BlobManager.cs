@@ -27,7 +27,7 @@ namespace Blob_P2
 
         public float threshold = 10;
         public float disconnectThreshold = 10;
-        public int numLinks = 6;
+        public int numLinks = 8;
         public float particleRadius = 5f;
 
         // Spatial Grid
@@ -43,7 +43,7 @@ namespace Blob_P2
 
         // DDR
         private float restDensity = 10f;
-        private float stiffness = 0.5f;
+        private float stiffness = 0.2f;
         private float nearStiffness = 0.01f;
 
         private SpriteBatch spriteBatch;
@@ -134,7 +134,7 @@ namespace Blob_P2
                 //theParticle.colour = new Color(147, 66, 66, 255);
                 theParticle.colour = Color.Red;
 
-                spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 0.5f, SpriteEffects.None, 1);
+                spriteBatch.Draw(theSprite, theParticle.position,null, theParticle.colour, 0, theParticle.centre, 0.5f, SpriteEffects.None, 1);
 
             }
             spriteBatch.End();
@@ -338,24 +338,45 @@ namespace Blob_P2
                         Vector2 result;
                         if ((result = ((StaticBody)neighbourObject).Collides(theParticle)) != Vector2.Zero)
                         {
-                            // OLD COLLISION CODE
-                            //theParticle.velocity = Vector2.Reflect(theParticle.velocity, result) * 0.8f;
-                            //theParticle.position = theParticle.oldPosition;
+                            // Collision Code from 'Devin Horsman' Message
+                            float kr = 0.5f;
+                            float friction = 1f;
 
-                            // ATTEMPTED NEW COLLISION CODE
-                            float slip = 0.5f;
-                            Vector2 tempVel = theParticle.oldPosition - theParticle.position;
-
+                            //Vector2 tempVel = theParticle.oldPosition - theParticle.position;
+                            Vector2 tempVel = theParticle.velocity;
                             Vector2 velocityN = Vector2.Dot(tempVel, result) * result;
                             Vector2 velocityT = tempVel - velocityN;
 
-                            Vector2 collisionImpulse = velocityN - (slip * velocityT);
+                            // Check if object is moving towards wall.
+                            //if (Vector2.Dot(theParticle.velocity, result) < 0)
+                            //{
+                                SpatialGrid.GetInstance().RemoveObject(theParticle);
+                                // No Friction
+                                Vector2 newVel = velocityT - kr * velocityN;
 
-                            SpatialGrid.GetInstance().RemoveObject(theParticle);
-                            theParticle.velocity = collisionImpulse;// * -0.8f;
-                            theParticle.position = theParticle.oldPosition;
-                            SpatialGrid.GetInstance().AddObject(theParticle);
-                            //theParticle.applyForce(collisionImpulse);
+                                // Fake Friction
+                                /*Vector2 newVTan = Vector2.Max(Vector2.Zero, velocityT - velocityT * friction);
+                                Vector2 newVel = newVTan + kr * velocityN;*/
+
+                                theParticle.velocity = newVel;
+                                theParticle.position = theParticle.oldPosition;
+                                float check = Vector2.Dot(tempVel, result);
+
+                                //if (check < theParticle.radius/2)
+                                //{
+                                    Vector2 contactForce = -Vector2.Dot(result, theParticle.velocity) * result;
+                                    //theParticle.applyForce(contactForce);
+                                    theParticle.velocity = contactForce;
+                                //}
+                                // Friction
+                                    //if (velocityT > new Vector2(5,5))
+                                    //{
+                                        //Vector2 frictionForce = -friction * Vector2.Dot(-result, theParticle.velocity) * velocityT;
+                                        //theParticle.applyForce(frictionForce);
+                                    //}
+
+                                SpatialGrid.GetInstance().AddObject(theParticle);
+                            //}
                         }
                          
                     }

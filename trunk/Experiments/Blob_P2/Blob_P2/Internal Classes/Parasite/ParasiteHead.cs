@@ -9,8 +9,8 @@ namespace Blob_P2
 {
     class ParasiteHead : ParasiteBodyPart
     {
-        public ParasiteHead(Texture2D sprite, float weight)
-            : base(sprite, weight)
+        public ParasiteHead(int id, Texture2D sprite, float weight)
+            : base(id, sprite, weight)
         {
         }
 

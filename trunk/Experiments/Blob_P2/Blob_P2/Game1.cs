@@ -53,7 +53,7 @@ namespace Blob_P2
         {
             theParasite = new Parasite(this);
             this.Components.Add(theParasite);
-            theParasite.Initialize();
+            //theParasite.Initialize();
         }
 
         /// <summary>

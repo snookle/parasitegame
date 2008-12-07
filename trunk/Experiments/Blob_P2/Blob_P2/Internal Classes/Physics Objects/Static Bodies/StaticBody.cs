@@ -221,6 +221,39 @@ namespace Blob_P2
                         if (linePoint1 != -1 && linePoint1 < 500)
                         {
                             Vector2 v = sourceVertices[linePoint2] - sourceVertices[linePoint1];
+                            //return Vector2.Normalize(new Vector2(-v.Y, v.X));
+                            return Vector2.Normalize(new Vector2(v.X, v.Y));
+
+                        }
+                    }
+                }
+            }
+            else if (obj.type == PhysicsObjectType.potParasiteBodyPart)
+            {
+                if (BoundingBox.Contains(((ParasiteBodyPart)obj).position))
+                {
+                    if (ContainsPoint(((ParasiteBodyPart)obj).position))
+                    {
+                        int linePoint1 = -1;
+                        int linePoint2 = -1;
+                        float closestDistance = float.PositiveInfinity;
+                        Vector2 closestPoint = Vector2.Zero;
+                        //now do some more intensive collision detection
+                        for (int i = 0; i < sourceVertices.Length; i += 2)
+                        {
+                            Vector2 point = ClosestPointOnLineSegment(ref sourceVertices[i], ref sourceVertices[(i + 1) % sourceVertices.Length], ref ((ParasiteBodyPart)obj).position);
+                            float currentDistance = Vector2.Distance(closestPoint, point);
+                            if (currentDistance < closestDistance)
+                            {
+                                closestDistance = currentDistance;
+                                closestPoint = point;
+                                linePoint1 = i;
+                                linePoint2 = (i + 1) % sourceVertices.Length;
+                            }
+                        }
+                        if (linePoint1 != -1 && linePoint1 < 500)
+                        {
+                            Vector2 v = sourceVertices[linePoint2] - sourceVertices[linePoint1];
                             return Vector2.Normalize(new Vector2(-v.Y, v.X));
 
                         }
