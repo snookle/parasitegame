@@ -45,6 +45,7 @@ namespace Blob_P2
 
         // System Stuff
         private SpriteBatch spriteBatch;
+        private SceneCamera camera;
 
         public Parasite(Game game)
             : base(game)
@@ -73,6 +74,7 @@ namespace Blob_P2
 			 */
             init();
             CreateParasite(6);
+            camera = (SceneCamera)Game.Services.GetService(typeof(ICameraComponent));
         }
 
         /// <summary>
@@ -97,8 +99,8 @@ namespace Blob_P2
         public override void Draw(GameTime gameTime)
         {
             // TODO: Add your drawing code here
+           // spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None, Matrix.CreateTranslation(camera.Position));
             spriteBatch.Begin();
-
             spriteBatch.Draw(theSprite, head.position, null, Color.White, 0, head.centre, 1, SpriteEffects.None, 1);
 
             for (int i = 0; i < bodyparts.Count; i++)
@@ -273,7 +275,7 @@ namespace Blob_P2
 
                 //head.velocity.Y += 0.2f;
             }
-
+            camera.Position = new Vector3(this.head.position, 0);
             base.Update(gameTime);
         }
 

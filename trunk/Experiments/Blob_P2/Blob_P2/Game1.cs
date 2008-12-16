@@ -30,11 +30,31 @@ namespace Blob_P2
 
         public Parasite theParasite;
 
+        SceneCamera camera;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             state = GameState.gsEdit;
+
+            theBlob = new BlobManager(this);
+            this.Components.Add(theBlob);
+
+            frc = new FrameRateCounter(this);
+            Components.Add(frc);
+
+            staticBodyManager = new StaticBodyManager(this);
+            this.Components.Add(staticBodyManager);
+
+            rigidBodyManager = new RigidBodyManager(this);
+            this.Components.Add(rigidBodyManager);
+
+            staticBodyEditor = new StaticBodyEditor(this);
+            this.Components.Add(staticBodyEditor);
+
+            camera = new SceneCamera(this, new Vector3(0, 0, 0), new Vector3(0, 0, 0), Vector3.Up);
+            this.Components.Add(camera);
         }
 
         /// <summary>
@@ -65,27 +85,6 @@ namespace Blob_P2
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);            
-            // TODO: use this.Content to load your game content here
-
-            theBlob = new BlobManager(this);
-            this.Components.Add(theBlob);
-            theBlob.Initialize();
-
-            frc = new FrameRateCounter(this);
-            Components.Add(frc);
-            frc.Initialize();
-
-            staticBodyManager = new StaticBodyManager(this);
-            this.Components.Add(staticBodyManager);
-            staticBodyManager.Initialize();
-
-            rigidBodyManager = new RigidBodyManager(this);
-            this.Components.Add(rigidBodyManager);
-            rigidBodyManager.Initialize();
-
-            staticBodyEditor = new StaticBodyEditor(this);
-            this.Components.Add(staticBodyEditor);
-            staticBodyEditor.Initialize();
 
         }
 
