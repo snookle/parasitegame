@@ -25,8 +25,8 @@ namespace Blob_P2
 
         private int drawingOffset = 10;
 
-        public float threshold = 10;
-        public float disconnectThreshold = 10;
+        public float threshold = 20;
+        public float disconnectThreshold = 20;
         public int numLinks = 8;
         public float particleRadius = 5f;
 
@@ -38,7 +38,7 @@ namespace Blob_P2
         // Spring Variables
         private List<Spring> theSprings;
         public float springStiffness = 0.3f;
-        public float springLength = 10;
+        public float springLength = 20;
         public float springFriction = 0.1f;
 
         // DDR
@@ -52,8 +52,8 @@ namespace Blob_P2
         private bool simulating = false;
 
         VertexPositionColor[] line;         // Start / End Points
-        Matrix world, projection, view;             // Transformation matrix
         BasicEffect basicEffect;                    // Standard Drawing Effects
+
         VertexDeclaration vertexDeclaration;
         //blob shading
         Effect blobShader;
@@ -61,6 +61,8 @@ namespace Blob_P2
         RenderTarget2D blobRenderTarget;
         Texture2D blobTexture;
         Vector2 blobCenterCoord = new Vector2(0.5f);
+
+        SceneCamera camera;
 
         public BlobManager(Game game)
             : base(game)
@@ -84,6 +86,8 @@ namespace Blob_P2
             basicEffect.DiffuseColor = new Vector3(0.5f, 0.2f, 0.2f);
             basicEffect.Alpha = 0.5f;
 
+            camera = (SceneCamera)Game.Services.GetService(typeof(ICameraComponent));
+
         }
 
         /// <summary>
@@ -98,14 +102,11 @@ namespace Blob_P2
             spriteFont = Game.Content.Load<SpriteFont>("DebugFont");
 
             blobShader = Game.Content.Load<Effect>("blobshader");
-            waveParam = blobShader.Parameters["wave"];
-            distortionParam = blobShader.Parameters["distortion"];
-            centerCoordParam = blobShader.Parameters["centerCoord"];
 
             blobRenderTarget = Game1.CloneRenderTarget(GraphicsDevice, 1);
+
             blobTexture = new Texture2D(GraphicsDevice, blobRenderTarget.Width, blobRenderTarget.Height, 1,
                 TextureUsage.None, blobRenderTarget.Format);
-
 
             initSimulation();
         }
@@ -125,7 +126,7 @@ namespace Blob_P2
             GraphicsDevice.Clear(Color.White);
 
 
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None);
+            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None, Matrix.CreateTranslation(camera.Position));
             BlobParticle theParticle;
             Vector2 mouseLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
             for (int i = 0; i < particleCount; i++)
@@ -134,7 +135,7 @@ namespace Blob_P2
                 //theParticle.colour = new Color(147, 66, 66, 255);
                 theParticle.colour = Color.Red;
 
-                spriteBatch.Draw(theSprite, theParticle.position,null, theParticle.colour, 0, theParticle.centre, 0.5f, SpriteEffects.None, 1);
+                spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 0.5f, SpriteEffects.None, 1);
 
             }
             spriteBatch.End();
@@ -148,7 +149,7 @@ namespace Blob_P2
             spriteBatch.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.None);
             blobShader.Begin();
             blobShader.CurrentTechnique.Passes[0].Begin();
-            spriteBatch.Draw(blobTexture, Vector2.Zero, Color.White);
+            spriteBatch.Draw(blobTexture, Vector2.Zero, null, Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0);
             spriteBatch.End();
             blobShader.CurrentTechnique.Passes[0].End();
             blobShader.End();

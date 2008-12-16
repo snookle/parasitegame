@@ -91,6 +91,7 @@
     <Compile Include="Internal Classes\Information\FrameRateCounter.cs" />
     <Compile Include="Internal Classes\Physics Objects\Rigid Bodies\RigidBody.cs" />
     <Compile Include="Internal Classes\Physics Objects\Rigid Bodies\RigidBodyManager.cs" />
+    <Compile Include="Internal Classes\Scene Management\SceneCamera.cs" />
     <Compile Include="Internal Classes\StaticBodyEditor.cs" />
     <Compile Include="Internal Classes\Unused\MarchingCube.cs" />
     <Compile Include="Internal Classes\Physics Objects\Generic\PhysicsObject.cs">
