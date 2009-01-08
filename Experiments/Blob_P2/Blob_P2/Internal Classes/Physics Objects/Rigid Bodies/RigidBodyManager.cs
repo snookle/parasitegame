@@ -20,7 +20,7 @@ namespace Blob_P2
 
         public override void NewBody(Color colour, params Vector2[] vertices)
         {
-            RigidBody rb = new RigidBody(PhysicsOverlord.GetInstance().GetID(), GraphicsDevice, colour, vertices);
+            RigidBody rb = new RigidBody(Game, PhysicsOverlord.GetInstance().GetID(), GraphicsDevice, colour, vertices);
             NewBody(rb);
         }
 

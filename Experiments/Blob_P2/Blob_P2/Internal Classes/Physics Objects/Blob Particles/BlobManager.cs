@@ -62,7 +62,7 @@ namespace Blob_P2
         Texture2D blobTexture;
         Vector2 blobCenterCoord = new Vector2(0.5f);
 
-        SceneCamera camera;
+        SceneCameraComponent camera;
 
         public BlobManager(Game game)
             : base(game)
@@ -86,7 +86,7 @@ namespace Blob_P2
             basicEffect.DiffuseColor = new Vector3(0.5f, 0.2f, 0.2f);
             basicEffect.Alpha = 0.5f;
 
-            camera = (SceneCamera)Game.Services.GetService(typeof(ICameraComponent));
+            camera = (SceneCameraComponent)Game.Services.GetService(typeof(ISceneCameraComponent));
 
         }
 
@@ -126,7 +126,7 @@ namespace Blob_P2
             GraphicsDevice.Clear(Color.White);
 
 
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None, Matrix.CreateTranslation(camera.Position));
+            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None);
             BlobParticle theParticle;
             Vector2 mouseLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
             for (int i = 0; i < particleCount; i++)
@@ -135,7 +135,7 @@ namespace Blob_P2
                 //theParticle.colour = new Color(147, 66, 66, 255);
                 theParticle.colour = Color.Red;
 
-                spriteBatch.Draw(theSprite, theParticle.position, null, theParticle.colour, 0, theParticle.centre, 0.5f, SpriteEffects.None, 1);
+                spriteBatch.Draw(theSprite, theParticle.GetScreenPosition(), null, theParticle.colour, 0, theParticle.centre, 0.5f, SpriteEffects.None, 1);
 
             }
             spriteBatch.End();
@@ -212,9 +212,9 @@ namespace Blob_P2
                 Random RandomGenerator = new Random();
 
                 float randomXVelocity = 5;
-
-                float xPos = Mouse.GetState().X;
-                float yPos = Mouse.GetState().Y;
+                Vector2 mousePos = camera.MouseToWorld();
+                float xPos = mousePos.X;
+                float yPos = mousePos.Y;
 
                 if (xPos < drawingOffset)
                 {
@@ -234,7 +234,7 @@ namespace Blob_P2
                     yPos = 499;
                 }
 
-                BlobParticle theParticle = new BlobParticle(new Vector2(xPos, yPos), theSprite, PhysicsOverlord.GetInstance().GetID(), particleRadius);
+                BlobParticle theParticle = new BlobParticle(Game, new Vector2(xPos, yPos), theSprite, PhysicsOverlord.GetInstance().GetID(), particleRadius);
                 theParticle.colour = Color.Red;
                 theParticle.velocity = new Vector2(5,5);
 
@@ -291,8 +291,8 @@ namespace Blob_P2
             {
                 theParticle = theParticles[i];
                 SpatialGrid.GetInstance().RemoveObject(theParticle);
-                theParticle.oldPosition = theParticle.position;
-                theParticle.position += theParticle.velocity;
+                theParticle.oldPosition = theParticle.Position;
+                theParticle.Position += theParticle.velocity;
 
                 // Apply Gravity
                 theParticle.applyForce(gravity);
@@ -309,7 +309,7 @@ namespace Blob_P2
                     // If PARTICLE
                     if (neighbourObject.type == PhysicsObjectType.potBlobParticle)
                     {
-                        differenceVector = theParticle.position - ((BlobParticle)neighbourObject).position;
+                        differenceVector = theParticle.Position - ((BlobParticle)neighbourObject).Position;
                         distance = differenceVector.Length();
 
                         if (distance <= threshold && connected[theParticle.id][((BlobParticle)neighbourObject).id] == null)
@@ -343,7 +343,7 @@ namespace Blob_P2
                             float kr = 0.5f;
                             float friction = 1f;
 
-                            //Vector2 tempVel = theParticle.oldPosition - theParticle.position;
+                            //Vector2 tempVel = theParticle.oldPosition - theParticle.Position;
                             Vector2 tempVel = theParticle.velocity;
                             Vector2 velocityN = Vector2.Dot(tempVel, result) * result;
                             Vector2 velocityT = tempVel - velocityN;
@@ -360,7 +360,7 @@ namespace Blob_P2
                                 Vector2 newVel = newVTan + kr * velocityN;*/
 
                                 theParticle.velocity = newVel;
-                                theParticle.position = theParticle.oldPosition;
+                                theParticle.Position = theParticle.oldPosition;
                                 float check = Vector2.Dot(tempVel, result);
 
                                 //if (check < theParticle.radius/2)
@@ -432,7 +432,7 @@ namespace Blob_P2
                 {
                     theNeighbour = theNeighbours[j];
 
-                    differenceVector = theNeighbour.position - theParticle.position;
+                    differenceVector = theNeighbour.Position - theParticle.Position;
                     if (differenceVector.X == 0 && differenceVector.Y == 0)
                     {
                         differenceVector.X = 0.000001f;
@@ -461,7 +461,7 @@ namespace Blob_P2
                 {
                     theNeighbour = theNeighbours[j];
 
-                    differenceVector = theNeighbour.position - theParticle.position;
+                    differenceVector = theNeighbour.Position - theParticle.Position;
                     if (differenceVector.X == 0 && differenceVector.Y == 0)
                     {
                         differenceVector.X = 0.000001f;
@@ -494,34 +494,34 @@ namespace Blob_P2
         private void simpleCollisionDetection(BlobParticle theParticle)
         {
 
-            if (theParticle.position.X < 0 + drawingOffset)
+            if (theParticle.Position.X < 0 + drawingOffset)
             {
                 theParticle.velocity.X *= -0.5f;
                 if (theParticle.velocity.X < 2.0f && theParticle.velocity.X > -2.0f)
                     theParticle.velocity.X = 0.0f;
             
-                theParticle.position.X = 0 + drawingOffset;
+                theParticle.Position.X = 0 + drawingOffset;
             }
-            else if (theParticle.position.X > 800 - drawingOffset)
+            else if (theParticle.Position.X > 800 - drawingOffset)
             {
                 theParticle.velocity.X *= -0.5f;
                 if (theParticle.velocity.X < 2.0f && theParticle.velocity.X > -2.0f)
                     theParticle.velocity.X = 0.0f;
             
-                theParticle.position.X = 800 - drawingOffset;
+                theParticle.Position.X = 800 - drawingOffset;
             }
 
-            if (theParticle.position.Y < 0)
+            if (theParticle.Position.Y < 0)
             {
                 theParticle.velocity.Y *= -0.5f;
-                theParticle.position.Y = 1;
+                theParticle.Position.Y = 1;
             }
-            else if (theParticle.position.Y > 500)
+            else if (theParticle.Position.Y > 500)
             {
                 theParticle.velocity.Y *= -0.5f;
                 if (theParticle.velocity.Y < 2.0f && theParticle.velocity.Y > -2.0f )
                     theParticle.velocity.Y = 0.0f;
-                theParticle.position.Y = 500;
+                theParticle.Position.Y = 500;
             }
         }
     }

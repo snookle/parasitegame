@@ -17,8 +17,8 @@ namespace Blob_P2
         public Vector2 velocity;
         //public Vector2 position;
 
-        public RigidBody(int id, GraphicsDevice graphics, Color drawColour, params Vector2[] newpoints)
-            : base(id,graphics,drawColour,newpoints)
+        public RigidBody(Game game, int id, GraphicsDevice graphics, Color drawColour, params Vector2[] newpoints)
+            : base(game, id, graphics, drawColour, newpoints)
         {
             velocity = Vector2.Zero;
         }

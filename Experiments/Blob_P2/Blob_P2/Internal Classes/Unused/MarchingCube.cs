@@ -34,7 +34,7 @@ namespace Blob_P2
         {
             float fieldStrength = 0.0f;
 
-            float distance = Vector2.Distance(particle.position, point);
+            float distance = Vector2.Distance(particle.Position, point);
 			if (distance < particle.radiusSquared)
             {
 				fieldStrength = 1.0f;
@@ -70,13 +70,13 @@ namespace Blob_P2
 
             for (int i = 0; i < particleCount; i++) {		
                 particle = particles[i];
-				if (Vector2.Distance(particle.position, topLeft) <= threshold) {
+				if (Vector2.Distance(particle.Position, topLeft) <= threshold) {
 					corners |= TOPLEFT;
-				} else if (Vector2.Distance(particle.position, topRight) <= threshold) {
+				} else if (Vector2.Distance(particle.Position, topRight) <= threshold) {
 					corners |= TOPRIGHT;
-				} else if (Vector2.Distance(particle.position, bottomLeft) <= threshold) {
+				} else if (Vector2.Distance(particle.Position, bottomLeft) <= threshold) {
                     corners |= BOTTOMLEFT;
-				} else if (Vector2.Distance(particle.position, bottomRight) <= threshold) {
+				} else if (Vector2.Distance(particle.Position, bottomRight) <= threshold) {
                     corners |= BOTTOMRIGHT;				
 				}
 			}

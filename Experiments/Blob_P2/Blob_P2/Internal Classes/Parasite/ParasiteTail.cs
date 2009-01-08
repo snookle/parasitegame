@@ -12,8 +12,8 @@ namespace Blob_P2
         public bool isMoving = false;
         public bool isClicked = false;
 
-        public ParasiteTail(int id, Texture2D sprite, float weight)
-            : base(id, sprite, weight)
+        public ParasiteTail(Game game, int id, Texture2D sprite, float weight)
+            : base(game, id, sprite, weight)
         {
         }
 

@@ -30,7 +30,8 @@ namespace Blob_P2
 
         public Parasite theParasite;
 
-        SceneCamera camera;
+        SceneCameraComponent camera;
+        SceneManager manager;
 
         public Game1()
         {
@@ -53,7 +54,7 @@ namespace Blob_P2
             staticBodyEditor = new StaticBodyEditor(this);
             this.Components.Add(staticBodyEditor);
 
-            camera = new SceneCamera(this, new Vector3(0, 0, 0), new Vector3(0, 0, 0), Vector3.Up);
+            camera = new SceneCameraComponent(this);
             this.Components.Add(camera);
         }
 
@@ -66,6 +67,8 @@ namespace Blob_P2
         protected override void Initialize()
         {
             this.IsMouseVisible = true;
+            manager = new SceneManager(this);
+
             base.Initialize();      
         }
 
@@ -74,6 +77,7 @@ namespace Blob_P2
             theParasite = new Parasite(this);
             this.Components.Add(theParasite);
             //theParasite.Initialize();
+            camera.SetTarget(theParasite.head);
         }
 
         /// <summary>
@@ -136,6 +140,9 @@ namespace Blob_P2
             spriteBatch.Begin();
             spriteBatch.DrawString(Content.Load<SpriteFont>("DebugFont"), "MOUSE: " + Mouse.GetState().ToString(), new Vector2(10, 10), Color.Red);
             spriteBatch.DrawString(Content.Load<SpriteFont>("DebugFont"), "MODE: " + ((state == GameState.gsEdit) ? "Edit" : "Simulate"), new Vector2(10, 30), (state == GameState.gsEdit) ? Color.Red : Color.Green);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("DebugFont"), "MOUSE WORLD: " + camera.MouseToWorld(), new Vector2(10, 50), Color.Red);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("DebugFont"), "CAMERA WORLD: " + camera.Position, new Vector2(10, 90), Color.Red);
+
             spriteBatch.End();
             // TODO: Add your drawing code here
         }
