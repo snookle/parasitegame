@@ -33,7 +33,7 @@ namespace Blob_P2
         public void solve()
         {
             // Vector between two points
-            Vector2 springVector = object1.position - object2.position;
+            Vector2 springVector = object1.Position - object2.Position;
 
             // Distance Between two Points
             float r = springVector.Length();
@@ -61,7 +61,7 @@ namespace Blob_P2
 
         public void viscoSolve()
         {
-            Vector2 springVector = object2.position - object1.position;
+            Vector2 springVector = object2.Position - object1.Position;
             Vector2 force = Vector2.Zero;
 
             float theDistance = springVector.Length();

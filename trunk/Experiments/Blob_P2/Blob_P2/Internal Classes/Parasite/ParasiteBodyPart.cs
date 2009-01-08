@@ -12,7 +12,7 @@ namespace Blob_P2
         public Texture2D sprite;
 
         public Vector2 velocity = Vector2.Zero;
-        public Vector2 position = Vector2.Zero;
+       // public Vector2 position = Vector2.Zero;
         public Vector2 force = Vector2.Zero;
         public Vector2 centre = Vector2.Zero;
         public Vector2 oldPosition = Vector2.Zero;
@@ -35,7 +35,7 @@ namespace Blob_P2
 
         //public float id;        // id for the spatial grid
 
-        public ParasiteBodyPart(int id, Texture2D sprite, float weight)
+        public ParasiteBodyPart(Game game, int id, Texture2D sprite, float weight) : base(game)
         {
             this.id = id;
             this.type = PhysicsObjectType.potParasiteBodyPart;
@@ -45,7 +45,7 @@ namespace Blob_P2
 
             centre = new Vector2(sprite.Width / 2, sprite.Height / 2);
 
-            this.position = new Vector2(100, 100);
+            this.Position = new Vector2(100, 100);
         }
 
         public void Init()
@@ -70,7 +70,7 @@ namespace Blob_P2
         {
             doCollisionCheck();
 
-            oldPosition = position;
+            oldPosition = Position;
 
             SpatialGrid.GetInstance().RemoveObject(this);
             velocity += force;
@@ -81,27 +81,27 @@ namespace Blob_P2
             }
 
             velocity *= 0.95f;
-            position += velocity;
+            Position += velocity;
 
-            if (position.Y > 500)
+            if (Position.Y > 500)
             {
-                position.Y = 500;
+                Position.Y = 500;
                 velocity.Y = 0;
             }
-            else if (position.Y < 0)
+            else if (Position.Y < 0)
             {
-                position.Y = 0;
+                Position.Y = 0;
                 velocity.Y = 0;
             }
 
-            if (position.X > 800)
+            if (Position.X > 800)
             {
-                position.X = 800;
+                Position.X = 800;
                 velocity.X *= -0.5f;
             }
-            else if (position.X < 0)
+            else if (Position.X < 0)
             {
-                position.X = 0;
+                Position.X = 0;
                 velocity.X *= -0.5f;
             }
             SpatialGrid.GetInstance().AddObject(this);
@@ -148,15 +148,15 @@ namespace Blob_P2
                                 Vector2 newVel = newVTan + kr * velocityN;
 
                                 this.velocity = newVel;
-                                this.position = this.oldPosition;
+                                this.Position = this.oldPosition;
 
                                 //if (Vector2.Dot(tempVel, result) < 1)
                                 //{
-                                    Vector2 contactForce = -(Vector2.Dot(result, position-oldPosition) * result);
+                                    Vector2 contactForce = -(Vector2.Dot(result, Position-oldPosition) * result);
                                     //this.velocity = contactForce;
                                     this.ApplyForce(contactForce);
                                 //}
-                                this.position += this.velocity;
+                                this.Position += this.velocity;
                                 SpatialGrid.GetInstance().AddObject(this);
                             //}
                         //status = ParasiteStatus.crawling;

@@ -7,10 +7,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Blob_P2
 {
-    class ParasiteHead : ParasiteBodyPart
+    public class ParasiteHead : ParasiteBodyPart
     {
-        public ParasiteHead(int id, Texture2D sprite, float weight)
-            : base(id, sprite, weight)
+        public ParasiteHead(Game game, int id, Texture2D sprite, float weight)
+            : base(game, id, sprite, weight)
         {
         }
 

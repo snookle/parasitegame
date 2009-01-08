@@ -40,7 +40,7 @@ namespace Blob_P2
         /// <param name="graphics"></param>
         /// <param name="drawColour">The Colour of the Static Body</param>
         /// <param name="newpoints">The Vertices</param>
-        public StaticBody (int id, GraphicsDevice graphics, Color drawColour, params Vector2[] newpoints)
+        public StaticBody (Game game, int id, GraphicsDevice graphics, Color drawColour, params Vector2[] newpoints) : base(game)
 	    {
             this.id = id;
             this.type = PhysicsObjectType.potStaticBody;
@@ -58,7 +58,7 @@ namespace Blob_P2
     	}
         
         //Contructor to load from an xml file.
-        public StaticBody(XmlReader reader, GraphicsDevice graphics)
+        public StaticBody(Game game, XmlReader reader, GraphicsDevice graphics) : base(game)
         {
             this.id = PhysicsOverlord.GetInstance().GetID();
             Color colour = new Color();
@@ -197,9 +197,9 @@ namespace Blob_P2
         {
             if (obj.type == PhysicsObjectType.potBlobParticle)
             {
-                if (BoundingBox.Contains(((BlobParticle)obj).position))
+                if (BoundingBox.Contains(((BlobParticle)obj).Position))
                 {
-                    if (ContainsPoint(((BlobParticle)obj).position))
+                    if (ContainsPoint(((BlobParticle)obj).Position))
                     {
                         int linePoint1 = -1;
                         int linePoint2 = -1;
@@ -208,7 +208,7 @@ namespace Blob_P2
                         //now do some more intensive collision detection
                         for (int i = 0; i < sourceVertices.Length; i+=2)
                         {
-                            Vector2 point = ClosestPointOnLineSegment(ref sourceVertices[i], ref sourceVertices[(i + 1) % sourceVertices.Length], ref ((BlobParticle)obj).position);
+                            Vector2 point = ClosestPointOnLineSegment(ref sourceVertices[i], ref sourceVertices[(i + 1) % sourceVertices.Length], ref ((BlobParticle)obj).Position);
                             float currentDistance = Vector2.Distance(closestPoint, point);
                             if (currentDistance < closestDistance)
                             {
@@ -230,9 +230,9 @@ namespace Blob_P2
             }
             else if (obj.type == PhysicsObjectType.potParasiteBodyPart)
             {
-                if (BoundingBox.Contains(((ParasiteBodyPart)obj).position))
+                if (BoundingBox.Contains(((ParasiteBodyPart)obj).Position))
                 {
-                    if (ContainsPoint(((ParasiteBodyPart)obj).position))
+                    if (ContainsPoint(((ParasiteBodyPart)obj).Position))
                     {
                         int linePoint1 = -1;
                         int linePoint2 = -1;
@@ -241,7 +241,7 @@ namespace Blob_P2
                         //now do some more intensive collision detection
                         for (int i = 0; i < sourceVertices.Length; i += 2)
                         {
-                            Vector2 point = ClosestPointOnLineSegment(ref sourceVertices[i], ref sourceVertices[(i + 1) % sourceVertices.Length], ref ((ParasiteBodyPart)obj).position);
+                            Vector2 point = ClosestPointOnLineSegment(ref sourceVertices[i], ref sourceVertices[(i + 1) % sourceVertices.Length], ref ((ParasiteBodyPart)obj).Position);
                             float currentDistance = Vector2.Distance(closestPoint, point);
                             if (currentDistance < closestDistance)
                             {

@@ -32,7 +32,7 @@ namespace Blob_P2
                 grid[i] = new Dictionary<int, PhysicsObject>[height+1];
                 for (int j = 0; j < this.height+1; j++)
                 {
-                    grid[i][j] = new Dictionary<int, PhysicsObject>();
+                    grid[i][j] = new Dictionary<int, PhysicsObject>(50);
                 }
             }
         }
@@ -62,8 +62,8 @@ namespace Blob_P2
 
             if (obj.type == PhysicsObjectType.potBlobParticle)
             {
-                int x = (int)Math.Floor(((BlobParticle)obj).position.X / gridSize);
-                int y = (int)Math.Floor(((BlobParticle)obj).position.Y / gridSize);
+                int x = (int)(((BlobParticle)obj).Position.X / gridSize);
+                int y = (int)(((BlobParticle)obj).Position.Y / gridSize);
                 if (grid[x][y].ContainsKey(obj.id))
                     RemoveObject(obj);
                 grid[x][y].Add(obj.id, obj);
@@ -97,11 +97,11 @@ namespace Blob_P2
             }
             else if (obj.type == PhysicsObjectType.potParasiteBodyPart)
             {
-                int x = (int)Math.Floor(((ParasiteBodyPart)obj).position.X / gridSize);
-                int y = (int)Math.Floor(((ParasiteBodyPart)obj).position.Y / gridSize);
+                int x = (int)Math.Floor(((ParasiteBodyPart)obj).Position.X / gridSize);
+                int y = (int)Math.Floor(((ParasiteBodyPart)obj).Position.Y / gridSize);
                 if (grid[x][y].ContainsKey(obj.id))
                     RemoveObject(obj);
-                grid[x][y].Add(obj.id, obj);
+               // grid[x][y].Add(obj.id, obj);
             }
             else
                 throw new Exception("OMFG DIDNT ADD ANYTHING TO THE GRID FUCK!");
@@ -114,8 +114,8 @@ namespace Blob_P2
 
             if (obj.type == PhysicsObjectType.potBlobParticle)
             {
-                int x = (int)Math.Floor(((BlobParticle)obj).position.X / gridSize);
-                int y = (int)Math.Floor(((BlobParticle)obj).position.Y / gridSize);
+                int x = (int)(((BlobParticle)obj).Position.X / gridSize);
+                int y = (int)(((BlobParticle)obj).Position.Y / gridSize);
                 grid[x][y].Remove(((BlobParticle)obj).id);
             }
             else if (obj.type == PhysicsObjectType.potStaticBody)
@@ -145,9 +145,9 @@ namespace Blob_P2
             }
             else if (obj.type == PhysicsObjectType.potParasiteBodyPart)
             {
-                int x = (int)Math.Floor(((ParasiteBodyPart)obj).position.X / gridSize);
-                int y = (int)Math.Floor(((ParasiteBodyPart)obj).position.Y / gridSize);
-                grid[x][y].Remove(((ParasiteBodyPart)obj).id);
+                int x = (int)Math.Floor(((ParasiteBodyPart)obj).Position.X / gridSize);
+                int y = (int)Math.Floor(((ParasiteBodyPart)obj).Position.Y / gridSize);
+                //grid[x][y].Remove(((ParasiteBodyPart)obj).id);
             }
         }
 
@@ -156,10 +156,10 @@ namespace Blob_P2
             if (!setup)
                 throw new Exception("SetDimensions must be called first!");
 
-            int x = (int)Math.Floor(particle.position.X / gridSize);
-            int y = (int)Math.Floor(particle.position.Y / gridSize);
+            int x = (int)(particle.Position.X / gridSize);
+            int y = (int)(particle.Position.Y / gridSize);
 
-            List<PhysicsObject> returnList = new List<PhysicsObject>();
+            List<PhysicsObject> returnList = new List<PhysicsObject>(100);
             
             /*for (int i = x - (x == 0 ? 0 : 1); i <= x + (x == width + 1 ? 0 : 1); i++)
             {
@@ -212,8 +212,8 @@ namespace Blob_P2
             if (!setup)
                 throw new Exception("SetDimensions must be called first!");
 
-            int x = (int)Math.Floor(bodyPart.position.X / gridSize);
-            int y = (int)Math.Floor(bodyPart.position.Y / gridSize);
+            int x = (int)Math.Floor(bodyPart.Position.X / gridSize);
+            int y = (int)Math.Floor(bodyPart.Position.Y / gridSize);
 
             List<PhysicsObject> returnList = new List<PhysicsObject>();
 

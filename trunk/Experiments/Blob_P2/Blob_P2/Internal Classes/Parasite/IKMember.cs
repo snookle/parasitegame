@@ -65,7 +65,7 @@ namespace Blob_P2
 
         public void update()
         {
-            move(skin.position.X, skin.position.Y, father);
+            move(skin.Position.X, skin.Position.Y, father);
         }
 
         public void moveTo(float x, float y)
@@ -78,8 +78,8 @@ namespace Blob_P2
             {
                 //skin.x = _x;
                 //skin.y = _y;
-                skin.position.X = _x;
-                skin.position.Y = _y;
+                skin.Position.X = _x;
+                skin.Position.Y = _y;
             }
             else
             {
@@ -108,21 +108,21 @@ namespace Blob_P2
         {
             if (!IKLocked)
             {
-                float dy = child.skin.position.Y - father.skin.position.Y;
-                float dx = child.skin.position.X - father.skin.position.X;
+                float dy = child.skin.Position.Y - father.skin.Position.Y;
+                float dx = child.skin.Position.X - father.skin.Position.X;
                 float a1 = (float)Math.Atan2(dy, dx);
 
                 currentAngle = a1;
 
-                child.skin.position.X = father.skin.position.X + (float)Math.Cos(a1) * distance;
-                child.skin.position.Y = father.skin.position.Y + (float)Math.Sin(a1) * distance;
+                child.skin.Position.X = father.skin.Position.X + (float)Math.Cos(a1) * distance;
+                child.skin.Position.Y = father.skin.Position.Y + (float)Math.Sin(a1) * distance;
                 //child.skin.rotation = (float)((Math.PI * a1) * 180 / Math.PI);
             }
             else
             {
                 // Locked angle code ?
-                child.skin.position.X = father.skin.position.X + (float)Math.Cos(lockedAngle) * distance;
-                child.skin.position.Y = father.skin.position.Y + (float)Math.Sin(lockedAngle) * distance;
+                child.skin.Position.X = father.skin.Position.X + (float)Math.Cos(lockedAngle) * distance;
+                child.skin.Position.Y = father.skin.Position.Y + (float)Math.Sin(lockedAngle) * distance;
             }
         }
 
@@ -151,12 +151,12 @@ namespace Blob_P2
                     angle = node2;
                 }
 
-                float ax = a.skin.position.X - skin.position.X;
-                float ay = a.skin.position.Y - skin.position.Y;
+                float ax = a.skin.Position.X - skin.Position.X;
+                float ay = a.skin.Position.Y - skin.Position.Y;
                 float aangle = (float)Math.Atan2(ay, ax);
 
-                b.skin.position.X = skin.position.X + (float)Math.Cos(aangle + angle) * distance;
-                b.skin.position.Y = skin.position.Y + (float)Math.Sin(aangle + angle) * distance;
+                b.skin.Position.X = skin.Position.X + (float)Math.Cos(aangle + angle) * distance;
+                b.skin.Position.Y = skin.Position.Y + (float)Math.Sin(aangle + angle) * distance;
             }
         }
 

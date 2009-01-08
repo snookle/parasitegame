@@ -43,7 +43,7 @@ namespace Blob_P2
         /// <param name="vertices">The vertices that make up the shape</param>
         public virtual void NewBody(Color colour, params Vector2[] vertices)
         {
-            StaticBody sb = new StaticBody(PhysicsOverlord.GetInstance().GetID(), GraphicsDevice, colour, vertices);
+            StaticBody sb = new StaticBody(Game, PhysicsOverlord.GetInstance().GetID(), GraphicsDevice, colour, vertices);
             NewBody(sb);
         }
 
@@ -68,7 +68,7 @@ namespace Blob_P2
                     
                     for (int i = 0; i < count; i++)
                     {
-                        NewBody(new StaticBody(reader, GraphicsDevice));               
+                        NewBody(new StaticBody(Game, reader, GraphicsDevice));               
                     }
                     reader.ReadEndElement(); //</StaticBodyList>
                     done = true;

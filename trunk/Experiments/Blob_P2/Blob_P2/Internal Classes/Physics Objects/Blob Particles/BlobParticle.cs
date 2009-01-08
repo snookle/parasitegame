@@ -11,7 +11,7 @@ namespace Blob_P2
     public class BlobParticle: PhysicsObject
     {
         public Vector2 velocity;
-        public Vector2 position;
+        //public Vector2 Position;
         public Vector2 centre;
         public Texture2D sprite;
         public Color colour = Color.Black;
@@ -22,9 +22,9 @@ namespace Blob_P2
 
         public List<BlobParticle> neighbours;
 
-        public BlobParticle(Vector2 position, Texture2D sprite, int id, float radius)
+        public BlobParticle(Game game, Vector2 Position, Texture2D sprite, int id, float radius) : base(game)
         {
-            this.position = position;
+            this.Position = Position;
             this.sprite = sprite;
             this.id = id;
 
@@ -33,7 +33,7 @@ namespace Blob_P2
             this.type = PhysicsObjectType.potBlobParticle;
             centre = new Vector2(sprite.Width / 2, sprite.Height / 2);
             neighbours = new List<BlobParticle>();
-            oldPosition = position;
+            oldPosition = Position;
         }
 
         public void applyForce(Vector2 theForce)
