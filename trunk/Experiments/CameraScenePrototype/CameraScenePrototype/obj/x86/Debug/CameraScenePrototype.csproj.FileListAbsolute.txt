@@ -1,0 +1,7 @@
+C:\benk\parasite\Experiments\CameraScenePrototype\CameraScenePrototype\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\benk\parasite\Experiments\CameraScenePrototype\CameraScenePrototype\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\benk\parasite\Experiments\CameraScenePrototype\CameraScenePrototype\bin\x86\Debug\Content\ParasiteBodyPart.xnb
+C:\benk\parasite\Experiments\CameraScenePrototype\CameraScenePrototype\bin\x86\Debug\CameraScenePrototype.exe
+C:\benk\parasite\Experiments\CameraScenePrototype\CameraScenePrototype\bin\x86\Debug\CameraScenePrototype.pdb
+C:\benk\parasite\Experiments\CameraScenePrototype\CameraScenePrototype\obj\x86\Debug\CameraScenePrototype.exe
+C:\benk\parasite\Experiments\CameraScenePrototype\CameraScenePrototype\obj\x86\Debug\CameraScenePrototype.pdb
