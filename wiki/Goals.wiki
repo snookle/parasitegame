@@ -4,9 +4,9 @@
 
 ==Get Parasite Walking and Interacting with a Level ( aim : Early December )==
  * 2D Camera
-  * Movement *(80% done : Ben) *
+  * Movement~~ (80% done) : r181
   * Zooming * (current : Ben) *
-  * Smooth Locking/Following Targets. * (60% done (needs improvement) : Ben) *
+  * Smooth Locking/Following Targets.~~ 60% done (needs improvement) : r181
  * Static Body Changes
   * Different Wall/Solid Types - ie, sticky, nonsticky
  * Parasite Interaction with Static Bodies
