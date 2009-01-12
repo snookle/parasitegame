@@ -33,6 +33,8 @@ namespace Blob_P2
         SceneCameraComponent camera;
         SceneManager manager;
 
+        InputHandler input;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -56,6 +58,9 @@ namespace Blob_P2
 
             camera = new SceneCameraComponent(this);
             this.Components.Add(camera);
+
+            input = new InputHandler(this);
+            this.Components.Add(input);
         }
 
         /// <summary>
