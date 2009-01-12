@@ -29,8 +29,9 @@ namespace Blob_P2
 
         public void SetFinalPosition(Vector2 pos)
         {
-            mu = 0.0f;
-            accel = 0.15f;
+            if (mu < 0.9f)
+                mu = 0.0f;
+            accel = 0.1f;
             finalPosition = pos;
         }
 
@@ -62,18 +63,20 @@ namespace Blob_P2
 
             if (userControlled)
                 SetFinalPosition(finalPosition - input.MouseDisplacement());
-
-            if (Target != null && mu > 0.15f)
-                SetFinalPosition(Target.Position);
-
-           // Position = Target.Position;
-
-            if (Position != finalPosition)
+            else
             {
-                Position = Vector2.SmoothStep(Position, finalPosition, mu);
-                mu += accel;
+                //we have a target hopefully
+                if (Target != null)
+                {
+                    Vector2 intermediatePosition = (Target.Position - Position) * 0.2f;
+                    Position += intermediatePosition;
+                    
+                }
             }
 
+            //dont set a new target position until we've gotten a new one (mu will be < 0.15 then)
+
+           // Position = Target.Position;
         }
 
         public void SetTarget(SceneNode node)

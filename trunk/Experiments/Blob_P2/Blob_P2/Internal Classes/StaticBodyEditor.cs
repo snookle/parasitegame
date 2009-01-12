@@ -23,6 +23,7 @@ namespace Blob_P2
         PrimitiveBatch vertexBatch;
         SpriteBatch finishText;
         SpriteFont finishFont;
+        InputHandler input;
 
         bool mouseDown = false;
 
@@ -50,7 +51,7 @@ namespace Blob_P2
         public override void Initialize()
         {
             // TODO: Add your initialization code here
-
+            input = (InputHandler)Game.Services.GetService(typeof(IInputHandlerComponent));
             base.Initialize();
         }
 
@@ -70,7 +71,7 @@ namespace Blob_P2
                 }
 
                 // SPACE - Change Mode
-                if (Keyboard.GetState().IsKeyDown(Keys.Space)) //was simulating, now edit mode.
+                if (input.IsKeyPressed(Keys.Space)) //was simulating, now edit mode.
                 {
                     game.state = GameState.gsEdit;
                     game.theBlob.stopstart();
@@ -79,7 +80,7 @@ namespace Blob_P2
             else if (game.state == GameState.gsEdit)
             {
                 // SPACE - Change Mode 
-                if (Keyboard.GetState().IsKeyDown(Keys.Space)) //was editing, now simulate.
+                if (input.IsKeyPressed(Keys.Space)) //was editing, now simulate.
                 {
                     game.state = GameState.gsSimulate;
                     game.theBlob.stopstart();
