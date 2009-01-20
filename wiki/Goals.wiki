@@ -18,7 +18,13 @@
   * Crawling
   * Climbing
   * Swimming
-  * Attaching ( After Spring )
+  * Attaching ( After Spring 
+ * Level Design
+  * ~~Stomach Design~~
+  * Vein Design
+  * Spine Control Design : _Started, not happy with finished product..._
+  * Puzzles / Goals
+  * Plot / Story
 
 =Future Goals=
 
