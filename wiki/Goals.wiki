@@ -2,13 +2,16 @@
 
 =Immediate Goal=
 
-==Get Parasite Walking and Interacting with a Level ( aim : Early December )==
+==Get First Level Roughly Completed ( aim : Early March )==
  * 2D Camera
   * Movement~~ (80% done) : r181
   * Zooming * (current : Ben) *
   * Smooth Locking/Following Targets~~ 60% done (needs improvement) : r181
- * Static Body Changes
-  * Different Wall/Solid Types - ie, sticky, nonsticky
+ * Create Basic Level Editor
+  * Loading/Saving
+  * Collision Maps
+  * Simple Texture Placement
+  * Simple Switching to/from game->devmode
  * Parasite Interaction with Static Bodies
   * ~~Add Parasite to Simulation (27/11/08)~~ : r168
   * ~~Add to Spatial Grid, Allow Interaction with Other Elements (6/12/08)~~ : Basic
@@ -16,10 +19,6 @@
   * Climbing
   * Swimming
   * Attaching ( After Spring )
- * Shaders
-  * Get Blood Transparent, so Parasite can be seen behind it.
- * Optional
-  * Loading Level Art
 
 =Future Goals=
 
