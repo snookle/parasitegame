@@ -1,0 +1,7 @@
+C:\benk\parasite\Parasite\Parasite\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\benk\parasite\Parasite\Parasite\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\benk\parasite\Parasite\Parasite\bin\x86\Debug\Parasite.exe
+C:\benk\parasite\Parasite\Parasite\bin\x86\Debug\Parasite.pdb
+C:\benk\parasite\Parasite\Parasite\obj\x86\Debug\Parasite.exe
+C:\benk\parasite\Parasite\Parasite\obj\x86\Debug\Parasite.pdb
+C:\benk\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\WallTest01.xnb
