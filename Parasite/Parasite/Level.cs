@@ -24,6 +24,7 @@ namespace Parasite
 
         //LEVEL EDITOR SPECIFIC STUFF
         private LevelArt selectedArt = null;
+        private Vector2 selectionOffset = Vector2.Zero;
 
 
         public Level(Game game)
@@ -50,9 +51,9 @@ namespace Parasite
             {
                 Vector2 mousePos = camera.MouseToWorld(); 
                 //handle mouse movement
-                if (selectedArt != null && input.IsMouseMoving())
+                if (selectedArt != null && input.IsMouseMoving() && input.IsKeyDown(Keys.M))
                 {
-                    selectedArt.WorldPosition = camera.MouseToWorld();
+                    selectedArt.EditorMove(selectionOffset);
                 }
                 else
                 {
@@ -66,6 +67,15 @@ namespace Parasite
                             }
                             la.EditorSelect(true);
                             selectedArt = la;
+                            selectionOffset = camera.MouseToWorld() - la.WorldPosition;
+                        }
+                        else if(input.IsKeyPressed(Keys.D))
+                        {
+                            // If nothing is selected, and the D key is pressed, deselect
+                            if (selectedArt != null)
+                            {
+                                selectedArt.EditorSelect(false);
+                            }
                         }
                     }
                 }
@@ -78,7 +88,9 @@ namespace Parasite
             artBatch.Begin();
             foreach (LevelArt la in Art)
             {
-                artBatch.Draw(la.Texture, la.GetScreenPosition(), la.Tint);
+                //artBatch.Draw(la.Texture, la.GetScreenPosition(), la.Tint);
+
+                artBatch.Draw(la.Texture, la.GetScreenPosition(), null, la.Tint, la.Rotation, la.Origin, la.Scale, SpriteEffects.None, la.ScreenDepth);
             }
             artBatch.End();
         }

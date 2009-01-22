@@ -39,5 +39,6 @@ namespace Parasite
         {
             return (screenCentre - (camera.Position - WorldPosition)) * (1-ScreenDepth);
         }
+
     }
 }

@@ -5,3 +5,10 @@ C:\benk\parasite\Parasite\Parasite\bin\x86\Debug\Parasite.pdb
 C:\benk\parasite\Parasite\Parasite\obj\x86\Debug\Parasite.exe
 C:\benk\parasite\Parasite\Parasite\obj\x86\Debug\Parasite.pdb
 C:\benk\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\WallTest01.xnb
+E:\aA\Game Projects\Parasite Game\parasitegame\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\WallTest01.xnb
+E:\aA\Game Projects\Parasite Game\parasitegame\Parasite\Parasite\bin\x86\Debug\Parasite.exe
+E:\aA\Game Projects\Parasite Game\parasitegame\Parasite\Parasite\bin\x86\Debug\Parasite.pdb
+E:\aA\Game Projects\Parasite Game\parasitegame\Parasite\Parasite\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\aA\Game Projects\Parasite Game\parasitegame\Parasite\Parasite\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+E:\aA\Game Projects\Parasite Game\parasitegame\Parasite\Parasite\obj\x86\Debug\Parasite.exe
+E:\aA\Game Projects\Parasite Game\parasitegame\Parasite\Parasite\obj\x86\Debug\Parasite.pdb
