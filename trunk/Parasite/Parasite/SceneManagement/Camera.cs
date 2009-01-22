@@ -30,7 +30,6 @@ namespace Parasite
         //controls whether or not this camera is being controlled by the user.
         private bool userControlled;
 
-
         private InputHandler input;
         private Vector2 ScreenCentre;
 
@@ -68,14 +67,42 @@ namespace Parasite
             base.Update(gameTime);
 
             if (userControlled)
-                Position = Position - input.GetMouseDisplacement();
+            {
+                // Mouse Control
+                // Position = Position - input.GetMouseDisplacement();
+
+                // Keyboard Control
+                if (input.IsKeyDown(Keys.Right))
+                {
+                    Position = Position + new Vector2(5, 0);
+                }
+                else if (input.IsKeyDown(Keys.Left))
+                {
+                    Position = Position - new Vector2(5, 0);
+                }
+
+                if (input.IsKeyDown(Keys.Up))
+                {
+                    Position = Position - new Vector2(0, 5);
+                }
+                else if (input.IsKeyDown(Keys.Down))
+                {
+                    Position = Position + new Vector2(0, 5);
+                }
+
+                // Attempt at zoom
+                if(input.IsKeyDown(Keys.Add)){
+                    
+                }
+
+            }
             else
             {
                 if (Target != null)
                 {
                     Vector2 intermediatePosition = (Target.WorldPosition - Position) * 0.2f;
                     Position += intermediatePosition;
-                    
+
                 }
             }
         }
