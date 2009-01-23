@@ -14,12 +14,22 @@ namespace Parasite
     /// </summary>
     public class SceneNode
     {
-        //The position of the node in the world.
+        /// <summary>
+        /// The position of the node in the world.
+        /// </summary>
         public Vector2 WorldPosition;
+
+        /// <summary>
+        /// Whether or not this scene node is currently being followed by the Camera
+        /// </summary>
         public bool IsCameraTarget;
-        public float ScreenDepth;
         
-        //The current camera that is displaying this node.
+        /// <summary>
+        /// Depth on the screen. 0.0 from right in front of the camera,
+        /// 1.0 for static background
+        /// </summary>
+        public float ScreenDepth;
+
         protected Camera camera;
         protected Game game;
 
@@ -35,6 +45,10 @@ namespace Parasite
             WorldPosition = startingPosition;
         }
 
+        /// <summary>
+        /// Calculates where on the screen this scene node should be displayed relative to the camera.
+        /// </summary>
+        /// <returns>Vector2 representing the screen coords where this scenenode should be drawn.</returns>
         public Vector2 GetScreenPosition()
         {
             return (screenCentre - (camera.Position - WorldPosition)) * (1-ScreenDepth);
