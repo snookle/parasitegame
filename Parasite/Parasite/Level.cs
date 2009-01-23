@@ -49,24 +49,37 @@ namespace Parasite
 
             if (editing)
             {
+                if (input.IsKeyPressed(Keys.L))
+                {
+
+                }
+
                 Vector2 mousePos = camera.MouseToWorld(); 
-                //handle mouse movement
+                
+                //move the selected piece around
                 if (selectedArt != null && input.IsMouseMoving() && input.IsKeyDown(Keys.M))
                 {
-                    selectedArt.EditorMove(selectionOffset);
+                    selectedArt.EditorMove(selectionOffset, 20);
                 }
                 else
                 {
                     foreach (LevelArt la in Art)
                     {
+                        //check each level art for mouse collision and click
                         if (la.BoundingBox.Contains(Convert.ToInt32(mousePos.X), Convert.ToInt32(mousePos.Y)) && input.IsMouseButtonPressed("left"))
                         {
+                            //deselect the current selected levelart (if there was one)
+                            //before selecting the newly clicked piece
                             if (selectedArt != null)
                             {
                                 selectedArt.EditorSelect(false);
                             }
+                            //tell the piece that it's been selected
                             la.EditorSelect(true);
                             selectedArt = la;
+
+                            //calculate an offset based on where the mouse was when it was clicked
+                            //so we don't snap the level art origin to the mouse position
                             selectionOffset = camera.MouseToWorld() - la.WorldPosition;
                         }
                         else if(input.IsKeyPressed(Keys.D))
@@ -76,6 +89,7 @@ namespace Parasite
                             {
                                 selectedArt.EditorSelect(false);
                             }
+                            selectedArt = null;
                         }
                     }
                 }
