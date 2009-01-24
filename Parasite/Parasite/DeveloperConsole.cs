@@ -37,6 +37,8 @@ namespace Parasite
         private List<string> history;
         private int historyIndex;
 
+        public delegate void DeveloperConsoleMessageHandler(string command, string argument);
+        public event DeveloperConsoleMessageHandler MessageHandler;
 
         public DeveloperConsole(Game game)
             : base(game)
@@ -89,7 +91,9 @@ namespace Parasite
                 foreach(Keys k in input.GetPressedKeys(this))
                 {
                     string key = Convert.ToString(k).ToLower();
+                    //uncomment to see all the raw string data.
                     //inputString += key;
+                    
                     //handle some stupid special cases :(
                     //handle space.
                     if (key == "space")
@@ -103,6 +107,19 @@ namespace Parasite
                     {
                         lines.Enqueue(inputString);
                         AddToHistory(inputString);
+                        string command = "";
+                        string argument = "";
+
+                        if (inputString.IndexOf(' ') > 0)
+                        {
+                           command = inputString.Substring(0, inputString.IndexOf(' '));
+                           argument = inputString.Substring(inputString.IndexOf(' ')).Trim(' ', '"');
+                        }
+                        if (MessageHandler != null)
+                        {
+                            MessageHandler(command, argument);
+                        }
+
                         inputString = "";
                         continue;
                     }
@@ -127,6 +144,20 @@ namespace Parasite
                         }
                         continue;
                     }
+
+                    //handle pipe and \
+                    if (key == "oempipe")
+                    {
+                        if (input.IsKeyDown(this, Keys.RightShift) || input.IsKeyDown(this, Keys.LeftShift))
+                        {
+                            inputString += "|";
+                        }
+                        else
+                        {
+                            inputString += "\\";
+                        }
+                    }
+
                     //handle backspace
                     if (key == "back")
                     {

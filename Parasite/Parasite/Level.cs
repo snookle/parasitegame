@@ -48,6 +48,8 @@ namespace Parasite
             camera = (Camera)Game.Services.GetService(typeof(ICamera));
             console = (DeveloperConsole)Game.Services.GetService(typeof(IDeveloperConsole));
 
+            console.MessageHandler += new DeveloperConsole.DeveloperConsoleMessageHandler(ConsoleMessageHandler);
+
            // LoadTexture("WallTest01", input.MousePosition);
         }
 
@@ -67,14 +69,15 @@ namespace Parasite
                 LevelArt duplicatedTexture = new LevelArt(Game, location, texture.Texture);
                 textures.Add(name + "_" + textures.Count, duplicatedTexture);
                 Art.Add(duplicatedTexture);
+                console.Write("Texture Loaded.");
                 return duplicatedTexture;
             }
             else
             {
-                console.Write("Texture Loaded.");
                 texture = new LevelArt(Game, location, @"LevelArt\" + name);
                 textures.Add(name, texture);
                 Art.Add(texture);
+                console.Write("Texture Loaded.");
                 return texture;
             }
         }
@@ -157,6 +160,16 @@ namespace Parasite
                     la.DrawBoundingBox();
             }
             artBatch.End();
+        }
+
+        public void ConsoleMessageHandler(string command, string argument)
+        {
+            switch (command.ToLower())
+            {
+                case "loadtexture" :
+                    LoadTexture(argument, new Vector2(0, 0));
+                    break;
+            }
         }
     }
 }
