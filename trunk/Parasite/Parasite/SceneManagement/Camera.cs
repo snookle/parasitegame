@@ -24,6 +24,8 @@ namespace Parasite
         //The current position of the camera
         public Vector2 Position;
 
+        public float ZoomLevel = 1;
+
         //The current target that our camera is following.
         public SceneNode Target;
 
@@ -112,9 +114,15 @@ namespace Parasite
 
                 // Attempt at zoom
                 if(input.IsKeyDown(Keys.Add)){
-                    
+                    if (ZoomLevel > 1)
+                    {
+                        ZoomLevel += 0.05f;
+                    }
+                } else if (input.IsKeyDown(Keys.Subtract)){
+                    if(ZoomLevel < 10){
+                        ZoomLevel -= 0.05f;
+                    }
                 }
-
             }
             else
             {

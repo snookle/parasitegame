@@ -68,6 +68,29 @@ namespace Parasite
         }
 
         /// <summary>
+        /// Checks if selected point on the texture is transparent
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        public bool CheckTrans(Vector2 position)
+        {
+            position += Origin;
+            Rectangle sourceRectangle = new Rectangle((int)position.X, (int)position.Y, 1, 1);
+            Color[] retrievedColour = new Color[1];
+
+            Texture.GetData<Color>(0, sourceRectangle, retrievedColour, 0, 1);
+
+            if (retrievedColour[0] == Color.TransparentBlack || retrievedColour[0] == Color.TransparentWhite)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Update the bounding box and world position for an object as it is moved by the editor
         /// </summary>
         /// <param name="offset">The offset from the art origin to the mouse cursor</param>
