@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using System.Reflection;
 
 
 namespace Parasite
@@ -91,27 +92,60 @@ namespace Parasite
         {
             switch (mouseButton.ToLower())
             {
-                case "left": return currentMouseState.LeftButton == ButtonState.Pressed; break;
-                case "right": return currentMouseState.RightButton == ButtonState.Pressed; break;
-                case "middle": return currentMouseState.MiddleButton == ButtonState.Pressed; break;
+                case "left": return currentMouseState.LeftButton == ButtonState.Pressed;
+                case "right": return currentMouseState.RightButton == ButtonState.Pressed;
+                case "middle": return currentMouseState.MiddleButton == ButtonState.Pressed;
                 default: return false;
             }
         }
 
-        public bool IsKeyPressed(Keys key)
+        public bool IsKeyPressed(Object callee, Keys key)
         {
-            
+            if (ignoreException != null)
+            {
+                if (callee != ignoreException)
+                    return false;
+            }
             return (currentKeyboardState.IsKeyDown(key) && !lastKeyboardState.IsKeyDown(key));
         }
 
-        public bool IsKeyDown(Keys key)
+        public bool IsKeyDown(Object callee, Keys key)
         {
+            if (ignoreException != null)
+            {
+                if (callee != ignoreException)
+                    return false;
+            }
             return (currentKeyboardState.IsKeyDown(key));
         }
 
-        public bool IsKeyUp(Keys key)
+        public bool IsKeyUp(Object callee, Keys key)
         {
+            if (ignoreException != null)
+            {
+                if (callee != ignoreException)
+                    return false;
+            }
             return (currentKeyboardState.IsKeyUp(key));
+        }
+        private Object ignoreException = null;
+        public void IgnoreAllExcept(Object obj)
+        {
+            ignoreException = obj;
+        }
+        
+        public Keys[] GetPressedKeys(Object callee)
+        {
+            Keys[] newKeys = currentKeyboardState.GetPressedKeys();
+            Keys[] oldKeys = lastKeyboardState.GetPressedKeys();
+            List<Keys> returnKeys = new List<Keys>();
+            foreach (Keys k in newKeys)
+            {
+                if (oldKeys.Contains<Keys>(k))
+                    continue;
+                returnKeys.Add(k);
+            }
+            return returnKeys.ToArray();
         }
     }
 }
