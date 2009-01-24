@@ -60,6 +60,26 @@ namespace Parasite
             return -(ScreenCentre - (screenPosition + Position));// +mouseVec;
         }
 
+        /// <summary>
+        /// Converts a world coordinate to a position on the screen. 
+        /// </summary>
+        /// <param name="worldPosition">A position in the world</param>
+        /// <returns>The position on the screen that something at the world position would appear at.</returns>
+        public Vector2 WorldToScreen(Vector2 worldPosition)
+        {
+            return (ScreenCentre - (Position - worldPosition));
+        }
+        /// <summary>
+        /// Decides if any part of a bounding box is visible on the screen
+        /// </summary>
+        /// <param name="box">The box to check for screen visibility.</param>
+        /// <returns>True if any part of the box is visible on the screen.</returns>
+        public bool IsVisible(BoundingBox box)
+        {
+            throw new NotImplementedException("IsVisible is not implemented yet");
+            return false;
+        }
+
         //Updates the camera position.
         //Either from the target or the user.
         public override void Update(GameTime gameTime)

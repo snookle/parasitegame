@@ -32,6 +32,10 @@ namespace Parasite
         public Vector2 Scale;
         public float Rotation;
 
+        public bool EditorSelected;
+
+        private PrimitiveBatch boundingBatch;
+
         public LevelArt(Game game, Vector2 startingPosition, string textureName) : base (game, startingPosition)
         {
             this.game = game;
@@ -46,10 +50,8 @@ namespace Parasite
             Origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
             Scale = new Vector2(1, 1);
             Rotation = 0f;
+            boundingBatch = new PrimitiveBatch(game.GraphicsDevice);
         }
-
-
-        private bool editorSelected;
         
         /// <summary>
         /// Notify this piece that it's been selected, and tint it a different colour so the user
@@ -58,8 +60,8 @@ namespace Parasite
         /// <param name="select">Whether or not this level art has been selected by the editor</param>
         public void EditorSelect(bool select)
         {
-            editorSelected = select;
-            if (editorSelected)
+            EditorSelected = select;
+            if (EditorSelected)
                 Tint = Color.Yellow;
             else
                 Tint = Color.White;
@@ -103,6 +105,27 @@ namespace Parasite
             }
 
             BoundingBox = new Rectangle((int)WorldPosition.X - (int)Origin.X, (int)WorldPosition.Y - (int)Origin.Y, Texture.Width, Texture.Height);
+        }
+
+        public void DrawBoundingBox()
+        {
+                boundingBatch.Begin(PrimitiveType.LineList);
+                //top line
+                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Left - 1, BoundingBox.Top -1)), Color.Green);
+                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Right + 1, BoundingBox.Top - 1)), Color.Green);
+
+                //left line
+                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Left - 1, BoundingBox.Top)), Color.Green);
+                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Left - 1, BoundingBox.Bottom +1 )), Color.Green);
+
+                //right line
+                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Right, BoundingBox.Top)), Color.Green);
+                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Right, BoundingBox.Bottom +1 )), Color.Green);
+
+                //bottom line
+                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Left, BoundingBox.Bottom)), Color.Green);
+                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Right, BoundingBox.Bottom)), Color.Green);
+                boundingBatch.End();
         }
     }
 }
