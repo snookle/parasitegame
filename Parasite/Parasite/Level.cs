@@ -59,17 +59,19 @@ namespace Parasite
         public LevelArt LoadTexture(string name, Vector2 location)
         {
             LevelArt texture;
-            console.Write("LOADED TEXTURE!");
+            console.Write("Attempting to Load Texture " + name);
             if (textures.TryGetValue(name, out texture) == true)
             {
                 //return texture;
+                console.Write("Duplicating Texture, name : " + name + "_" + textures.Count);
                 LevelArt duplicatedTexture = new LevelArt(Game, location, texture.Texture);
-                textures.Add(name+textures.Count, duplicatedTexture);
+                textures.Add(name + "_" + textures.Count, duplicatedTexture);
                 Art.Add(duplicatedTexture);
                 return duplicatedTexture;
             }
             else
             {
+                console.Write("Texture Loaded.");
                 texture = new LevelArt(Game, location, @"LevelArt\" + name);
                 textures.Add(name, texture);
                 Art.Add(texture);
