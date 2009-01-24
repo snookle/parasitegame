@@ -85,7 +85,7 @@ namespace Parasite
 
             if (editing)
             {
-                if (input.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.L))
+                if (input.IsKeyPressed(this, Microsoft.Xna.Framework.Input.Keys.L))
                 {
                     LoadTexture("WallTest01", camera.MouseToWorld());
                 }
@@ -93,10 +93,12 @@ namespace Parasite
                 Vector2 mousePos = camera.MouseToWorld(); 
                 
                 //move the selected piece around
-                if (selectedArt != null && input.IsMouseMoving() && input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.M))
+                if (selectedArt != null && input.IsMouseMoving() && input.IsKeyDown(this, Microsoft.Xna.Framework.Input.Keys.M))
                 {
                     selectedArt.EditorMove(selectionOffset, 20);
-                } else if (selectedArt != null && input.IsMouseMoving() && input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.R)){
+                }
+                else if (selectedArt != null && input.IsMouseMoving() && input.IsKeyDown(this, Microsoft.Xna.Framework.Input.Keys.R))
+                {
                     // Rotation
                     if (mousePos.Y < previousY)
                     {
@@ -130,7 +132,7 @@ namespace Parasite
                             //so we don't snap the level art origin to the mouse position
                             selectionOffset = camera.MouseToWorld() - la.WorldPosition;
                         }
-                        else if(input.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.D))
+                        else if (input.IsKeyPressed(this, Microsoft.Xna.Framework.Input.Keys.D))
                         {
                             // If nothing is selected, and the D key is pressed, deselect
                             if (selectedArt != null)

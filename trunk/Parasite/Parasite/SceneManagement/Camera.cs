@@ -94,31 +94,34 @@ namespace Parasite
                 // Position = Position - input.GetMouseDisplacement();
 
                 // Keyboard Control
-                if (input.IsKeyDown(Keys.Right))
+                if (input.IsKeyDown(this, Keys.Right))
                 {
                     Position = Position + new Vector2(5, 0);
                 }
-                else if (input.IsKeyDown(Keys.Left))
+                else if (input.IsKeyDown(this, Keys.Left))
                 {
                     Position = Position - new Vector2(5, 0);
                 }
 
-                if (input.IsKeyDown(Keys.Up))
+                if (input.IsKeyDown(this, Keys.Up))
                 {
                     Position = Position - new Vector2(0, 5);
                 }
-                else if (input.IsKeyDown(Keys.Down))
+                else if (input.IsKeyDown(this, Keys.Down))
                 {
                     Position = Position + new Vector2(0, 5);
                 }
 
                 // Attempt at zoom
-                if(input.IsKeyDown(Keys.Add)){
+                if (input.IsKeyDown(this, Keys.Add))
+                {
                     if (ZoomLevel > 1)
                     {
                         ZoomLevel += 0.05f;
                     }
-                } else if (input.IsKeyDown(Keys.Subtract)){
+                }
+                else if (input.IsKeyDown(this, Keys.Subtract))
+                {
                     if(ZoomLevel < 10){
                         ZoomLevel -= 0.05f;
                     }

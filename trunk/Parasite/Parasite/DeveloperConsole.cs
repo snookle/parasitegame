@@ -33,6 +33,10 @@ namespace Parasite
         private int consoleHeight;
         private float textHeight;
 
+        private string inputString;
+        private List<string> history;
+        private int historyIndex;
+
 
         public DeveloperConsole(Game game)
             : base(game)
@@ -40,6 +44,8 @@ namespace Parasite
             show = false;
             game.Services.AddService(typeof(IDeveloperConsole), this);
             lines = new Queue<string>();
+            history = new List<string>();
+            historyIndex = 0;
         }
         protected override void LoadContent()
         {
@@ -71,12 +77,122 @@ namespace Parasite
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-            if (input.IsKeyPressed(Keys.OemTilde))
+            if (input.IsKeyPressed(this, Keys.OemTilde))
             {
                 show = !show;
                // bounds.Height = 0;
             }
+
+            if (show)
+            {
+                input.IgnoreAllExcept(this);
+                foreach(Keys k in input.GetPressedKeys(this))
+                {
+                    string key = Convert.ToString(k).ToLower();
+                    //inputString += key;
+                    //handle some stupid special cases :(
+                    //handle space.
+                    if (key == "space")
+                    {
+                        inputString += " ";
+                        continue;
+                    }
+
+                    //handle enter key.
+                    if (key == "enter")
+                    {
+                        lines.Enqueue(inputString);
+                        AddToHistory(inputString);
+                        inputString = "";
+                        continue;
+                    }
+
+                    //handle full stop
+                    if (key == "oemperiod")
+                    {
+                        inputString += ".";
+                        continue;
+                    }
+
+                    //handle quotes
+                    if (key == "oemquotes")
+                    {
+                        if (input.IsKeyDown(this, Keys.RightShift) || input.IsKeyDown(this, Keys.LeftShift))
+                        {
+                            inputString += "\"";
+                        }
+                        else
+                        {
+                            inputString += "'";
+                        }
+                        continue;
+                    }
+                    //handle backspace
+                    if (key == "back")
+                    {
+                        if (String.IsNullOrEmpty(inputString))
+                            continue;
+                       inputString = inputString.Remove(inputString.Length-1);
+                    }
+
+                    //handle up arrow (for history)
+                    if (key == "up")
+                    {
+                        if (history.Count <= 0 || historyIndex == history.Count)
+                            continue;
+                        inputString = history[historyIndex];
+                        historyIndex++;
+                    }
+
+                    //handle down arrow (for history)
+                    if (key == "down")
+                    {
+                        if (history.Count <= 0 || historyIndex <= 0)
+                            continue;
+                        historyIndex--;
+                        inputString = history[historyIndex];
+                    }
+
+                    //handle digits and their associated superscript functions
+                    if ("d1d2d3d4d5d6d7d8d9d0".Contains(key))
+                    {
+                        if (input.IsKeyDown(this, Keys.RightShift) || input.IsKeyDown(this, Keys.LeftShift))
+                        {
+                            //handle superscript functions
+                        }
+                        else
+                        {
+                            inputString += key.Remove(0, 1);
+                        }
+                    }
+
+                    //if it's not one of our wanted special cases
+                    //and it's alpha, then display it.
+                    if ("abcdefghijklmnopqrstuvwxyz".Contains(key))
+                    {
+                        if (input.IsKeyDown(this, Keys.RightShift) || input.IsKeyDown(this, Keys.LeftShift))
+                        {
+                            inputString += key.ToUpper();
+                        }
+                        else
+                        {
+                            inputString += key;
+                        }
+                    }
+                }
+                
+            }
+            else
+            {
+                input.IgnoreAllExcept(null);
+            }
             base.Update(gameTime);
+        }
+
+        private void AddToHistory(string str)
+        {
+            history.Insert(0, str);
+            historyIndex = 0;
         }
 
         public override void Draw(GameTime gameTime)
@@ -105,9 +221,10 @@ namespace Parasite
                 string[] strArray = lines.ToArray<String>();
                 for (int i = 0; i < lines.Count; i++)
                 {
-                    textBatch.DrawString(font, strArray[i], new Vector2(bounds.Left + 5, bounds.Bottom - ((i+1)* textHeight)), Color.White);                   
+                    textBatch.DrawString(font, strArray[lines.Count-i-1], new Vector2(bounds.Left + 5, bounds.Bottom - textHeight - ((i+1)* textHeight)), Color.White);                   
                 }
             }
+            textBatch.DrawString(font, "] " + inputString + "_", new Vector2(bounds.Left + 5, bounds.Bottom - textHeight), Color.White);
             textBatch.End();
             
 
