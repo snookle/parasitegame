@@ -66,7 +66,7 @@ namespace Parasite
                     foreach (LevelArt la in Art)
                     {
                         //check each level art for mouse collision and click
-                        if (la.BoundingBox.Contains(Convert.ToInt32(mousePos.X), Convert.ToInt32(mousePos.Y)) && input.IsMouseButtonPressed("left"))
+                        if (la.BoundingBox.Contains(Convert.ToInt32(mousePos.X), Convert.ToInt32(mousePos.Y)) && input.IsMouseButtonPressed("left") && !la.CheckTrans(input.MousePosition - la.GetScreenPosition()))
                         {
                             //deselect the current selected levelart (if there was one)
                             //before selecting the newly clicked piece
