@@ -1,2 +1,3 @@
 C:\benk\parasite\Parasite\Parasite\Content\obj\x86\Debug\ResolveAssemblyReference.cache
 E:\aA\Game Projects\Parasite Game\parasitegame\Parasite\Parasite\Content\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\dev\parasite\Parasite\Parasite\Content\obj\x86\Debug\ResolveAssemblyReference.cache

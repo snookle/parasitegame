@@ -12,3 +12,11 @@ E:\aA\Game Projects\Parasite Game\parasitegame\Parasite\Parasite\obj\x86\Debug\R
 E:\aA\Game Projects\Parasite Game\parasitegame\Parasite\Parasite\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 E:\aA\Game Projects\Parasite Game\parasitegame\Parasite\Parasite\obj\x86\Debug\Parasite.exe
 E:\aA\Game Projects\Parasite Game\parasitegame\Parasite\Parasite\obj\x86\Debug\Parasite.pdb
+C:\dev\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\WallTest01.xnb
+C:\dev\parasite\Parasite\Parasite\bin\x86\Debug\Parasite.exe
+C:\dev\parasite\Parasite\Parasite\bin\x86\Debug\Parasite.pdb
+C:\dev\parasite\Parasite\Parasite\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\dev\parasite\Parasite\Parasite\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\dev\parasite\Parasite\Parasite\obj\x86\Debug\Parasite.exe
+C:\dev\parasite\Parasite\Parasite\obj\x86\Debug\Parasite.pdb
+C:\dev\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\WormFace01.xnb

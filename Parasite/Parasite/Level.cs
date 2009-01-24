@@ -38,7 +38,7 @@ namespace Parasite
             base.LoadContent();
             artBatch = new SpriteBatch(GraphicsDevice);
             Art.Add(new LevelArt(Game, new Vector2(1,1), "LevelArt\\WallTest01"));
-            Art.Add(new LevelArt(Game, new Vector2(150,150), "LevelArt\\WallTest01"));
+            Art.Add(new LevelArt(Game, new Vector2(150,150), "LevelArt\\WormFace01"));
             input = (InputHandler)Game.Services.GetService(typeof(IInputHandler));
             camera = (Camera)Game.Services.GetService(typeof(ICamera));
         }
@@ -102,9 +102,9 @@ namespace Parasite
             artBatch.Begin();
             foreach (LevelArt la in Art)
             {
-                //artBatch.Draw(la.Texture, la.GetScreenPosition(), la.Tint);
-
-                artBatch.Draw(la.Texture, la.GetScreenPosition(), null, la.Tint, la.Rotation, la.Origin, la.Scale, SpriteEffects.None, la.ScreenDepth);
+                artBatch.Draw(la.Texture, la.GetScreenPosition(), null, la.Tint, la.Rotation, la.Origin, la.Scale, SpriteEffects.None, 1f);
+                if (editing && la.EditorSelected)
+                    la.DrawBoundingBox();
             }
             artBatch.End();
         }
