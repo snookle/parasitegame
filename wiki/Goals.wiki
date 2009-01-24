@@ -5,12 +5,22 @@
 ==Get First Level Roughly Completed ( aim : Early March )==
  * 2D Camera
   * Movement~~ (80% done) : r181
-  * Zooming * (current : Ben) *
+  * Zooming 
   * Smooth Locking/Following Targets~~ 60% done (needs improvement) : r181
  * Create Basic Level Editor
   * Loading/Saving
   * Collision Maps
+  * Rotation of Sprites
+  * Scaling of Sprites
+  * Developer Console * (current : Ben) *
+  * ~~Movement of Sprites~~
+  * Special Sprite Effects
+   * Alpha
+   * Setting Layer
+   * Duplicating
+   * Animated Sprites
   * Simple Texture Placement
+  * Interaction "Hotspots"
   * Simple Switching to/from game->devmode
  * Parasite Interaction with Static Bodies
   * ~~Add Parasite to Simulation (27/11/08)~~ : r168
