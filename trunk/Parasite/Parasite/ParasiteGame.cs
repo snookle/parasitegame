@@ -40,6 +40,7 @@ namespace Parasite
             Components.Add(new Camera(this));
             Components.Add(new InputHandler(this));
             Components.Add(new Level(this));
+            Components.Add(new DeveloperConsole(this));
             base.Initialize();
         }
 
