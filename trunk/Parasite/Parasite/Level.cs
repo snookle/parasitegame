@@ -27,6 +27,8 @@ namespace Parasite
         private Vector2 selectionOffset = Vector2.Zero;
         private float previousY = 0;
 
+        private Dictionary<string, LevelArt> textures = new Dictionary<string, LevelArt>();
+
 
         public Level(Game game)
             : base(game)
@@ -38,10 +40,38 @@ namespace Parasite
         {
             base.LoadContent();
             artBatch = new SpriteBatch(GraphicsDevice);
-            Art.Add(new LevelArt(Game, new Vector2(1,1), "LevelArt\\WallTest01"));
-            Art.Add(new LevelArt(Game, new Vector2(150,150), "LevelArt\\WormFace01"));
+            //Art.Add(new LevelArt(Game, new Vector2(1,1), "LevelArt\\WallTest01"));
+            //Art.Add(new LevelArt(Game, new Vector2(150,150), "LevelArt\\WormFace01"));
+
             input = (InputHandler)Game.Services.GetService(typeof(IInputHandler));
             camera = (Camera)Game.Services.GetService(typeof(ICamera));
+
+           // LoadTexture("WallTest01", input.MousePosition);
+        }
+
+        /// <summary>
+        /// Attempt at loading dynamic textures based on an input name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public LevelArt LoadTexture(string name, Vector2 location)
+        {
+            LevelArt texture;
+            if (textures.TryGetValue(name, out texture) == true)
+            {
+                //return texture;
+                LevelArt duplicatedTexture = new LevelArt(Game, location, texture.Texture);
+                textures.Add(name+textures.Count, duplicatedTexture);
+                Art.Add(duplicatedTexture);
+                return duplicatedTexture;
+            }
+            else
+            {
+                texture = new LevelArt(Game, location, @"LevelArt\" + name);
+                textures.Add(name, texture);
+                Art.Add(texture);
+                return texture;
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -52,7 +82,7 @@ namespace Parasite
             {
                 if (input.IsKeyPressed(Keys.L))
                 {
-
+                    LoadTexture("WallTest01", camera.MouseToWorld());
                 }
 
                 Vector2 mousePos = camera.MouseToWorld(); 
