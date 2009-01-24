@@ -130,6 +130,14 @@ namespace Parasite
             BoundingBox = new Rectangle((int)WorldPosition.X - (int)Origin.X, (int)WorldPosition.Y - (int)Origin.Y, Texture.Width, Texture.Height);
         }
 
+        public void EditorRotate(Vector2 offset, float rotationAmount)
+        {
+            // Update origin based on mouse pos?
+            this.Rotation += rotationAmount;
+
+            BoundingBox = new Rectangle((int)WorldPosition.X - (int)Origin.X, (int)WorldPosition.Y - (int)Origin.Y, Texture.Width, Texture.Height);
+        }
+
         public void DrawBoundingBox()
         {
                 boundingBatch.Begin(PrimitiveType.LineList);
