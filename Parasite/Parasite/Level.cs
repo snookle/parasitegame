@@ -25,6 +25,7 @@ namespace Parasite
         //LEVEL EDITOR SPECIFIC STUFF
         private LevelArt selectedArt = null;
         private Vector2 selectionOffset = Vector2.Zero;
+        private float previousY = 0;
 
 
         public Level(Game game)
@@ -60,6 +61,18 @@ namespace Parasite
                 if (selectedArt != null && input.IsMouseMoving() && input.IsKeyDown(Keys.M))
                 {
                     selectedArt.EditorMove(selectionOffset, 20);
+                } else if (selectedArt != null && input.IsMouseMoving() && input.IsKeyDown(Keys.R)){
+                    // Rotation
+                    if (mousePos.Y < previousY)
+                    {
+                        selectedArt.EditorRotate(selectionOffset, -0.1f);
+                    }
+                    else
+                    {
+                        selectedArt.EditorRotate(selectionOffset, 0.1f);
+                    }
+
+                    previousY = mousePos.Y;
                 }
                 else
                 {
