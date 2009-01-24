@@ -19,6 +19,15 @@
       <Output>C:\dev\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\WormFace01.xnb</Output>
       <Time>2009-01-24T13:26:07.08425+11:00</Time>
     </Item>
+    <Item>
+      <Source>Fonts\Console.spritefont</Source>
+      <Name>Fonts\Console</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\dev\parasite\Parasite\Parasite\bin\x86\Debug\Content\Fonts\Console.xnb</Output>
+      <Time>2009-01-24T17:18:34.474875+11:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

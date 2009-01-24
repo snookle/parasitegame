@@ -18,7 +18,6 @@ namespace Parasite
     class LevelArt : SceneNode
     {
         
-        private Game game;
         public Texture2D Texture;
         public Color Tint = Color.White;
         

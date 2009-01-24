@@ -84,6 +84,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeveloperConsole.cs" />
     <Compile Include="Input\InputHandler.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="LevelArt.cs" />
