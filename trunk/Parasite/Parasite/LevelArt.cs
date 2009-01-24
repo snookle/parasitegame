@@ -35,10 +35,12 @@ namespace Parasite
 
         private PrimitiveBatch boundingBatch;
 
+
         public LevelArt(Game game, Vector2 startingPosition, string textureName) : base (game, startingPosition)
         {
             this.game = game;
             TextureName = textureName;
+            Texture = game.Content.Load<Texture2D>(TextureName);
             LoadContent();
         }
 
@@ -47,16 +49,11 @@ namespace Parasite
         {
             this.game = game;
             Texture = texture;
-            BoundingBox = new Rectangle((int)WorldPosition.X - Texture.Width / 2, (int)WorldPosition.Y - Texture.Height / 2, Texture.Width, Texture.Height);
-            Origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
-            Scale = new Vector2(1, 1);
-            Rotation = 0f;
-            boundingBatch = new PrimitiveBatch(game.GraphicsDevice);
+            LoadContent();
         }
 
         public void LoadContent()
         {
-            Texture = game.Content.Load<Texture2D>(TextureName);
             BoundingBox = new Rectangle((int)WorldPosition.X - Texture.Width / 2, (int)WorldPosition.Y - Texture.Height / 2, Texture.Width, Texture.Height);
             Origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
             Scale = new Vector2(1, 1);
@@ -169,5 +166,7 @@ namespace Parasite
                 boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Right, BoundingBox.Bottom)), Color.Green);
                 boundingBatch.End();
         }
+
+
     }
 }
