@@ -37,6 +37,16 @@ namespace Parasite
 
         public SceneNode(Game game, Vector2 startingPosition)
         {
+            Initialise(game, startingPosition);
+        }
+
+        public SceneNode(Game game)
+        {
+            Initialise(game, new Vector2(0,0));
+        }
+
+        private void Initialise(Game game, Vector2 startingPosition)
+        {
             this.camera = (Camera)game.Services.GetService(typeof(ICamera));
             this.game = game;
             screenCentre.X = game.GraphicsDevice.Viewport.Width / 2;

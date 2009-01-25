@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -30,19 +31,19 @@ namespace Parasite
 
         private Dictionary<string, LevelArt> textures = new Dictionary<string, LevelArt>();
 
+        private string LevelFilename = "";
+
 
         public Level(Game game)
             : base(game)
         {
-
+            LevelFilename = "level1";
         }
 
         protected override void LoadContent()
         {
             base.LoadContent();
             artBatch = new SpriteBatch(GraphicsDevice);
-            //Art.Add(new LevelArt(Game, new Vector2(1,1), "LevelArt\\WallTest01"));
-            //Art.Add(new LevelArt(Game, new Vector2(150,150), "LevelArt\\WormFace01"));
 
             input = (InputHandler)Game.Services.GetService(typeof(IInputHandler));
             camera = (Camera)Game.Services.GetService(typeof(ICamera));
@@ -50,7 +51,6 @@ namespace Parasite
 
             console.MessageHandler += new DeveloperConsole.DeveloperConsoleMessageHandler(ConsoleMessageHandler);
 
-           // LoadTexture("WallTest01", input.MousePosition);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Parasite
         {
             LevelArt texture;
             console.Write("Attempting to Load Texture " + name);
-            if (textures.TryGetValue(name, out texture) == true)
+           /* if (textures.TryGetValue(name, out texture) == true)
             {
                 //return texture;
                 console.Write("Duplicating Texture, name : " + name + "_" + textures.Count);
@@ -72,10 +72,10 @@ namespace Parasite
                 console.Write("Texture Loaded.");
                 return duplicatedTexture;
             }
-            else
+            else*/
             {
                 texture = new LevelArt(Game, location, @"LevelArt\" + name);
-                textures.Add(name, texture);
+               // textures.Add(name, texture);
                 Art.Add(texture);
                 console.Write("Texture Loaded.");
                 return texture;
@@ -88,7 +88,13 @@ namespace Parasite
 
             if (editing)
             {
-                if (input.IsKeyPressed(this, Microsoft.Xna.Framework.Input.Keys.L))
+                //Save the level
+                if (input.IsKeyPressed(this, Keys.S))
+                {
+                    
+                }
+
+                if (input.IsKeyPressed(this, Keys.L))
                 {
                     LoadTexture("WallTest01", camera.MouseToWorld());
                 }
@@ -169,6 +175,66 @@ namespace Parasite
                 case "loadtexture" :
                     LoadTexture(argument, new Vector2(0, 0));
                     break;
+                case "loadlevel" :
+                    LoadLevel(argument);
+                    break;
+                case "savelevel" :
+                    SaveLevel(argument);
+                    break;
+            }
+        }
+
+        public void ClearLevel()
+        {
+            Art.Clear();
+            selectedArt = null;
+        }
+
+        public void SaveLevel(string filename)
+        {
+            LevelFilename = filename;
+            if (string.IsNullOrEmpty(LevelFilename))
+            {
+                console.Write("SaveLevel failed: No filename specified");
+                return;
+            }
+
+            try {
+                Directory.CreateDirectory(@"Content\Levels");
+                BinaryWriter file = new BinaryWriter(File.Open(@"Content\Levels\" +LevelFilename + ".pld", FileMode.Create));
+                file.Write(Art.Count);
+                for (int i = 0; i < Art.Count; i++)
+                {
+                    Art[i].EditorSelect(false);
+                    Art[i].SaveLevelData(file);
+                }
+                console.Write(@"Level saved as: Content\Levels\" + LevelFilename + ".pld");
+                file.Close();
+            }
+            catch (Exception e)
+            {
+                console.Write("SaveLevel failed: " + e.Message);
+            }
+           
+        }
+
+        public bool LoadLevel(string filename)
+        {
+            try
+            {
+                BinaryReader file = new BinaryReader(File.Open(@"Content\Levels\" + filename + ".pld", FileMode.Open));
+                int count = file.ReadInt32();
+                for (int i = 0; i < count; i++)
+                {
+                    Art.Add(new LevelArt(Game, file));
+                }
+                file.Close();
+                return true;
+            }
+            catch (Exception e)
+            {
+                console.Write("LoadLevel failed: " + e.Message);
+                return false;
             }
         }
     }
