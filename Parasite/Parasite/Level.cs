@@ -28,29 +28,33 @@ namespace Parasite
         private LevelArt selectedArt = null;
         private Vector2 selectionOffset = Vector2.Zero;
         private float previousY = 0;
+        private int gridSize = 5;
+        private bool showGrid = false;
+        private PrimitiveBatch gridBatch;
 
         private Dictionary<string, LevelArt> textures = new Dictionary<string, LevelArt>();
 
         private string LevelFilename = "";
 
 
-        public Level(Game game)
+        public Level(Game game, string filename)
             : base(game)
         {
-            LevelFilename = "level1";
+            LevelFilename = filename;
         }
 
         protected override void LoadContent()
         {
             base.LoadContent();
             artBatch = new SpriteBatch(GraphicsDevice);
+            gridBatch = new PrimitiveBatch(GraphicsDevice);
 
             input = (InputHandler)Game.Services.GetService(typeof(IInputHandler));
             camera = (Camera)Game.Services.GetService(typeof(ICamera));
             console = (DeveloperConsole)Game.Services.GetService(typeof(IDeveloperConsole));
 
             console.MessageHandler += new DeveloperConsole.DeveloperConsoleMessageHandler(ConsoleMessageHandler);
-
+            LoadLevel(LevelFilename);
         }
 
         /// <summary>
@@ -62,17 +66,6 @@ namespace Parasite
         {
             LevelArt texture;
             console.Write("Attempting to Load Texture " + name);
-           /* if (textures.TryGetValue(name, out texture) == true)
-            {
-                //return texture;
-                console.Write("Duplicating Texture, name : " + name + "_" + textures.Count);
-                LevelArt duplicatedTexture = new LevelArt(Game, location, texture.Texture);
-                textures.Add(name + "_" + textures.Count, duplicatedTexture);
-                Art.Add(duplicatedTexture);
-                console.Write("Texture Loaded.");
-                return duplicatedTexture;
-            }
-            else*/
             {
                 texture = new LevelArt(Game, location, @"LevelArt\" + name);
                // textures.Add(name, texture);
@@ -101,10 +94,17 @@ namespace Parasite
 
                 Vector2 mousePos = camera.MouseToWorld(); 
                 
+                //show the grid
+                if (selectedArt != null && input.IsKeyDown(this, Keys.M))
+                    showGrid = true;
+                else
+                    showGrid = false;
+
                 //move the selected piece around
-                if (selectedArt != null && input.IsMouseMoving() && input.IsKeyDown(this, Microsoft.Xna.Framework.Input.Keys.M))
+                if (selectedArt != null && input.IsMouseMoving() && input.IsKeyDown(this, Keys.M))
                 {
-                    selectedArt.EditorMove(selectionOffset, 20);
+                    selectedArt.EditorMove(selectionOffset, gridSize);
+
                 }
                 else if (selectedArt != null && input.IsMouseMoving() && input.IsKeyDown(this, Microsoft.Xna.Framework.Input.Keys.R))
                 {
@@ -158,6 +158,31 @@ namespace Parasite
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
+
+            if (editing)
+            {
+                if (showGrid)
+                {
+                    int xbounds = GraphicsDevice.Viewport.Width / gridSize;
+                    int ybounds = GraphicsDevice.Viewport.Height / gridSize;
+                    Color gridColor = Color.Gray;
+                    gridColor.A = 128;
+                    gridBatch.Begin(PrimitiveType.LineList);
+                    for (int x = 0; x < xbounds; x++)
+                    {
+                        gridBatch.AddVertex(new Vector2((x * gridSize), 0), gridColor);
+                        gridBatch.AddVertex(new Vector2((x * gridSize), GraphicsDevice.Viewport.Height), gridColor);
+                    }
+
+                    for (int y = 0; y < ybounds; y++)
+                    {
+                        gridBatch.AddVertex(new Vector2(0, y * gridSize), gridColor);
+                        gridBatch.AddVertex(new Vector2(GraphicsDevice.Viewport.Width, y * gridSize), gridColor);
+                    }
+                    gridBatch.End();
+                }
+            }
+
             artBatch.Begin();
             foreach (LevelArt la in Art)
             {
@@ -176,11 +201,34 @@ namespace Parasite
                     LoadTexture(argument, new Vector2(0, 0));
                     break;
                 case "loadlevel" :
+                    ClearLevel();
                     LoadLevel(argument);
                     break;
                 case "savelevel" :
                     SaveLevel(argument);
                     break;
+                case "gridsize" :
+                    if (String.IsNullOrEmpty(argument))
+                    {
+                        console.Write("Gridsize is " + gridSize);
+                        return;
+                    }
+
+                    int size = Convert.ToInt32(argument);
+                    if (size <= 0)
+                    {
+                        console.Write("Error: gridsize cannot be <= 0");
+                    }
+                    else
+                    {
+                        gridSize = size;
+                        console.Write("Gridsize changed to " + gridSize);
+                    }
+                    break;
+
+
+
+
             }
         }
 
@@ -220,6 +268,12 @@ namespace Parasite
 
         public bool LoadLevel(string filename)
         {
+            LevelFilename = filename;
+            if (String.IsNullOrEmpty(LevelFilename))
+            {
+                console.Write("LoadLevel failed: No filename specified");
+                return false;
+            }
             try
             {
                 BinaryReader file = new BinaryReader(File.Open(@"Content\Levels\" + filename + ".pld", FileMode.Open));
@@ -229,6 +283,7 @@ namespace Parasite
                     Art.Add(new LevelArt(Game, file));
                 }
                 file.Close();
+                console.Write("Level loaded as: " + LevelFilename);
                 return true;
             }
             catch (Exception e)
