@@ -32,6 +32,7 @@ namespace Parasite
         private Rectangle bounds;
         private int consoleHeight;
         private float textHeight;
+        private int lineLength = 128;
 
         private string inputString;
         private List<string> history;
@@ -112,8 +113,12 @@ namespace Parasite
 
                         if (inputString.IndexOf(' ') > 0)
                         {
-                           command = inputString.Substring(0, inputString.IndexOf(' '));
-                           argument = inputString.Substring(inputString.IndexOf(' ')).Trim(' ', '"');
+                            command = inputString.Substring(0, inputString.IndexOf(' '));
+                            argument = inputString.Substring(inputString.IndexOf(' ')).Trim(' ', '"');
+                        }
+                        else
+                        {
+                            command = inputString.Trim();
                         }
                         if (MessageHandler != null)
                         {
@@ -264,7 +269,9 @@ namespace Parasite
 
         public void Write(String str)
         {
-            lines.Enqueue(str);
+            string[] splits = str.Split('\n');
+            foreach (string stri in splits)
+                lines.Enqueue(stri);
             if (lines.Count > maxLines)
                 lines.Dequeue();
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -18,7 +19,7 @@ namespace Parasite
     class LevelArt : SceneNode
     {
         
-        public Texture2D Texture;
+        public Texture2D Texture = null;
         public Color Tint = Color.White;
         
         //name of the content resource for this texture
@@ -28,8 +29,8 @@ namespace Parasite
         public Rectangle BoundingBox;
 
         public Vector2 Origin;
-        public Vector2 Scale;
-        public float Rotation;
+        public Vector2 Scale = new Vector2(1, 1);
+        public float Rotation = 0f;
 
         public bool EditorSelected;
 
@@ -44,11 +45,10 @@ namespace Parasite
             LoadContent();
         }
 
-        public LevelArt(Game game, Vector2 startingPosition, Texture2D texture)
-            : base(game, startingPosition)
+        public LevelArt(Game game, BinaryReader file) : base(game)
         {
-            this.game = game;
-            Texture = texture;
+            LoadLevelData(file);
+            Texture = game.Content.Load<Texture2D>(TextureName);
             LoadContent();
         }
 
@@ -56,8 +56,6 @@ namespace Parasite
         {
             BoundingBox = new Rectangle((int)WorldPosition.X - Texture.Width / 2, (int)WorldPosition.Y - Texture.Height / 2, Texture.Width, Texture.Height);
             Origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
-            Scale = new Vector2(1, 1);
-            Rotation = 0f;
             boundingBatch = new PrimitiveBatch(game.GraphicsDevice);
         }
         
@@ -165,6 +163,49 @@ namespace Parasite
                 boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Left, BoundingBox.Bottom)), Color.Green);
                 boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Right, BoundingBox.Bottom)), Color.Green);
                 boundingBatch.End();
+        }
+
+        public void SaveLevelData(BinaryWriter file)
+        {
+            //SceneNode info that we want to keep.\
+            //world position
+            file.Write(WorldPosition.X);
+            file.Write(WorldPosition.Y);
+            
+            //screen depth
+            file.Write(ScreenDepth);
+
+            //LevelArt specific data.            
+            //Tint
+            file.Write(Tint.R);
+            file.Write(Tint.B);
+            file.Write(Tint.G);
+            file.Write(Tint.A);
+
+            //Texture filename
+            file.Write(TextureName);
+
+            //rotation
+            file.Write(Rotation);
+
+            //Scale
+            file.Write(Scale.X);
+            file.Write(Scale.Y);
+        }
+
+        public void LoadLevelData(BinaryReader file)
+        {
+            WorldPosition = new Vector2(file.ReadSingle(), file.ReadSingle());
+
+            ScreenDepth = file.ReadSingle();
+
+            Tint = new Color(file.ReadByte(), file.ReadByte(), file.ReadByte(), file.ReadByte());
+
+            TextureName = file.ReadString();
+
+            Rotation = file.ReadSingle();
+
+            Scale = new Vector2(file.ReadSingle(), file.ReadSingle());
         }
 
 
