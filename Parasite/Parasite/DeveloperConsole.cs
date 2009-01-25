@@ -252,12 +252,29 @@ namespace Parasite
             batch.AddVertex(new Vector2(bounds.Left, bounds.Bottom), consoleColor);
             batch.End();
             textBatch.Begin();
+
+            int lineLength = 50;
+
             if (lines.Count > 0)
             {
                 string[] strArray = lines.ToArray<String>();
                 for (int i = 0; i < lines.Count; i++)
                 {
-                    textBatch.DrawString(font, strArray[lines.Count-i-1], new Vector2(bounds.Left + 5, bounds.Bottom - textHeight - ((i+1)* textHeight)), Color.White);                   
+                    // Attempt at word wrapping...
+                    /*if (strArray[lines.Count - i - 1].Length > lineLength)
+                    {
+                        int lineBreaks = (int)(strArray[lines.Count - i - 1].Length / lineLength);
+                        string TempString;
+                        for (int n = 0; n < lineBreaks; n++)
+                        {
+                            TempString = strArray[lines.Count - i - 1].Substring(lineLength * n, lineLength);
+                            textBatch.DrawString(font, TempString + '\n', new Vector2(bounds.Left + 5, bounds.Bottom - textHeight - ((n + i + 2) * textHeight)), Color.White);
+                        }
+                    }
+                    else
+                    {*/
+                        textBatch.DrawString(font, strArray[lines.Count - i - 1], new Vector2(bounds.Left + 5, bounds.Bottom - textHeight - ((i + 1) * textHeight)), Color.White);
+                    //}
                 }
             }
             textBatch.DrawString(font, "] " + inputString + "_", new Vector2(bounds.Left + 5, bounds.Bottom - textHeight), Color.White);

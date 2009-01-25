@@ -75,6 +75,15 @@ namespace Parasite
             }
         }
 
+        /// <summary>
+        /// Attempt at removing textures
+        /// </summary>
+        /// <param name="sprite"></param>
+        public void removeTexture(LevelArt sprite)
+        {
+            Art.Remove(sprite);
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -99,6 +108,13 @@ namespace Parasite
                     showGrid = true;
                 else
                     showGrid = false;
+
+                // Remove if Del is pressed
+                if (selectedArt != null && input.IsKeyPressed(this, Keys.Delete))
+                {
+                    removeTexture(selectedArt);
+                    selectedArt = null;
+                }
 
                 //move the selected piece around
                 if (selectedArt != null && input.IsMouseMoving() && input.IsKeyDown(this, Keys.M))
@@ -193,10 +209,29 @@ namespace Parasite
             artBatch.End();
         }
 
+        public void listDirectory(string name)
+        {
+            string[] filenames = Directory.GetFiles(name);
+            for (int i = 0; i < filenames.Length; i++)
+            {
+                console.Write(" * " + filenames[i]);
+            }
+            console.Write("Listing Complete, " + filenames.Length + " files");
+            console.Write("");
+        }
+
         public void ConsoleMessageHandler(string command, string argument)
         {
             switch (command.ToLower())
             {
+                case "listtextures" :
+                    console.Write("Textures Listed : ");
+                    listDirectory("Content\\LevelArt");
+                    break;
+                case "listlevels":
+                    console.Write("Levels Listed : ");
+                    listDirectory("Content\\Levels");
+                    break;
                 case "loadtexture" :
                     LoadTexture(argument, new Vector2(0, 0));
                     break;
