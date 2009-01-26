@@ -8,20 +8,22 @@
   * Zooming 
   * Smooth Locking/Following Targets~~ 60% done (needs improvement) : r181
  * Create Basic Level Editor
-  * Loading/Saving
+  * ~~Loading/Saving~~
   * Collision Maps
   * Rotation of Sprites
   * Scaling of Sprites
-  * Developer Console * (current : Ben) *
+  * Basic Editor GUI
+  * ~~Developer Console~~
   * ~~Movement of Sprites~~
   * Special Sprite Effects
    * Alpha
    * Setting Layer
    * Duplicating
    * Animated Sprites
-  * Simple Texture Placement
+  * ~~Simple Texture Placement~~
   * Interaction "Hotspots"
   * Simple Switching to/from game->devmode
+  * Level Art ( *Current : Anthony* )
  * Parasite Interaction with Static Bodies
   * ~~Add Parasite to Simulation (27/11/08)~~ : r168
   * ~~Add to Spatial Grid, Allow Interaction with Other Elements (6/12/08)~~ : Basic
