@@ -19,7 +19,7 @@
    * Alpha
    * Setting Layer
    * Duplicating
-   * Animated Sprites
+   * Animated Sprites ( *Current : Anthony* )
   * ~~Simple Texture Placement~~
   * Interaction "Hotspots"
   * Simple Switching to/from game->devmode
