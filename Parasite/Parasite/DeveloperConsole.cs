@@ -163,6 +163,18 @@ namespace Parasite
                         }
                     }
 
+                    if (key == "oemminus")
+                    {
+                        if (input.IsKeyDown(this, Keys.RightShift) || input.IsKeyDown(this, Keys.LeftShift))
+                        {
+                            inputString += "_";
+                        }
+                        else
+                        {
+                            inputString += "-";
+                        }
+                    }
+
                     //handle backspace
                     if (key == "back")
                     {
