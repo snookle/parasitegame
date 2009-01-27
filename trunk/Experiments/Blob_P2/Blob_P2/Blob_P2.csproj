@@ -81,6 +81,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InputHandler.cs" />
+    <Compile Include="Internal Classes\GUI\GUIButton.cs" />
+    <Compile Include="Internal Classes\GUI\GUIComponent.cs" />
+    <Compile Include="Internal Classes\GUI\GuiManager.cs" />
     <Compile Include="Internal Classes\Parasite\IKMember.cs" />
     <Compile Include="Internal Classes\Parasite\Parasite.cs" />
     <Compile Include="Internal Classes\Parasite\ParasiteBodyPart.cs" />

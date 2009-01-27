@@ -7,8 +7,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\Sprites\Particle.xnb</Output>
-      <Time>2008-12-08T11:23:43.3666418+11:00</Time>
+      <Output>C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\Sprites\Particle.xnb</Output>
+      <Time>2009-01-17T12:44:49.234375+11:00</Time>
     </Item>
     <Item>
       <Source>Sprites\blobshaderdot.png</Source>
@@ -16,8 +16,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\Sprites\blobshaderdot.xnb</Output>
-      <Time>2008-12-08T11:23:43.3353684+11:00</Time>
+      <Output>C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\Sprites\blobshaderdot.xnb</Output>
+      <Time>2009-01-17T12:44:49.234375+11:00</Time>
     </Item>
     <Item>
       <Source>Sprites\100xparticle.png</Source>
@@ -25,8 +25,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\Sprites\100xparticle.xnb</Output>
-      <Time>2008-12-08T11:23:43.3353684+11:00</Time>
+      <Output>C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\Sprites\100xparticle.xnb</Output>
+      <Time>2009-01-17T12:44:49.234375+11:00</Time>
     </Item>
     <Item>
       <Source>Sprites\ParasiteBodyPart.png</Source>
@@ -34,8 +34,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\Sprites\ParasiteBodyPart.xnb</Output>
-      <Time>2008-12-08T11:23:43.3510051+11:00</Time>
+      <Output>C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\Sprites\ParasiteBodyPart.xnb</Output>
+      <Time>2009-01-17T12:44:49.234375+11:00</Time>
     </Item>
     <Item>
       <Source>DebugFont.spritefont</Source>
@@ -43,8 +43,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\DebugFont.xnb</Output>
-      <Time>2008-12-08T11:23:44.0390199+11:00</Time>
+      <Output>C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\DebugFont.xnb</Output>
+      <Time>2009-01-17T12:44:49.65625+11:00</Time>
     </Item>
     <Item>
       <Source>blobshader.fx</Source>
@@ -52,43 +52,43 @@
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\blobshader.xnb</Output>
-      <Time>2008-12-08T11:23:44.0390199+11:00</Time>
+      <Output>C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\blobshader.xnb</Output>
+      <Time>2009-01-17T12:44:49.65625+11:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
       <BuildConfiguration>Release</BuildConfiguration>
       <CompressContent>true</CompressContent>
-      <RootDirectory>C:\benk\parasite\Experiments\Blob_P2\Blob_P2\Content\</RootDirectory>
-      <LoggerRootDirectory>C:\benk\parasite\Experiments\Blob_P2\Blob_P2\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\benk\parasite\Experiments\Blob_P2\Blob_P2\Content\obj\x86\Release\</IntermediateDirectory>
-      <OutputDirectory>C:\benk\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\</OutputDirectory>
+      <RootDirectory>C:\dev\parasite\Experiments\Blob_P2\Blob_P2\Content\</RootDirectory>
+      <LoggerRootDirectory>C:\dev\parasite\Experiments\Blob_P2\Blob_P2\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\dev\parasite\Experiments\Blob_P2\Blob_P2\Content\obj\x86\Release\</IntermediateDirectory>
+      <OutputDirectory>C:\dev\parasite\Experiments\Blob_P2\Blob_P2\bin\x86\Release\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
-        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Key>E:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
         <Value>2008-10-10T17:42:32+11:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Key>E:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
         <Value>2008-10-10T17:43:28+11:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Key>E:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
         <Value>2008-10-10T17:43:18+11:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Key>E:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
         <Value>2008-10-10T17:48:18+11:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Key>E:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
         <Value>2008-10-10T17:48:50+11:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\WINDOWS\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\3.0.0.0__6d5c3888ef60e27d\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2008-12-11T12:12:59.3048944+11:00</Value>
+        <Key>E:\WINDOWS\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\3.0.0.0__6d5c3888ef60e27d\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2009-01-10T21:56:45.40625+11:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

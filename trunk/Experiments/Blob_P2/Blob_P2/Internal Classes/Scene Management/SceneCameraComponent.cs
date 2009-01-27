@@ -68,7 +68,7 @@ namespace Blob_P2
                 //we have a target hopefully
                 if (Target != null)
                 {
-                    Vector2 intermediatePosition = (Target.Position - Position) * 0.2f;
+                    Vector2 intermediatePosition = Target.Position - Vector2.SmoothStep(Target.Position, Position, 0.2f); //(Target.Position - Position) * 0.2f;
                     Position += intermediatePosition;
                     
                 }
