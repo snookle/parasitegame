@@ -352,6 +352,7 @@ namespace Blob_P2
             		graphics.RenderState.FillMode = FillMode.Solid;
 
             effect.Begin();
+            effect.World = Matrix.CreateTranslation(new Vector3(GetScreenPosition(), 0));
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
                 pass.Begin();

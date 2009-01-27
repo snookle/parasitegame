@@ -61,6 +61,10 @@ namespace Blob_P2
 
             input = new InputHandler(this);
             this.Components.Add(input);
+
+            GuiManager manager = new GuiManager(this);
+            this.Components.Add(manager);
+            manager.AddButton(new Vector2(250, 250), "Button1", "THIS IS A LARGE CAPTION");
         }
 
         /// <summary>
