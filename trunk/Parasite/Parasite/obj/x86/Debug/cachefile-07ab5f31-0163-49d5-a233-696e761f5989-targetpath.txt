@@ -1,3 +1,0 @@
-Content\LevelArt\WallTest01.xnb
-Content\LevelArt\WormFace01.xnb
-Content\Fonts\Console.xnb
