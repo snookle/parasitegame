@@ -5,7 +5,7 @@
 ==Get First Level Roughly Completed ( aim : Early March )==
  * 2D Camera
   * Movement~~ (80% done) : r181
-  * Zooming 
+  * ~~Zooming~~ (80% done) : r211
   * Smooth Locking/Following Targets~~ 60% done (needs improvement) : r181
  * Create Basic Level Editor
   * ~~Loading/Saving~~
