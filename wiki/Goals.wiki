@@ -6,7 +6,7 @@
  * 2D Camera
   * ~~Movement~~ *(80% done)* : r181
   * ~~Zooming~~ : r211
-  * Smooth Locking/Following Targets~~ 60% done (needs improvement) : r181
+  * ~~Smooth Locking/Following Targets~~ 60% done (needs improvement) : r181
  * Create Basic Level Editor
   * ~~Loading/Saving~~
   * Collision Maps
