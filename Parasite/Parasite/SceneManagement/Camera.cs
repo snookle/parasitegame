@@ -120,13 +120,13 @@ namespace Parasite
                 {
                     if (ZoomLevel < 1)
                     {
-                        ZoomLevel += 0.01f;
+                        ZoomLevel += 0.25f;
                     }                    
                 }
                 else if (input.IsKeyDown(this, Keys.Subtract))
                 {
                     if(ZoomLevel > 0.25f){
-                        ZoomLevel -= 0.01f;
+                        ZoomLevel -= 0.25f;
                     }
                 }
 
