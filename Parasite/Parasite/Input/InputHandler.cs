@@ -35,10 +35,14 @@ namespace Parasite
 
         public Vector2 MousePosition;
 
+        private DeveloperConsole console;
+        private int lastScrollWheelValue;
+
         public InputHandler(Game game) : base(game)
         {
             currentKeyboardState = Keyboard.GetState();
             currentMouseState = Mouse.GetState();
+            lastScrollWheelValue = currentMouseState.ScrollWheelValue;
 
             game.Services.AddService(typeof(IInputHandler), this);
 
@@ -54,6 +58,7 @@ namespace Parasite
             screenCentre = new Vector2(Game.GraphicsDevice.Viewport.Width / 2, Game.GraphicsDevice.Viewport.Height / 2);
             Mouse.SetPosition(Convert.ToInt32(screenCentre.X), Convert.ToInt32(screenCentre.Y));
 
+            console = (DeveloperConsole)Game.Services.GetService(typeof(IDeveloperConsole));
             base.Initialize();
         }
 
@@ -71,6 +76,8 @@ namespace Parasite
 
             MousePosition.X = currentMouseState.X;
             MousePosition.Y = currentMouseState.Y;
+
+            GetScrollWheelAmount();
 
             base.Update(gameTime);
         }
@@ -146,6 +153,17 @@ namespace Parasite
                 returnKeys.Add(k);
             }
             return returnKeys.ToArray();
+        }
+
+        public int GetScrollWheelAmount()
+        {
+            if ((currentMouseState.ScrollWheelValue - lastScrollWheelValue) != 0)
+            {
+                int amount = currentMouseState.ScrollWheelValue - lastScrollWheelValue;
+                lastScrollWheelValue = currentMouseState.ScrollWheelValue;
+                return amount;
+            }
+            return 0;
         }
     }
 }

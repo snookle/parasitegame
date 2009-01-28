@@ -35,6 +35,8 @@ namespace Parasite
         private InputHandler input;
         private Vector2 ScreenCentre;
 
+        private DeveloperConsole console;
+
         public Camera(Game game) : base(game)
         {
             //register self as a game service.
@@ -48,6 +50,7 @@ namespace Parasite
             ScreenCentre.X = Game.GraphicsDevice.Viewport.Width / 2;
             ScreenCentre.Y = Game.GraphicsDevice.Viewport.Height / 2;
             input = (InputHandler)Game.Services.GetService(typeof(IInputHandler));
+            console = (DeveloperConsole)Game.Services.GetService(typeof(IDeveloperConsole));
         }
 
         //returns the mouse as a position in the world
@@ -126,6 +129,11 @@ namespace Parasite
                         ZoomLevel -= 0.25f;
                     }
                 }
+                //on my computer the scroll wheel changes in increments of 120
+                //the "240" should be changed to input.GetScrollWheelAmount * 2
+               // ZoomLevel += input.GetScrollWheelAmount() / 240;
+               // console.Write(ZoomLevel.ToString());
+                //ZoomLevel = MathHelper.Clamp(ZoomLevel, 0.25f, 20f);
             }
             else
             {
