@@ -202,7 +202,7 @@ namespace Parasite
             artBatch.Begin();
             foreach (LevelArt la in Art)
             {
-                artBatch.Draw(la.Texture, la.GetScreenPosition(), null, la.Tint, la.Rotation, la.Origin, la.Scale, SpriteEffects.None, 1f);
+                artBatch.Draw(la.Texture, la.GetScreenPosition(), null, la.Tint, la.Rotation, la.Origin, camera.ZoomLevel, SpriteEffects.None, 1f);
                 if (editing && la.EditorSelected)
                     la.DrawBoundingBox();
             }
