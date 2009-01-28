@@ -36,7 +36,6 @@ namespace Parasite
 
         private string LevelFilename = "";
 
-
         public Level(Game game, string filename)
             : base(game)
         {
@@ -58,7 +57,7 @@ namespace Parasite
         }
 
         /// <summary>
-        /// Attempt at loading dynamic textures based on an input name
+        /// Attempt at loading dynamic texturess based on an input name
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>

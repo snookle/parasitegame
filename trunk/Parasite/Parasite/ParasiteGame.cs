@@ -36,7 +36,7 @@ namespace Parasite
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            
+
             Components.Add(new Camera(this));
             Components.Add(new InputHandler(this));
             Components.Add(new Level(this, "level1"));
