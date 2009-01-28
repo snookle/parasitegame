@@ -81,7 +81,7 @@ namespace Parasite
         /// <returns>True if any part of the box is visible on the screen.</returns>
         public bool IsVisible(BoundingBox box)
         {
-            throw new NotImplementedException("IsVisible is not implemented yet");
+            throw new NotImplementedException("Is Visible is not implemented yet");
             return false;
         }
 
@@ -118,17 +118,18 @@ namespace Parasite
                 // Attempt at zoom
                 if (input.IsKeyDown(this, Keys.Add))
                 {
-                    if (ZoomLevel < 10)
+                    if (ZoomLevel < 1)
                     {
-                        ZoomLevel += 0.25f;
-                    }
+                        ZoomLevel += 0.01f;
+                    }                    
                 }
                 else if (input.IsKeyDown(this, Keys.Subtract))
                 {
                     if(ZoomLevel > 0.25f){
-                        ZoomLevel -= 0.25f;
+                        ZoomLevel -= 0.01f;
                     }
                 }
+
                 //on my computer the scroll wheel changes in increments of 120
                 //the "240" should be changed to input.GetScrollWheelAmount * 2
                // ZoomLevel += input.GetScrollWheelAmount() / 240;

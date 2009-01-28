@@ -61,7 +61,7 @@ namespace Parasite
         /// <returns>Vector2 representing the screen coords where this scenenode should be drawn.</returns>
         public Vector2 GetScreenPosition()
         {
-            return (screenCentre - ((camera.Position - WorldPosition) * camera.ZoomLevel) * (1-ScreenDepth));
+            return (screenCentre - ((camera.Position - WorldPosition) * camera.ZoomLevel) * (1 - ScreenDepth));
         }
 
     }
