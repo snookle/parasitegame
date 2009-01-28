@@ -121,6 +121,9 @@ namespace Parasite
                 {
                     selectedArt.EditorMove(selectionOffset, gridSize);
 
+                    console.Write(camera.MouseToWorld().ToString());
+                    console.Write("Moving : " + selectedArt.WorldPosition.ToString());
+
                 }
                 else if (selectedArt != null && input.IsMouseMoving() && input.IsKeyDown(this, Microsoft.Xna.Framework.Input.Keys.R))
                 {
