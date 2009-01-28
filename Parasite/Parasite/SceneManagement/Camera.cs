@@ -62,7 +62,7 @@ namespace Parasite
         //converts a screen position into its world position
         public Vector2 ScreenToWorld(Vector2 screenPosition)
         {
-            return -(ScreenCentre - (screenPosition + Position));// +mouseVec;
+            return (((screenPosition + Position)/ ZoomLevel) - (ScreenCentre / ZoomLevel));
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Parasite
         /// <returns>The position on the screen that something at the world position would appear at.</returns>
         public Vector2 WorldToScreen(Vector2 worldPosition)
         {
-            return (ScreenCentre - (Position - worldPosition));
+            return (ScreenCentre - ((Position - worldPosition) * ZoomLevel));
         }
         /// <summary>
         /// Decides if any part of a bounding box is visible on the screen
