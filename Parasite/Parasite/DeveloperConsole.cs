@@ -41,6 +41,8 @@ namespace Parasite
         public delegate void DeveloperConsoleMessageHandler(string command, string argument);
         public event DeveloperConsoleMessageHandler MessageHandler;
 
+        public bool CommandHandled = false;
+
         public DeveloperConsole(Game game)
             : base(game)
         {
@@ -122,7 +124,12 @@ namespace Parasite
                         }
                         if (MessageHandler != null)
                         {
+                            CommandHandled = false;
                             MessageHandler(command, argument);
+                            if (!CommandHandled)
+                            {
+                                Write("Unknown command: " + inputString);
+                            }
                         }
 
                         inputString = "";

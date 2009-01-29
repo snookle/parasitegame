@@ -81,8 +81,8 @@ namespace Parasite
         /// <returns>True if any part of the box is visible on the screen.</returns>
         public bool IsVisible(BoundingBox box)
         {
-            throw new NotImplementedException("Is Visible is not implemented yet");
-            return false;
+            throw new NotImplementedException();
+            //return false;
         }
 
         //Updates the camera position.

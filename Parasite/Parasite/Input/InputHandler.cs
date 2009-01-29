@@ -82,6 +82,10 @@ namespace Parasite
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Returns whether or not the mouse has moved since the last update.
+        /// </summary>
+        /// <returns></returns>
         public bool IsMouseMoving()
         {
             Vector2 lastVec = new Vector2(lastMouseState.X, lastMouseState.Y);
@@ -89,12 +93,21 @@ namespace Parasite
             return (lastVec != currVec);
         }
 
+        /// <summary>
+        /// Gets the amount in pixels that the mouse has moved since the last update
+        /// </summary>
+        /// <returns></returns>
         public Vector2 GetMouseDisplacement()
         {
             Vector2 returnVec = new Vector2(lastMouseState.X - currentMouseState.X, lastMouseState.Y - currentMouseState.Y);
             return returnVec;
         }
 
+        /// <summary>
+        /// Returns whether or not a mouse button is held down 
+        /// </summary>
+        /// <param name="mouseButton">String representing the mouse button to query</param>
+        /// <returns></returns>
         public bool IsMouseButtonPressed(string mouseButton)
         {
             switch (mouseButton.ToLower())
@@ -106,6 +119,29 @@ namespace Parasite
             }
         }
 
+        /// <summary>
+        /// Returns whether a mouse button has been clicked.
+        /// This differs from IsMouseButtonPressed as it will only return true on the first check if the mouse button is held down.
+        /// </summary>
+        /// <param name="mouseButton">String representing which mouse button to query</param>
+        /// <returns></returns>
+        public bool IsMouseButtonClicked(string mouseButton)
+        {
+            switch (mouseButton.ToLower())
+            {
+                case "left": return currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released;
+                case "right": return currentMouseState.RightButton == ButtonState.Pressed && lastMouseState.RightButton == ButtonState.Released;
+                case "middle": return currentMouseState.MiddleButton == ButtonState.Pressed && lastMouseState.MiddleButton == ButtonState.Released;
+                default: return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the key has been pressed and then released.
+        /// </summary>
+        /// <param name="callee">Object that is calling this function</param>
+        /// <param name="key">Key to query</param>
+        /// <returns></returns>
         public bool IsKeyPressed(Object callee, Keys key)
         {
             if (ignoreException != null)
@@ -116,6 +152,12 @@ namespace Parasite
             return (currentKeyboardState.IsKeyDown(key) && !lastKeyboardState.IsKeyDown(key));
         }
 
+        /// <summary>
+        /// Returns whether or not a key is down. Will continue retuning true till that key is released.
+        /// </summary>
+        /// <param name="callee">Object that is calling this function</param>
+        /// <param name="key">Key to query</param>
+        /// <returns>True if the button is being held down.</returns>
         public bool IsKeyDown(Object callee, Keys key)
         {
             if (ignoreException != null)
@@ -136,11 +178,23 @@ namespace Parasite
             return (currentKeyboardState.IsKeyUp(key));
         }
         private Object ignoreException = null;
+        
+        /// <summary>
+        /// Supresses keystrokes to all objects except the one specified here
+        /// This is used by the console to stop anything else listening for keystrokes
+        /// while the console is down.
+        /// </summary>
+        /// <param name="obj">Object to allow keystrokes too</param>
         public void IgnoreAllExcept(Object obj)
         {
             ignoreException = obj;
         }
         
+        /// <summary>
+        /// Get all the keys that have been pressed (but not held down)
+        /// </summary>
+        /// <param name="callee">Object that is calling this function.</param>
+        /// <returns></returns>
         public Keys[] GetPressedKeys(Object callee)
         {
             Keys[] newKeys = currentKeyboardState.GetPressedKeys();
@@ -155,6 +209,10 @@ namespace Parasite
             return returnKeys.ToArray();
         }
 
+        /// <summary>
+        /// Get the amount that the scroll wheel has changed since the last update.
+        /// </summary>
+        /// <returns></returns>
         public int GetScrollWheelAmount()
         {
             if ((currentMouseState.ScrollWheelValue - lastScrollWheelValue) != 0)

@@ -19,6 +19,7 @@ namespace Parasite
     public class ParasiteGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
+        DeveloperConsole console;
 
         public ParasiteGame()
         {
@@ -36,12 +37,24 @@ namespace Parasite
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            console = new DeveloperConsole(this);
             Components.Add(new Camera(this));
             Components.Add(new InputHandler(this));
             Components.Add(new Level(this, "level1"));
-            Components.Add(new DeveloperConsole(this));
+            Components.Add(console);
+            Components.Add(new GUIManager(this));
+            
+            console.MessageHandler += new DeveloperConsole.DeveloperConsoleMessageHandler(ConsoleMessageHandler);
             base.Initialize();
+        }
+
+        void ConsoleMessageHandler(string command, string argument)
+        {
+            if (command == "exit" || command == "quit")
+            {
+                console.CommandHandled = true;
+                this.Exit();
+            }
         }
 
         /// <summary>
