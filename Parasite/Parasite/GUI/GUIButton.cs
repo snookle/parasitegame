@@ -65,8 +65,8 @@ namespace Parasite
         {
             base.Initialize();
             // TODO: Add your initialization code here
-            batch = new PrimitiveBatch(GraphicsDevice);
-            textBatch = new SpriteBatch(GraphicsDevice);
+            batch = new PrimitiveBatch(Game.GraphicsDevice);
+            textBatch = new SpriteBatch(Game.GraphicsDevice);
             font = Game.Content.Load<SpriteFont>(@"Fonts\Console");
 
         }
