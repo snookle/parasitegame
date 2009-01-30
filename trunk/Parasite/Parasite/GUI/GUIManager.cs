@@ -17,7 +17,7 @@ namespace Parasite
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class GUIManager : Microsoft.Xna.Framework.GameComponent
+    public class GUIManager : Microsoft.Xna.Framework.DrawableGameComponent
     {
         private List<GUIComponent> components = new List<GUIComponent>();
 
@@ -42,6 +42,7 @@ namespace Parasite
             AddButton(new Vector2(10, 130), "", "Clone Texture");
             AddButton(new Vector2(10, 160), "", "Deselect All");
 
+            AddEditBox(new Vector2(400, 400), "", 150);
 
             base.Initialize();
         }
@@ -67,7 +68,7 @@ namespace Parasite
         public void AddButton(Vector2 location, string name, string caption)
         {
             GUIButton b = new GUIButton(Game, location, name, caption);
-            Game.Components.Add(b);
+            b.Initialize();
             components.Add(b);
         }
 
@@ -80,8 +81,15 @@ namespace Parasite
         public void AddCheckbox(Vector2 location, string name, string caption)
         {
             GUICheckbox c = new GUICheckbox(Game, location, name, caption);
-            Game.Components.Add(c);
+            c.Initialize();
             components.Add(c);
+        }
+
+        public void AddEditBox(Vector2 location, string name, int length)
+        {
+            GUIEditBox e = new GUIEditBox(Game, location, name, length);
+            e.Initialize();
+            components.Add(e);
         }
 
 
@@ -93,8 +101,20 @@ namespace Parasite
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-
+            foreach (GUIComponent c in components)
+            {
+                c.Update(gameTime);
+            }
             base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            foreach (GUIComponent c in components)
+            {
+                c.Draw(gameTime);
+            }
+            base.Draw(gameTime);
         }
     }
 }

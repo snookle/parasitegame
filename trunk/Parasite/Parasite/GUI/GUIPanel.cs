@@ -14,22 +14,11 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace Parasite
 {
-    class CheckStateEventArgs : EventArgs
-    {
-        public CheckStateEventArgs(bool ischecked) : base()
-        {
-            Checked = ischecked;
-        }
-        public bool Checked;
-    };
-
-    delegate void CheckChangeEventHandler(GUIComponent sender, CheckStateEventArgs args);
     /// <summary>
-    /// This is a game component that implements IUpdateable.
+    /// A panel is a container of GUI components. Acts sort of like a moveable window.
     /// </summary>
-    class GUICheckbox : GUIComponent
+    class GUIPanel : GUIComponent
     {
-        protected event CheckChangeEventHandler CheckStateChange;
         SpriteBatch batch;
         SpriteFont font;
         private int textPaddingSide = 5;
@@ -59,7 +48,7 @@ namespace Parasite
         }
 
                 
-        public GUICheckbox(Game game, Vector2 location, string name, string caption)
+        public GUIPanel(Game game, Vector2 location, string name, string caption)
             : base(game)
         {
             Location = location;
@@ -92,10 +81,6 @@ namespace Parasite
             if (input.IsMouseButtonClicked("left") && Bounds.Contains(Convert.ToInt32(mouseLoc.X), Convert.ToInt32(mouseLoc.Y)))
             {
                 Checked = !Checked;
-                if (CheckStateChange != null)
-                {
-                    CheckStateChange(this, new CheckStateEventArgs(Checked));
-                }
             }
             
             if (fontDimensions == Vector2.Zero)

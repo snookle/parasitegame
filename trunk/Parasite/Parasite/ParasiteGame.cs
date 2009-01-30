@@ -41,8 +41,9 @@ namespace Parasite
             Components.Add(new Camera(this));
             Components.Add(new InputHandler(this));
             Components.Add(new Level(this, "level1"));
-            Components.Add(console);
             Components.Add(new GUIManager(this));
+            Components.Add(console);
+
             
             console.MessageHandler += new DeveloperConsole.DeveloperConsoleMessageHandler(ConsoleMessageHandler);
             base.Initialize();

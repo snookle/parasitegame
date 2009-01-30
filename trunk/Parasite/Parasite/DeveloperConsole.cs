@@ -86,25 +86,14 @@ namespace Parasite
             {
                 show = !show;
                // bounds.Height = 0;
+                return;
             }
 
             if (show)
             {
                 input.IgnoreAllExcept(this);
-                foreach(Keys k in input.GetPressedKeys(this))
+                foreach(String key in input.GetPressedKeysAsStrings(this))
                 {
-                    string key = Convert.ToString(k).ToLower();
-                    //uncomment to see all the raw string data.
-                    //inputString += key;
-                    
-                    //handle some stupid special cases :(
-                    //handle space.
-                    if (key == "space")
-                    {
-                        inputString += " ";
-                        continue;
-                    }
-
                     //handle enter key.
                     if (key == "enter")
                     {
@@ -135,59 +124,14 @@ namespace Parasite
                         inputString = "";
                         continue;
                     }
-
-                    //handle full stop
-                    if (key == "oemperiod")
-                    {
-                        inputString += ".";
-                        continue;
-                    }
-
-                    //handle quotes
-                    if (key == "oemquotes")
-                    {
-                        if (input.IsKeyDown(this, Keys.RightShift) || input.IsKeyDown(this, Keys.LeftShift))
-                        {
-                            inputString += "\"";
-                        }
-                        else
-                        {
-                            inputString += "'";
-                        }
-                        continue;
-                    }
-
-                    //handle pipe and \
-                    if (key == "oempipe")
-                    {
-                        if (input.IsKeyDown(this, Keys.RightShift) || input.IsKeyDown(this, Keys.LeftShift))
-                        {
-                            inputString += "|";
-                        }
-                        else
-                        {
-                            inputString += "\\";
-                        }
-                    }
-
-                    if (key == "oemminus")
-                    {
-                        if (input.IsKeyDown(this, Keys.RightShift) || input.IsKeyDown(this, Keys.LeftShift))
-                        {
-                            inputString += "_";
-                        }
-                        else
-                        {
-                            inputString += "-";
-                        }
-                    }
-
+                    
                     //handle backspace
                     if (key == "back")
                     {
                         if (String.IsNullOrEmpty(inputString))
                             continue;
-                       inputString = inputString.Remove(inputString.Length-1);
+                        inputString = inputString.Remove(inputString.Length-1);
+                        continue;
                     }
 
                     //handle up arrow (for history)
@@ -197,6 +141,7 @@ namespace Parasite
                             continue;
                         inputString = history[historyIndex];
                         historyIndex++;
+                        continue;
                     }
 
                     //handle down arrow (for history)
@@ -206,40 +151,16 @@ namespace Parasite
                             continue;
                         historyIndex--;
                         inputString = history[historyIndex];
+                        continue;
                     }
-
-                    //handle digits and their associated superscript functions
-                    if ("d1d2d3d4d5d6d7d8d9d0".Contains(key))
-                    {
-                        if (input.IsKeyDown(this, Keys.RightShift) || input.IsKeyDown(this, Keys.LeftShift))
-                        {
-                            //handle superscript functions
-                        }
-                        else
-                        {
-                            inputString += key.Remove(0, 1);
-                        }
-                    }
-
-                    //if it's not one of our wanted special cases
-                    //and it's alpha, then display it.
-                    if ("abcdefghijklmnopqrstuvwxyz".Contains(key))
-                    {
-                        if (input.IsKeyDown(this, Keys.RightShift) || input.IsKeyDown(this, Keys.LeftShift))
-                        {
-                            inputString += key.ToUpper();
-                        }
-                        else
-                        {
-                            inputString += key;
-                        }
-                    }
+                    inputString += key;
                 }
+
                 
             }
             else
             {
-                input.IgnoreAllExcept(null);
+                input.ClearIgnore(this);
             }
             base.Update(gameTime);
         }

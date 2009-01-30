@@ -38,6 +38,8 @@ namespace Parasite
         private DeveloperConsole console;
         private int lastScrollWheelValue;
 
+        private Object ignoreException = null;
+
         public InputHandler(Game game) : base(game)
         {
             currentKeyboardState = Keyboard.GetState();
@@ -177,17 +179,23 @@ namespace Parasite
             }
             return (currentKeyboardState.IsKeyUp(key));
         }
-        private Object ignoreException = null;
+
         
         /// <summary>
         /// Supresses keystrokes to all objects except the one specified here
         /// This is used by the console to stop anything else listening for keystrokes
         /// while the console is down.
         /// </summary>
-        /// <param name="obj">Object to allow keystrokes too</param>
+        /// <param name="obj">Object to allow keystrokes to.</param>
         public void IgnoreAllExcept(Object obj)
         {
             ignoreException = obj;
+        }
+
+        public void ClearIgnore(object obj)
+        {
+            if (ignoreException == obj)
+                ignoreException = null;
         }
         
         /// <summary>
@@ -197,6 +205,10 @@ namespace Parasite
         /// <returns></returns>
         public Keys[] GetPressedKeys(Object callee)
         {
+            if (ignoreException != null)
+                if (ignoreException != callee)
+                    return new Keys[0];
+
             Keys[] newKeys = currentKeyboardState.GetPressedKeys();
             Keys[] oldKeys = lastKeyboardState.GetPressedKeys();
             List<Keys> returnKeys = new List<Keys>();
@@ -207,6 +219,129 @@ namespace Parasite
                 returnKeys.Add(k);
             }
             return returnKeys.ToArray();
+        }
+
+        /// <summary>
+        /// Returns all the currently pressed keys as a string.
+        /// </summary>
+        /// <param name="callee"></param>
+        /// <returns></returns>
+        public string[] GetPressedKeysAsStrings(object callee)
+        {
+            if (callee != null)
+                if (callee != ignoreException)
+                    return new string[0];
+            return ProcessKeyPresses(GetPressedKeys(callee));
+        }
+
+        /// <summary>
+        /// Returns the string equivalent of the keys given in "keys".
+        /// </summary>
+        /// <param name="keys"></param>
+        /// <returns></returns>
+        public string[] ProcessKeyPresses(Keys[] keys)
+        {
+            string[] strings = new string[keys.Length];
+            int i = 0;
+            foreach (Keys k in keys)
+            {
+                string key = Convert.ToString(k).ToLower();
+                strings[i] = "";
+                //handle some stupid special cases :(
+                //handle space.
+                if (key == "space")
+                {
+                    strings[i++] = " ";
+                    continue;
+                }
+                
+                if (key == "oemperiod")
+                {
+                    if (IsShiftDown())
+                    {
+                        strings[i++] = ">";
+                    }
+                    else
+                    {
+                        strings[i++] = ".";
+                    }
+                    continue;
+                }
+
+                if (key == "oemquotes")
+                {
+                    if (IsShiftDown())
+                    {
+                        strings[i++] = "\"";
+                    }
+                    else
+                    {
+                        strings[i++] = "'";
+                    }
+                    continue;
+                }
+
+                if (key == "oempipe")
+                {
+                    if (IsShiftDown())
+                    {
+                        strings[i++] = "|";
+                    }
+                    else
+                    {
+                        strings[i++] = "\\";
+                    }
+                    continue;
+                }
+
+                if (key == "oemminus")
+                {
+                    if (IsShiftDown())
+                    {
+                        strings[i++] = "_";
+                    }
+                    else
+                    {
+                        strings[i++] = "-";
+                    }
+                    continue;
+                }
+
+                if ("abcdefghijklmnopqrstuvwxyz".Contains(key))
+                {
+                    if (IsShiftDown())
+                    {
+                        strings[i++] = key.ToUpper();
+                    }
+                    else
+                    {
+                        strings[i++] = key;
+                    }
+                    continue;
+                }
+                if ("d1d2d3d4d5d6d7d8d9d0".Contains(key))
+                {
+                    if (IsShiftDown())
+                    {
+                        //handle number superscript functions
+                        //eg !@#$%^ etc
+
+                    }
+                    else
+                    {
+                        strings[i++] = key.Remove(0, 1);
+                    }
+                    continue;
+                }
+
+                //any cases that can't be turned into chars
+                //like enter, arrow keys, ctrl, alt etc
+                //just have their code appended to the array
+                if (!key.Contains("shift"))
+                   strings[i++] = key;
+
+            }
+            return strings;
         }
 
         /// <summary>
@@ -222,6 +357,11 @@ namespace Parasite
                 return amount;
             }
             return 0;
+        }
+
+        public bool IsShiftDown()
+        {
+            return (currentKeyboardState.IsKeyDown(Keys.LeftShift) || currentKeyboardState.IsKeyDown(Keys.RightShift));
         }
     }
 }
