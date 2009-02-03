@@ -350,13 +350,15 @@ namespace Parasite
         /// <returns></returns>
         public int GetScrollWheelAmount()
         {
-            if ((currentMouseState.ScrollWheelValue - lastScrollWheelValue) != 0)
+            /*if ((currentMouseState.ScrollWheelValue - lastScrollWheelValue) != 0)
             {
                 int amount = currentMouseState.ScrollWheelValue - lastScrollWheelValue;
                 lastScrollWheelValue = currentMouseState.ScrollWheelValue;
                 return amount;
             }
-            return 0;
+            return 0;*/
+
+            return currentMouseState.ScrollWheelValue;
         }
 
         public bool IsShiftDown()

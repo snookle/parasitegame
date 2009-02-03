@@ -34,15 +34,16 @@ namespace Parasite
         public override void Initialize()
         {
             // TODO: Add your initialization code here
-            AddCheckbox(new Vector2(10, 10), "", "Collision Mesh");
+
+            /*AddCheckbox(new Vector2(10, 10), "", "Collision Mesh");
             AddCheckbox(new Vector2(10, 30), "", "Background");
 
 
             AddButton(new Vector2(10, 100), "", "Load Texture");
             AddButton(new Vector2(10, 130), "", "Clone Texture");
-            AddButton(new Vector2(10, 160), "", "Deselect All");
+            AddButton(new Vector2(10, 160), "", "Deselect All");*/
 
-            AddEditBox(new Vector2(400, 400), "", 150);
+            //AddEditBox(new Vector2(400, 400), "", 150);
 
             base.Initialize();
         }
@@ -65,11 +66,13 @@ namespace Parasite
         /// <param name="location">Screen location of the top left corner</param>
         /// <param name="name">Name of the component</param>
         /// <param name="caption">Caption to be displayed on the button</param>
-        public void AddButton(Vector2 location, string name, string caption)
+        public GUIButton AddButton(Vector2 location, string name, string caption)
         {
             GUIButton b = new GUIButton(Game, location, name, caption);
             b.Initialize();
             components.Add(b);
+
+            return b;
         }
 
         /// <summary>
@@ -85,14 +88,29 @@ namespace Parasite
             components.Add(c);
         }
 
-        public void AddEditBox(Vector2 location, string name, int length)
+        public void AddEditBox(Vector2 location, string name, int length, string startingText)
         {
-            GUIEditBox e = new GUIEditBox(Game, location, name, length);
+            GUIEditBox e = new GUIEditBox(Game, location, name, length, startingText);
             e.Initialize();
             components.Add(e);
         }
 
+        public void AddLabel(Vector2 location, string name, string text)
+        {
+            GUILabel l = new GUILabel(Game, location, name, text);
+            l.Initialize();
+            components.Add(l);
+        }
 
+        public GUIComponent GetComponentByName(string name)
+        {
+            foreach (GUIComponent component in components){
+                if(component.Name == name){
+                    return component;
+                }
+            }
+            return null;
+        }
 
         /// <summary>
         /// Allows the game component to update itself.

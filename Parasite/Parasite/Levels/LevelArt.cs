@@ -52,6 +52,14 @@ namespace Parasite
             LoadContent();
         }
 
+        public string Name
+        {
+            get
+            {
+                return TextureName;
+            }
+        }
+
         public void LoadContent()
         {
             BoundingBox = new Rectangle((int)WorldPosition.X - Texture.Width / 2, (int)WorldPosition.Y - Texture.Height / 2, Texture.Width, Texture.Height);
