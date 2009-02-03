@@ -15,19 +15,30 @@ using Microsoft.Xna.Framework.Storage;
 namespace Parasite
 {
     /// <summary>
-    /// This is a game component that implements IUpdateable.
+    /// Simple edit box component.
+    /// When the component has focus, then any keystrokes will be directed to this component.
+    /// it will expand horizontlaly to encompass all the text.
     /// </summary>
     class GUIEditBox : GUIComponent
     {
+        //draws the edit box geometry
         PrimitiveBatch primBatch;
+        //draws text
         SpriteBatch batch;
         SpriteFont font;
+
+        //padding to have at the sides of the text
         private int textPaddingSide = 5;
+        //padding to have at the top and bottom of the text
         private int textPaddingTopAndBottom = 2;
+
+        //width and height of the string
         Vector2 fontDimensions = Vector2.Zero;
         Vector2 textPosition;
         public Color ForegroundColor = Color.Black;
         public String Text = "";
+
+        //length (in px) of the edit box
         public int Length;
 
                 
@@ -50,8 +61,11 @@ namespace Parasite
             batch = new SpriteBatch(Game.GraphicsDevice);
             font = Game.Content.Load<SpriteFont>(@"Fonts\Console");
             primBatch = new PrimitiveBatch(Game.GraphicsDevice);
+            //get the height of this font (we use capital Y because it's generally pretty tall)
             fontDimensions = font.MeasureString("Y");
+            //set bounds
             Bounds = new Rectangle(Convert.ToInt32(Location.X), Convert.ToInt32(Location.Y), Convert.ToInt32(Length), Convert.ToInt32(fontDimensions.Y + (textPaddingTopAndBottom * 2)));
+            //set position of the text
             textPosition = new Vector2(Location.X + textPaddingSide, Location.Y + textPaddingTopAndBottom);
         }
 
@@ -63,11 +77,14 @@ namespace Parasite
         {
             base.Update(gameTime);
             Vector2 mouseLoc = input.MousePosition;
+            //if we have focus (see GUIComponent)
             if (HasFocus)
             {
+                //tell the input manager to only send keystrokes here
                 input.IgnoreAllExcept(this);
                 foreach (string key in input.GetPressedKeysAsStrings(this))
                 {
+                    //handle special case keys.
                     if (key == "back")
                     {
                         if (!String.IsNullOrEmpty(Text))
@@ -75,6 +92,7 @@ namespace Parasite
                         continue;
                     }
 
+                    //should we fire a TextUpdate event here so that other stuff can listen for the changes in this edit box?
                     if (key == "enter")
                     {
 
@@ -84,24 +102,29 @@ namespace Parasite
                     if (key.Length > 1)
                         continue;
 
+                    //append the text string with the keypresses
                     Text += key;
+
+                    //measure the new string so that we can increase the size of our text box later on
                     fontDimensions = font.MeasureString(Text);
                 }
             }
             else
             {
+                // if we dont have focus, then let the input manager send keystrokes eveywhere.
                 input.ClearIgnore(this);
             }
-
+            //if the text width is going to be larger than the current bounds
             if ((fontDimensions.X + (2*textPaddingSide)) >= Bounds.Width)
             {
+                //increate the size of the box
                 Bounds.Width = Convert.ToInt32(fontDimensions.X + (textPaddingSide * 2));
             }
         }
 
         public override void Draw(GameTime gameTime)
         {                         
-            batch.Begin();
+            //these colours should really be using some background and foreground colours
             primBatch.Begin(PrimitiveType.TriangleList);
             //black outline
             primBatch.AddVertex(new Vector2(Bounds.Left-1, Bounds.Bottom+1), Color.Black);
@@ -121,10 +144,9 @@ namespace Parasite
             primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Bottom), Color.White);
             primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Bottom), Color.White);
 
-            
-            
             primBatch.End();
 
+            batch.Begin();
             batch.DrawString(font, Text + (HasFocus ? "|" : ""), textPosition, Color.Black);
             batch.End();
         }

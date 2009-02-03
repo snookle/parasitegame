@@ -7,8 +7,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\dev\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\WallTest01.xnb</Output>
-      <Time>2009-01-24T12:16:21.412375+11:00</Time>
+      <Output>C:\benk\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\WallTest01.xnb</Output>
+      <Time>2009-01-27T09:24:31.7507701+11:00</Time>
     </Item>
     <Item>
       <Source>LevelArt\WormFace01.PNG</Source>
@@ -16,8 +16,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\dev\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\WormFace01.xnb</Output>
-      <Time>2009-01-24T13:26:07.08425+11:00</Time>
+      <Output>C:\benk\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\WormFace01.xnb</Output>
+      <Time>2009-01-27T09:24:31.7976814+11:00</Time>
     </Item>
     <Item>
       <Source>LevelArt\level01_stomach.png</Source>
@@ -25,8 +25,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\dev\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\level01_stomach.xnb</Output>
-      <Time>2009-01-28T20:36:02.640875+11:00</Time>
+      <Output>C:\benk\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\level01_stomach.xnb</Output>
+      <Time>2009-01-29T08:59:54.678102+11:00</Time>
     </Item>
     <Item>
       <Source>LevelArt\level01_stomach_back.png</Source>
@@ -34,8 +34,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\dev\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\level01_stomach_back.xnb</Output>
-      <Time>2009-01-28T20:36:02.6565+11:00</Time>
+      <Output>C:\benk\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\level01_stomach_back.xnb</Output>
+      <Time>2009-01-29T08:59:54.6938503+11:00</Time>
     </Item>
     <Item>
       <Source>LevelArt\level01_stomach_detail.png</Source>
@@ -43,8 +43,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\dev\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\level01_stomach_detail.xnb</Output>
-      <Time>2009-01-28T20:36:02.6565+11:00</Time>
+      <Output>C:\benk\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\level01_stomach_detail.xnb</Output>
+      <Time>2009-01-29T08:59:54.6938503+11:00</Time>
     </Item>
     <Item>
       <Source>LevelArt\level01_stomach_foreground.png</Source>
@@ -52,8 +52,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\dev\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\level01_stomach_foreground.xnb</Output>
-      <Time>2009-01-28T20:36:02.62525+11:00</Time>
+      <Output>C:\benk\parasite\Parasite\Parasite\bin\x86\Debug\Content\LevelArt\level01_stomach_foreground.xnb</Output>
+      <Time>2009-01-29T08:59:54.6308571+11:00</Time>
     </Item>
     <Item>
       <Source>GUI\GUICheckbox_Checked.PNG</Source>
@@ -61,8 +61,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\dev\parasite\Parasite\Parasite\bin\x86\Debug\Content\GUI\GUICheckbox_Checked.xnb</Output>
-      <Time>2009-01-29T18:13:36.922125+11:00</Time>
+      <Output>C:\benk\parasite\Parasite\Parasite\bin\x86\Debug\Content\GUI\GUICheckbox_Checked.xnb</Output>
+      <Time>2009-01-29T16:53:35.2987435+11:00</Time>
     </Item>
     <Item>
       <Source>GUI\GUICheckbox_Unchecked.PNG</Source>
@@ -70,8 +70,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\dev\parasite\Parasite\Parasite\bin\x86\Debug\Content\GUI\GUICheckbox_Unchecked.xnb</Output>
-      <Time>2009-01-29T18:13:36.922125+11:00</Time>
+      <Output>C:\benk\parasite\Parasite\Parasite\bin\x86\Debug\Content\GUI\GUICheckbox_Unchecked.xnb</Output>
+      <Time>2009-01-29T16:54:00.0799935+11:00</Time>
     </Item>
     <Item>
       <Source>Fonts\Console.spritefont</Source>
@@ -79,43 +79,43 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\dev\parasite\Parasite\Parasite\bin\x86\Debug\Content\Fonts\Console.xnb</Output>
-      <Time>2009-01-29T18:13:36.984625+11:00</Time>
+      <Output>C:\benk\parasite\Parasite\Parasite\bin\x86\Debug\Content\Fonts\Console.xnb</Output>
+      <Time>2009-01-29T16:52:34.7049935+11:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\dev\parasite\Parasite\Parasite\Content\</RootDirectory>
-      <LoggerRootDirectory>C:\dev\parasite\Parasite\Parasite\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\dev\parasite\Parasite\Parasite\Content\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\dev\parasite\Parasite\Parasite\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\benk\parasite\Parasite\Parasite\Content\</RootDirectory>
+      <LoggerRootDirectory>C:\benk\parasite\Parasite\Parasite\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\benk\parasite\Parasite\Parasite\Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\benk\parasite\Parasite\Parasite\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
-        <Key>E:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
         <Value>2008-10-10T17:42:32+11:00</Value>
       </Assembly>
       <Assembly>
-        <Key>E:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
         <Value>2008-10-10T17:43:28+11:00</Value>
       </Assembly>
       <Assembly>
-        <Key>E:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
         <Value>2008-10-10T17:43:18+11:00</Value>
       </Assembly>
       <Assembly>
-        <Key>E:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
         <Value>2008-10-10T17:48:18+11:00</Value>
       </Assembly>
       <Assembly>
-        <Key>E:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
         <Value>2008-10-10T17:48:50+11:00</Value>
       </Assembly>
       <Assembly>
-        <Key>E:\WINDOWS\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\3.0.0.0__6d5c3888ef60e27d\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2009-01-10T21:56:45.40625+11:00</Value>
+        <Key>C:\WINDOWS\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\3.0.0.0__6d5c3888ef60e27d\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2008-12-11T12:12:59.3048944+11:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
