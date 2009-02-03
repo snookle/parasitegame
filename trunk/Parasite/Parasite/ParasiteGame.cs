@@ -37,13 +37,16 @@ namespace Parasite
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            console = new DeveloperConsole(this);
             Components.Add(new Camera(this));
             Components.Add(new InputHandler(this));
             Components.Add(new Level(this, "level1"));
             Components.Add(new GUIManager(this));
+
+            console = new DeveloperConsole(this);
             Components.Add(console);
 
+            // Gosh I'm tricksy
+            console.DrawOrder = 10000;
             
             console.MessageHandler += new DeveloperConsole.DeveloperConsoleMessageHandler(ConsoleMessageHandler);
             base.Initialize();

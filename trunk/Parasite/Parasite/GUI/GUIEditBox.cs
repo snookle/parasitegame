@@ -42,12 +42,13 @@ namespace Parasite
         public int Length;
 
                 
-        public GUIEditBox(Game game, Vector2 location, string name, int editboxLength)
+        public GUIEditBox(Game game, Vector2 location, string name, int editboxLength, string startingText)
             : base(game)
         {
             Location = location;
             Name = name;
             Length = editboxLength;
+            Text = startingText;
         }
 
         /// <summary>

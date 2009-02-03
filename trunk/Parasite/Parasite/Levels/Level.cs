@@ -22,6 +22,8 @@ namespace Parasite
         private InputHandler input;
         private Camera camera;
         private DeveloperConsole console;
+        private GUIManager guimanager;
+        private GUIManager textureManager;
         private Dictionary<string, LevelArt> textures = new Dictionary<string, LevelArt>();
         private string LevelFilename = "";
 
@@ -51,8 +53,43 @@ namespace Parasite
             camera = (Camera)Game.Services.GetService(typeof(ICamera));
             console = (DeveloperConsole)Game.Services.GetService(typeof(IDeveloperConsole));
 
+            guimanager = new GUIManager(Game);
+            Game.Components.Add(guimanager);
+
+            //guimanager = (GUIManager)Game.Services.GetService(typeof(DrawableGameComponent));
+
             console.MessageHandler += new DeveloperConsole.DeveloperConsoleMessageHandler(ConsoleMessageHandler);
             LoadLevel(LevelFilename);
+
+            InitEditor();
+        }
+
+        /// <summary>
+        /// Initialises the level editor GUI
+        /// </summary>
+        public void InitEditor()
+        {
+            // Set up GUI
+            GUIButton but_loadtexture = guimanager.AddButton(new Vector2(10, 10), "loadtexture", "Load Texture");
+            but_loadtexture.MouseClick += new GUIButton.GUIButtonClickHandler(testFunction);
+
+            guimanager.AddEditBox(new Vector2(120, 10), "texturename", 100, "");
+
+            guimanager.AddEditBox(new Vector2(10, 70), "levelname", 100, "levelname");
+            guimanager.AddButton(new Vector2(10, 100), "loadlevel", "Load Level");
+            guimanager.AddButton(new Vector2(10, 130), "savelevel", "Save Level");
+
+            //guimanager.AddLabel(new Vector2(50, 150), "label", "THIS IS A LABEL! WOOO!");
+
+            console.Write("Level Editor Loaded.");
+        }
+
+        public void testFunction(GUIButton command, string argument)
+        {
+            //console.Write("BUTTON PRESSED");
+            GUIEditBox testbox = (GUIEditBox)guimanager.GetComponentByName("texturename");
+            //console.Write(testbox.Text);
+            LoadTexture(testbox.Text, new Vector2(0, 0));
         }
 
         /// <summary>
@@ -69,6 +106,7 @@ namespace Parasite
                // textures.Add(name, texture);
                 Art.Add(texture);
                 console.Write("Texture Loaded.");
+
                 return texture;
             }
         }
@@ -154,6 +192,18 @@ namespace Parasite
                             la.EditorSelect(true);
                             selectedArt = la;
 
+                            // Check if textureManager is alive
+                            if (textureManager != null)
+                            {
+                                Game.Components.Remove(textureManager);
+                                textureManager = null;
+                            }
+
+                            textureManager = new GUIManager(Game);
+                            Game.Components.Add(textureManager);
+
+                            displayTextureInformation();
+
                             //calculate an offset based on where the mouse was when it was clicked
                             //so we don't snap the level art origin to the mouse position
                             selectionOffset = camera.MouseToWorld() - la.WorldPosition;
@@ -165,11 +215,23 @@ namespace Parasite
                             {
                                 selectedArt.EditorSelect(false);
                             }
+
+                            if (textureManager != null)
+                            {
+                                Game.Components.Remove(textureManager);
+                                textureManager = null;
+                            }
+
                             selectedArt = null;
                         }
                     }
                 }
             }
+        }
+
+        private void displayTextureInformation()
+        {
+            textureManager.AddLabel(new Vector2(400, 10), "label", "Selected Texture : " + selectedArt.Name);
         }
 
         public override void Draw(GameTime gameTime)

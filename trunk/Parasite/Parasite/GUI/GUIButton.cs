@@ -14,6 +14,8 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace Parasite
 {
+    // Delegate functions (for communicating with other classes)
+
     /// <summary>
     /// Simple button that has a MouseClick event.
     /// It will grow to fill the size of the caption.
@@ -21,7 +23,16 @@ namespace Parasite
     public class GUIButton : GUIComponent
     {
         //Event handler for when we're clicked
-        protected event EventHandler MouseClick;
+        public delegate void GUIButtonClickHandler(GUIButton button, string argument);
+        public event GUIButtonClickHandler MouseClick;
+
+        public enum GUIButtonState
+        {
+            On,
+            Off
+        };
+
+        protected GUIButtonState buttonState = GUIButtonState.Off;
 
         //drws the button geometry
         PrimitiveBatch batch;
@@ -99,11 +110,17 @@ namespace Parasite
             //if we're clicked on
             if (mState.LeftButton == ButtonState.Pressed && Bounds.Contains(mState.X, mState.Y))
             {
-                if (MouseClick != null)
+                if (MouseClick != null && buttonState == GUIButtonState.Off)
                 {
                     //fire off any mouseclick event handlers that are listening
+                    //MouseClick(this, null);
                     MouseClick(this, null);
+                    buttonState = GUIButtonState.On;
                 }
+            }
+            else if (buttonState == GUIButtonState.On)
+            {
+                buttonState = GUIButtonState.Off;
             }
             
             //if the font dimensions arent set yet then we can;t draw the button

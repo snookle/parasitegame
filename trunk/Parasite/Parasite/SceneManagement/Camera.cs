@@ -37,6 +37,8 @@ namespace Parasite
 
         private DeveloperConsole console;
 
+        private float previousScrollValue = 0;
+
         public Camera(Game game) : base(game)
         {
             //register self as a game service.
@@ -130,11 +132,27 @@ namespace Parasite
                     }
                 }
 
-                //on my computer the scroll wheel changes in increments of 120
-                //the "240" should be changed to input.GetScrollWheelAmount * 2
-               // ZoomLevel += input.GetScrollWheelAmount() / 240;
-               // console.Write(ZoomLevel.ToString());
-                //ZoomLevel = MathHelper.Clamp(ZoomLevel, 0.25f, 20f);
+                //if(input.IsKeyDown(this, Keys.Z)){
+
+                    float scroll = input.GetScrollWheelAmount();
+
+                    if (scroll < previousScrollValue)
+                    {
+                        if (ZoomLevel > 0.25f)
+                        {
+                            ZoomLevel -= 0.25f;
+                        }
+                    }
+                    else if(scroll > previousScrollValue)
+                    {
+                        if (ZoomLevel < 1)
+                        {
+                            ZoomLevel += 0.25f;
+                        }  
+                    }
+
+                    previousScrollValue = scroll;
+                //}
             }
             else
             {
