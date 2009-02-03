@@ -15,7 +15,9 @@ using Microsoft.Xna.Framework.Storage;
 namespace Parasite
 {
     /// <summary>
-    /// This is a game component that implements IUpdateable.
+    /// Superclass for all GUI components.
+    /// Only handles methods that are global to all components
+    /// Such as whether or not a component has focus.
     /// </summary>
     public class GUIComponent
     {
@@ -55,6 +57,8 @@ namespace Parasite
             if (Bounds != null)
             {
                 Vector2 mousePos = input.MousePosition;
+
+                //see if the component has focus or not
                 if (input.IsMouseButtonPressed("left")) {
                     if (Bounds.Contains(Convert.ToInt32(mousePos.X), Convert.ToInt32(mousePos.Y))) {
                         //we've been clicked on - assume we now have focus.
