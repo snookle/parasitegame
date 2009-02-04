@@ -16,7 +16,7 @@
   * ~~Developer Console~~
   * ~~Movement of Sprites~~
   * Special Sprite Effects
-   * Alpha
+   * Alpha / Blending Modes
    * Setting Layer
    * Duplicating
    * Animated Sprites
