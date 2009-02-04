@@ -10,16 +10,16 @@
  * Create Basic Level Editor
   * ~~Loading/Saving~~
   * Collision Maps
-  * Rotation of Sprites
+  * ~~Rotation of Sprites~~ : Done, but no longer required for now
   * Scaling of Sprites
-  * Basic Editor GUI
+  * Basic Editor GUI : *60% GUI Framework built*
   * ~~Developer Console~~
   * ~~Movement of Sprites~~
   * Special Sprite Effects
    * Alpha
    * Setting Layer
    * Duplicating
-   * Animated Sprites ( *Current : Anthony* )
+   * Animated Sprites
   * ~~Simple Texture Placement~~
   * Interaction "Hotspots"
   * Simple Switching to/from game->devmode
