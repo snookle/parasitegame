@@ -67,6 +67,34 @@ namespace Parasite
             Caption = caption;
         }
 
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    if (batch != null)
+                    {
+                        batch.Dispose();
+                        batch = null;
+                    }
+                    if (uncheckSprite != null)
+                    {
+                        uncheckSprite.Dispose();
+                        uncheckSprite = null;
+                    }
+                    if (checkSprite != null)
+                    {
+                        checkSprite.Dispose();
+                        checkSprite = null;
+                    }
+                    CheckStateChange = null;
+                }
+            }
+        }
+
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
@@ -102,6 +130,13 @@ namespace Parasite
                 Caption = Caption;
 
             base.Update(gameTime);
+        }
+
+        public override void UpdateLocation(Vector2 newLocation)
+        {
+            Location = newLocation;
+            Bounds = new Rectangle((int)Location.X, (int)Location.Y, (int)(fontDimensions.X + textPaddingSide + 16), (int)(fontDimensions.Y));
+            textPosition = new Vector2(Location.X + textPaddingSide + 16, Location.Y);
         }
 
         public override void Draw(GameTime gameTime)

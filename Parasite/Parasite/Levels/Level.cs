@@ -83,9 +83,12 @@ namespace Parasite
         public void testFunction(GUIComponent sender, OnMouseClickEventArgs args)
         {
             //console.Write("BUTTON PRESSED");
-            GUIEditBox testbox = (GUIEditBox)guimanager.GetComponent("texturename");
+            //GUIEditBox testbox = (GUIEditBox)guimanager.GetComponent("texturename");
             //console.Write(testbox.Text);
-            LoadTexture(testbox.Text, new Vector2(0, 0));
+            //LoadTexture(testbox.Text, new Vector2(0, 0));
+            GUIOpenFileDialog ofd = new GUIOpenFileDialog(Game);
+            ofd.Initialize();
+            guimanager.AddComponent(ofd);
         }
 
         /// <summary>

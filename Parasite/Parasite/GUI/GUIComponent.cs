@@ -19,7 +19,7 @@ namespace Parasite
     /// Only handles methods that are global to all components
     /// Such as whether or not a component has focus.
     /// </summary>
-    public class GUIComponent
+    public class GUIComponent : IDisposable
     {
         public string Name;
         public Rectangle Bounds;
@@ -33,10 +33,12 @@ namespace Parasite
         protected Game Game;
 
         public Color ForegroundColor = Color.Black;
-        public Color BackgroundColor = Color.Beige;
+        public Color BackgroundColor = Color.LightGray;
 
         protected int textPaddingSide = 5;
         protected int textPaddingTopAndBottom = 2;
+
+        protected bool disposed = false;
 
         public GUIComponent(Game game)
         {
@@ -51,6 +53,21 @@ namespace Parasite
         {
             camera = (Camera)Game.Services.GetService(typeof(ICamera));
             input = (InputHandler)Game.Services.GetService(typeof(IInputHandler));
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+        }
+
+        public virtual void UpdateLocation(Vector2 newLocation)
+        {
+            Location = newLocation;
         }
 
         /// <summary>

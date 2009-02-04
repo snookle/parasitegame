@@ -34,6 +34,9 @@ namespace Parasite
         /// </summary>
         public override void Initialize()
         {
+            //GUIPanel gp = new GUIPanel(Game, new Vector2(100, 100), new Vector2(400, 400), "panel1", "This is a panel");
+            //gp.Initialize();
+            //components.Add(gp);
             base.Initialize();
         }
 
@@ -82,6 +85,11 @@ namespace Parasite
             components.Add(b);
             return b;
         }
+
+        public void AddComponent(GUIComponent component)
+        {
+            components.Add(component);
+        }
         
         /// <summary>
         /// Adds a new button to the GUI with an associated event handler
@@ -127,6 +135,22 @@ namespace Parasite
             return l;
         }
 
+        internal bool RemoveComponent(string name)
+        {
+            for (int i = 0; i < components.Count; i++)
+            {
+                if (components[i].Name.ToLower() == name.ToLower())
+                {
+                    GUIComponent c = components[i];
+                    components.RemoveAt(i);
+                    c.Dispose();
+                    c = null;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         /// <summary>
         /// Allows the game component to update itself.
         /// </summary>
@@ -134,9 +158,9 @@ namespace Parasite
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-            foreach (GUIComponent c in components)
+            for (int i = 0; i < components.Count; i++)
             {
-                c.Update(gameTime);
+                components[i].Update(gameTime);
             }
             base.Update(gameTime);
         }
