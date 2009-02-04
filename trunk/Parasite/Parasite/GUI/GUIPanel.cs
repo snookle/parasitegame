@@ -26,8 +26,11 @@ namespace Parasite
         Vector2 captionPosition;
         public string Caption;
         public Vector2 Dimensions;
-        Vector2 titleBarDimensions;
+        Rectangle titleBarBounds;
+        bool ignoreMouseOutOfBounds = false;
+        
 
+        List<GUIComponent> components = new List<GUIComponent>();
                 
         public GUIPanel(Game game, Vector2 location, Vector2 dimensions, string name, string caption)
             : base(game)
@@ -38,6 +41,38 @@ namespace Parasite
             Dimensions = dimensions;
             Bounds = new Rectangle(Convert.ToInt32(location.X), Convert.ToInt32(location.Y), Convert.ToInt32(dimensions.X), Convert.ToInt32(dimensions.Y));
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    if (components != null)
+                    {
+                        foreach (GUIComponent c in components)
+                        {
+                            c.Dispose();
+                        }
+                        components.Clear();
+                    }
+
+                    if (batch != null)
+                    {
+                        batch.Dispose();
+                        batch = null;
+                    }
+
+                    if (primBatch != null)
+                    {
+                        primBatch.Dispose();
+                        primBatch = null;
+                    }
+                    
+                }
+            }
+        }
+
 
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
@@ -52,7 +87,13 @@ namespace Parasite
             primBatch = new PrimitiveBatch(Game.GraphicsDevice);
             captionPosition = new Vector2(Location.X + textPaddingSide, Location.Y + textPaddingTopAndBottom);
             captionDimensions = font.MeasureString(Caption);
+            titleBarBounds = new Rectangle(Convert.ToInt32(Bounds.X), Convert.ToInt32(Bounds.Y), Convert.ToInt32(Bounds.Width), Convert.ToInt32(captionDimensions.Y + (2 * textPaddingTopAndBottom)));
+        }
 
+        public void AddComponent(GUIComponent c)
+        {
+            c.UpdateLocation(c.Location + new Vector2(Location.X, Location.Y + titleBarBounds.Height));
+            components.Add(c);
         }
 
         /// <summary>
@@ -63,30 +104,81 @@ namespace Parasite
         {
 
             Vector2 mouseLoc = input.MousePosition;
-            if (input.IsMouseButtonClicked("left") && Bounds.Contains(Convert.ToInt32(mouseLoc.X), Convert.ToInt32(mouseLoc.Y)))
+            if (input.IsMouseButtonPressed("left") && (titleBarBounds.Contains(Convert.ToInt32(mouseLoc.X), Convert.ToInt32(mouseLoc.Y)) || ignoreMouseOutOfBounds))
             {
-                //Checked = !Checked;
+                ignoreMouseOutOfBounds = true;
+                UpdateLocation(input.GetMouseDisplacement());
+            } 
+            else
+            {
+                ignoreMouseOutOfBounds = false;
             }
             
             //if (fontDimensions == Vector2.Zero)
             //    Caption = Caption;
-
+            for (int i = 0; i < components.Count; i++)
+            {
+                GUIComponent c = components[i];
+                if (c != null)
+                    c.Update(gameTime);
+                if (disposed) return;
+            }
             base.Update(gameTime);
         }
 
+        public override void UpdateLocation(Vector2 delta)
+        {
+            Location = Location - delta;
+            Bounds = new Rectangle(Convert.ToInt32(Location.X), Convert.ToInt32(Location.Y), Convert.ToInt32(Dimensions.X), Convert.ToInt32(Dimensions.Y));
+            captionPosition = new Vector2(Location.X + textPaddingSide, Location.Y + textPaddingTopAndBottom);
+            captionDimensions = font.MeasureString(Caption);
+            titleBarBounds = new Rectangle(Convert.ToInt32(Bounds.X), Convert.ToInt32(Bounds.Y), Convert.ToInt32(Bounds.Width), Convert.ToInt32(captionDimensions.Y + (2 * textPaddingTopAndBottom)));
+            foreach (GUIComponent c in components)
+            {
+                c.UpdateLocation(c.Location - delta);
+            }
+        }
+
         public override void Draw(GameTime gameTime)
-        {                         
+        {
+
+            primBatch.Begin(PrimitiveType.TriangleList);
+
+            //black outline
+            primBatch.AddVertex(new Vector2(Bounds.Left - 1, Bounds.Bottom + 1), Color.Black);
+            primBatch.AddVertex(new Vector2(Bounds.Left - 1, Bounds.Top - 1), Color.Black);
+            primBatch.AddVertex(new Vector2(Bounds.Right + 1, Bounds.Top - 1), Color.Black);
+            primBatch.AddVertex(new Vector2(Bounds.Right + 1, Bounds.Top - 1), Color.Black);
+            primBatch.AddVertex(new Vector2(Bounds.Right + 1, Bounds.Bottom + 1), Color.Black);
+            primBatch.AddVertex(new Vector2(Bounds.Left -1, Bounds.Bottom+1), Color.Black);
+
+            //title bar
+            primBatch.AddVertex(new Vector2(titleBarBounds.Left, titleBarBounds.Bottom), Color.Blue);
+            primBatch.AddVertex(new Vector2(titleBarBounds.Left, titleBarBounds.Top), Color.Blue);
+            primBatch.AddVertex(new Vector2(titleBarBounds.Right, titleBarBounds.Top), Color.LightBlue);
+            primBatch.AddVertex(new Vector2(titleBarBounds.Right, titleBarBounds.Top), Color.LightBlue);
+            primBatch.AddVertex(new Vector2(titleBarBounds.Right, titleBarBounds.Bottom), Color.LightBlue);
+            primBatch.AddVertex(new Vector2(titleBarBounds.Left, titleBarBounds.Bottom), Color.Blue);
+            
+            //panel body
+            primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Bottom), BackgroundColor);
+            primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Top+titleBarBounds.Height), BackgroundColor);
+            primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Top + titleBarBounds.Height), BackgroundColor);
+            primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Top + titleBarBounds.Height), BackgroundColor);
+            primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Bottom), BackgroundColor);
+            primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Bottom), BackgroundColor);
+            
+            primBatch.End();
+         
+            
             batch.Begin();
-           // if (Checked)
-            {
-           //     batch.Draw(checkSprite, Location, Color.White);
-            }
-          //  else
-            {
-           //     batch.Draw(uncheckSprite, Location, Color.White);
-            }
-           // batch.DrawString(font, caption, textPosition, ForegroundColor);
+            batch.DrawString(font, Caption, captionPosition, Color.White);
             batch.End();
+
+            foreach (GUIComponent c in components)
+            {
+                c.Draw(gameTime);
+            }
         }
     }
 }

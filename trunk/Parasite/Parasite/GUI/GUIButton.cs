@@ -120,6 +120,37 @@ namespace Parasite
             base.Update(gameTime);
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    OnMouseClick = null;
+
+                    if (batch != null)
+                    {
+                        batch.Dispose();
+                        batch = null;
+                    }
+
+                    if (textBatch != null)
+                    {
+                        textBatch.Dispose();
+                        textBatch = null;
+                    }
+                }
+            }
+        }
+
+        public override void UpdateLocation(Vector2 newLocation)
+        {
+            Location = newLocation;
+            Bounds = new Rectangle((int)Location.X, (int)Location.Y, (int)(fontDimensions.X + (textPaddingSide * 2)), (int)(fontDimensions.Y + (textPaddingTopAndBottom * 2)));
+            textPosition = new Vector2(Location.X + textPaddingSide, Location.Y + textPaddingTopAndBottom);
+        }
+
         public override void Draw(GameTime gameTime)
         {
             //draw top left triangle of the button
