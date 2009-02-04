@@ -22,7 +22,7 @@
   * <font color='#74B661'>Basic Editor GUI</font> : *60% GUI Framework built*
   * <font color='#CCCCCC'>~~Developer Console~~</font>
   * <font color='#CCCCCC'>~~Movement of Sprites~~</font>
-  * Special Sprite Effects
+  * <font color='#74B661'>Special Sprite Effects</font>
    * Alpha / Blending Modes
    * Setting Layer
    * Duplicating
