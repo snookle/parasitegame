@@ -31,7 +31,12 @@ namespace Parasite
         protected Camera camera;
         protected InputHandler input;
         protected Game Game;
-            
+
+        public Color ForegroundColor = Color.Black;
+        public Color BackgroundColor = Color.Beige;
+
+        protected int textPaddingSide = 5;
+        protected int textPaddingTopAndBottom = 2;
 
         public GUIComponent(Game game)
         {
