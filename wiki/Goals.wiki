@@ -1,38 +1,45 @@
 #summary List of Immediate and Past Goals
 
+==Key==
+ * <font color='#CCCCCC'>~~Completed~~</font>
+ * <font color='#777777'>Partially Complete</font>
+ * <font color='#74B661'>To be completed Next</font>
+ * <font color='#B46363'>Needs to be Revisited</font>
+
+
 =Immediate Goal=
 
 ==Get First Level Roughly Completed ( aim : Early March )==
  * 2D Camera
-  * ~~Movement~~ *(80% done)* : r181
-  * ~~Zooming~~ : r211
-  * ~~Smooth Locking/Following Targets~~ 60% done (needs improvement) : r181
+  * <font color='#777777'>Movement</font> *(80% done)* : r181
+  * <font color='#CCCCCC'>~~Zooming~~</font> : r211
+  * <font color='#777777'>Smooth Locking/Following Targets</font> *60% done (needs improvement)* : r181
  * Create Basic Level Editor
-  * ~~Loading/Saving~~
+  * <font color='#CCCCCC'>~~Loading/Saving~~</font>
   * Collision Maps
-  * ~~Rotation of Sprites~~ : Done, but no longer required for now
+  * <font color='#CCCCCC'>~~Rotation of Sprites~~ :</font> Done, but no longer required for now
   * Scaling of Sprites
-  * Basic Editor GUI : *60% GUI Framework built*
-  * ~~Developer Console~~
-  * ~~Movement of Sprites~~
+  * <font color='#74B661'>Basic Editor GUI</font> : *60% GUI Framework built*
+  * <font color='#CCCCCC'>~~Developer Console~~</font>
+  * <font color='#CCCCCC'>~~Movement of Sprites~~</font>
   * Special Sprite Effects
    * Alpha / Blending Modes
    * Setting Layer
    * Duplicating
    * Animated Sprites
-  * ~~Simple Texture Placement~~
+  * <font color='#CCCCCC'>~~Simple Texture Placement~~</font>
   * Interaction "Hotspots"
   * Simple Switching to/from game->devmode
   * Level Art ( *Current : Anthony* )
  * Parasite Interaction with Static Bodies
-  * ~~Add Parasite to Simulation (27/11/08)~~ : r168
-  * ~~Add to Spatial Grid, Allow Interaction with Other Elements (6/12/08)~~ : Basic
+  * <font color='#CCCCCC'>~~Add Parasite to Simulation (27/11/08)~~</font> : r168
+  * <font color='#CCCCCC'>~~Add to Spatial Grid, Allow Interaction with Other Elements (6/12/08)~~</font> : Basic
   * Crawling
   * Climbing
   * Swimming
   * Attaching ( After Spring 
  * Level Design
-  * ~~Stomach Design~~
+  * <font color='#CCCCCC'>~~Stomach Design~~</font>
   * Vein Design
   * Spine Control Design : _Started, not happy with finished product..._
   * Puzzles / Goals
