@@ -32,10 +32,10 @@ namespace Parasite
         protected event CheckChangeEventHandler CheckStateChange;
         SpriteBatch batch;
         SpriteFont font;
-        private int textPaddingSide = 5;
+
         Vector2 fontDimensions = Vector2.Zero;
         Vector2 textPosition;
-        public Color ForegroundColor = Color.Black;
+
         public bool Checked;
         private Texture2D checkSprite;
         private Texture2D uncheckSprite;

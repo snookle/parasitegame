@@ -23,7 +23,7 @@ namespace Parasite
         private Camera camera;
         private DeveloperConsole console;
         private GUIManager guimanager;
-        private GUIManager textureManager;
+
         private Dictionary<string, LevelArt> textures = new Dictionary<string, LevelArt>();
         private string LevelFilename = "";
 
@@ -53,10 +53,7 @@ namespace Parasite
             camera = (Camera)Game.Services.GetService(typeof(ICamera));
             console = (DeveloperConsole)Game.Services.GetService(typeof(IDeveloperConsole));
 
-            guimanager = new GUIManager(Game);
-            Game.Components.Add(guimanager);
-
-            //guimanager = (GUIManager)Game.Services.GetService(typeof(DrawableGameComponent));
+            guimanager = (GUIManager)Game.Services.GetService(typeof(IGUIManager));
 
             console.MessageHandler += new DeveloperConsole.DeveloperConsoleMessageHandler(ConsoleMessageHandler);
             LoadLevel(LevelFilename);
@@ -70,8 +67,7 @@ namespace Parasite
         public void InitEditor()
         {
             // Set up GUI
-            GUIButton but_loadtexture = guimanager.AddButton(new Vector2(10, 10), "loadtexture", "Load Texture");
-            but_loadtexture.MouseClick += new GUIButton.GUIButtonClickHandler(testFunction);
+            GUIButton but_loadtexture = guimanager.AddButton(new Vector2(10, 10), "loadtexture", "Load Texture", new GUIButton.MouseClickHandler(testFunction));
 
             guimanager.AddEditBox(new Vector2(120, 10), "texturename", 100, "");
 
@@ -84,10 +80,10 @@ namespace Parasite
             console.Write("Level Editor Loaded.");
         }
 
-        public void testFunction(GUIButton command, string argument)
+        public void testFunction(GUIComponent sender, OnMouseClickEventArgs args)
         {
             //console.Write("BUTTON PRESSED");
-            GUIEditBox testbox = (GUIEditBox)guimanager.GetComponentByName("texturename");
+            GUIEditBox testbox = (GUIEditBox)guimanager.GetComponent("texturename");
             //console.Write(testbox.Text);
             LoadTexture(testbox.Text, new Vector2(0, 0));
         }
@@ -192,18 +188,6 @@ namespace Parasite
                             la.EditorSelect(true);
                             selectedArt = la;
 
-                            // Check if textureManager is alive
-                            if (textureManager != null)
-                            {
-                                Game.Components.Remove(textureManager);
-                                textureManager = null;
-                            }
-
-                            textureManager = new GUIManager(Game);
-                            Game.Components.Add(textureManager);
-
-                            displayTextureInformation();
-
                             //calculate an offset based on where the mouse was when it was clicked
                             //so we don't snap the level art origin to the mouse position
                             selectionOffset = camera.MouseToWorld() - la.WorldPosition;
@@ -215,23 +199,39 @@ namespace Parasite
                             {
                                 selectedArt.EditorSelect(false);
                             }
-
-                            if (textureManager != null)
-                            {
-                                Game.Components.Remove(textureManager);
-                                textureManager = null;
-                            }
-
                             selectedArt = null;
                         }
                     }
                 }
+                EditorDisplayTextureInformation();
             }
         }
 
-        private void displayTextureInformation()
+        private void EditorDisplayTextureInformation()
         {
-            textureManager.AddLabel(new Vector2(400, 10), "label", "Selected Texture : " + selectedArt.Name);
+            GUILabel infolabel = (GUILabel)guimanager.GetComponent("texturelabel");
+            if (infolabel == null)
+            {
+                if (selectedArt == null)
+                {
+                    guimanager.AddLabel(new Vector2(400, 10), "texturelabel", "Selected Texture:");
+                }
+                else
+                {
+                    guimanager.AddLabel(new Vector2(400, 10), "texturelabel", "Selected Texture: " + selectedArt.Name);
+                }
+            }
+            else
+            {
+                if (selectedArt == null)
+                {
+                    infolabel.Text = "Selected Texture: ";
+                }
+                else
+                {
+                    infolabel.Text = "Selected Texture: " + selectedArt.Name;
+                }
+            }
         }
 
         public override void Draw(GameTime gameTime)

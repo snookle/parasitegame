@@ -27,15 +27,9 @@ namespace Parasite
         SpriteBatch batch;
         SpriteFont font;
 
-        //padding to have at the sides of the text
-        private int textPaddingSide = 5;
-        //padding to have at the top and bottom of the text
-        private int textPaddingTopAndBottom = 2;
-
         //width and height of the string
         Vector2 fontDimensions = Vector2.Zero;
         Vector2 textPosition;
-        public Color ForegroundColor = Color.Black;
         public String Text = "";
 
         //length (in px) of the edit box
@@ -125,7 +119,6 @@ namespace Parasite
 
         public override void Draw(GameTime gameTime)
         {                         
-            //these colours should really be using some background and foreground colours
             primBatch.Begin(PrimitiveType.TriangleList);
             //black outline
             primBatch.AddVertex(new Vector2(Bounds.Left-1, Bounds.Bottom+1), Color.Black);
@@ -137,18 +130,18 @@ namespace Parasite
             primBatch.AddVertex(new Vector2(Bounds.Left - 1, Bounds.Bottom + 1), Color.Black);
 
             //white text area
-            primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Bottom), Color.White);
-            primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Top), Color.White);
-            primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Top), Color.White);
+            primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Bottom), BackgroundColor);
+            primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Top), BackgroundColor);
+            primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Top), BackgroundColor);
 
-            primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Top), Color.White);
-            primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Bottom), Color.White);
-            primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Bottom), Color.White);
+            primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Top), BackgroundColor);
+            primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Bottom), BackgroundColor);
+            primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Bottom), BackgroundColor);
 
             primBatch.End();
 
             batch.Begin();
-            batch.DrawString(font, Text + (HasFocus ? "|" : ""), textPosition, Color.Black);
+            batch.DrawString(font, Text + (HasFocus ? "|" : ""), textPosition, ForegroundColor);
             batch.End();
         }
     }

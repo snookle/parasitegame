@@ -15,30 +15,44 @@ using Microsoft.Xna.Framework.Storage;
 namespace Parasite
 {
     /// <summary>
-    /// Simple Label component.
+    /// Simple text label.
     /// </summary>
     class GUILabel : GUIComponent
     {
-        //draws text
         SpriteBatch batch;
         SpriteFont font;
+        PrimitiveBatch primBatch;
 
-        //padding to have at the sides of the text
-        private int textPaddingSide = 5;
-        //padding to have at the top and bottom of the text
-        private int textPaddingTopAndBottom = 2;
-
-        //width and height of the string
         Vector2 fontDimensions = Vector2.Zero;
         Vector2 textPosition;
-        public String Text = "";
+        
+        private string text;
+        public string Text
+        {
+            set
+            {
+                text = value;
+                fontDimensions = Vector2.Zero;
+                if (font == null) return;
+                fontDimensions = font.MeasureString(text);
+                //set bounds
+                Bounds = new Rectangle(Convert.ToInt32(Location.X), Convert.ToInt32(Location.Y), Convert.ToInt32(fontDimensions.X + (textPaddingSide * 2)), Convert.ToInt32(fontDimensions.Y + (textPaddingTopAndBottom * 2)));
+                //set position of the text
+                textPosition = new Vector2(Location.X + textPaddingSide, Location.Y + textPaddingTopAndBottom);
+            }
+            get
+            {
+                return text;
+            }
+        }
 
-        public GUILabel(Game game, Vector2 location, string name, string text)
+                
+        public GUILabel(Game game, Vector2 location, string name, string caption)
             : base(game)
         {
             Location = location;
             Name = name;
-            Text = text;
+            Text = caption;
         }
 
         /// <summary>
@@ -51,8 +65,7 @@ namespace Parasite
             // TODO: Add your initialization code here
             batch = new SpriteBatch(Game.GraphicsDevice);
             font = Game.Content.Load<SpriteFont>(@"Fonts\Console");
-            //set position of the text
-            textPosition = new Vector2(Location.X + textPaddingSide, Location.Y + textPaddingTopAndBottom);
+            primBatch = new PrimitiveBatch(Game.GraphicsDevice);
         }
 
         /// <summary>
@@ -61,13 +74,29 @@ namespace Parasite
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
+            if (textPosition == Vector2.Zero)
+            {
+                Text = text;
+            }
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
-        {                         
+        {
+            primBatch.Begin(PrimitiveType.TriangleList);
+            //white text area
+            primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Bottom), BackgroundColor);
+            primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Top), BackgroundColor);
+            primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Top), BackgroundColor);
+
+            primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Top), BackgroundColor);
+            primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Bottom), BackgroundColor);
+            primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Bottom), BackgroundColor);
+
+            primBatch.End();
+
             batch.Begin();
-            batch.DrawString(font, Text + (HasFocus ? "|" : ""), textPosition, Color.Black);
+            batch.DrawString(font, text, textPosition, ForegroundColor);
             batch.End();
         }
     }

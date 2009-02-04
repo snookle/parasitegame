@@ -14,17 +14,18 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace Parasite
 {
+    interface IGUIManager { };
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class GUIManager : Microsoft.Xna.Framework.DrawableGameComponent
+    class GUIManager : DrawableGameComponent, IGUIManager
     {
         private List<GUIComponent> components = new List<GUIComponent>();
 
         public GUIManager(Game game)
             : base(game)
         {
-            // TODO: Construct any child components here
+            Game.Services.AddService(typeof(IGUIManager), this);
         }
 
         /// <summary>
@@ -33,19 +34,27 @@ namespace Parasite
         /// </summary>
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
-
-            /*AddCheckbox(new Vector2(10, 10), "", "Collision Mesh");
-            AddCheckbox(new Vector2(10, 30), "", "Background");
-
-
-            AddButton(new Vector2(10, 100), "", "Load Texture");
-            AddButton(new Vector2(10, 130), "", "Clone Texture");
-            AddButton(new Vector2(10, 160), "", "Deselect All");*/
-
-            //AddEditBox(new Vector2(400, 400), "", 150);
-
             base.Initialize();
+        }
+
+        /// <summary>
+        /// Finds a component from their name
+        /// </summary>
+        /// <param name="name">name of the component to findd</param>
+        /// <returns>the component named by name, false otherwise</returns>
+        public GUIComponent GetComponent(string name)
+        {
+            if (String.IsNullOrEmpty(name))
+                return null;
+
+            foreach (GUIComponent g in components)
+            {
+                if (g.Name.ToLower() == name.ToLower())
+                {
+                    return g;
+                }
+            }
+            return null;
         }
  
         /// <summary>
@@ -71,45 +80,51 @@ namespace Parasite
             GUIButton b = new GUIButton(Game, location, name, caption);
             b.Initialize();
             components.Add(b);
-
             return b;
         }
-
+        
+        /// <summary>
+        /// Adds a new button to the GUI with an associated event handler
+        /// </summary>
+        /// <param name="location">Screen location of the top left corner</param>
+        /// <param name="name">Name of the component</param>
+        /// <param name="caption">Caption to be displayed on the button</param>
+        public GUIButton AddButton(Vector2 location, string name, string caption, GUIButton.MouseClickHandler OnMouseClick)
+        {
+            GUIButton b = new GUIButton(Game, location, name, caption);
+            b.Initialize();
+            b.OnMouseClick += OnMouseClick;
+            components.Add(b);
+            return b;
+        }
         /// <summary>
         /// Adds a new checkbox to the GUI
         /// </summary>
         /// <param name="location">Screen location of the top left corner</param>
         /// <param name="name">Name of the component</param>
         /// <param name="caption">Caption to be displayed on the checkbox</param>
-        public void AddCheckbox(Vector2 location, string name, string caption)
+        internal GUICheckbox AddCheckbox(Vector2 location, string name, string caption)
         {
             GUICheckbox c = new GUICheckbox(Game, location, name, caption);
             c.Initialize();
             components.Add(c);
+            return c;
         }
 
-        public void AddEditBox(Vector2 location, string name, int length, string startingText)
+        internal GUIEditBox AddEditBox(Vector2 location, string name, int length, string startingText)
         {
             GUIEditBox e = new GUIEditBox(Game, location, name, length, startingText);
             e.Initialize();
             components.Add(e);
+            return e;
         }
 
-        public void AddLabel(Vector2 location, string name, string text)
+        internal GUILabel AddLabel(Vector2 location, string name, string text)
         {
             GUILabel l = new GUILabel(Game, location, name, text);
             l.Initialize();
             components.Add(l);
-        }
-
-        public GUIComponent GetComponentByName(string name)
-        {
-            foreach (GUIComponent component in components){
-                if(component.Name == name){
-                    return component;
-                }
-            }
-            return null;
+            return l;
         }
 
         /// <summary>
