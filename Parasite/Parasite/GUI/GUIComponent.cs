@@ -34,6 +34,7 @@ namespace Parasite
 
         public Color ForegroundColor = Color.Black;
         public Color BackgroundColor = Color.LightGray;
+        public Color HighlightColor = Color.LightSlateGray;
 
         protected int textPaddingSide = 5;
         protected int textPaddingTopAndBottom = 2;

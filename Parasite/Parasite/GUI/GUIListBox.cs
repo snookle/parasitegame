@@ -28,12 +28,19 @@ namespace Parasite
 
         GUIButton DownButton;
         GUIButton UpButton;
+        GUIButton PosBar;
+
+        string selectedItem = "";
 
         List<GUIListBoxItem> Items;
         List<GUIComponent> components;
 
         int topItem = 0;
-        int numItems = 5;
+        private static int numItems = 10;
+        private float lastMousePos;
+
+        // Sizes
+        float barIntervals;
                 
         public GUIListBox(Game game, Vector2 location, string name, List<GUIListBoxItem> items)
             : base(game)
@@ -86,43 +93,129 @@ namespace Parasite
             foreach (GUIListBoxItem lbi in Items)
             {
                 lbi.Initialize();
+                lbi.OnMouseClick += new GUIListBoxItem.MouseClickHandler(SelectItem);
             }
 
             // And set the initial locations
             UpdateList();
 
             components = new List<GUIComponent>();
+      
+            float boxHeight = (numItems - 1) * Items[0].Bounds.Height;
 
             // Display Down button
-            DownButton = new GUIButton(Game, new Vector2(100, (numItems - 1) * Items[0].Bounds.Height), "down", "V");
+            DownButton = new GUIButton(Game, new Vector2(100, boxHeight), new Vector2(20, 20), "down", "+");
             DownButton.Initialize();
             DownButton.OnMouseClick += new GUIButton.MouseClickHandler(ScrollDown);
             DownButton.UpdateLocation(DownButton.Location + new Vector2(Location.X, Location.Y));
             components.Add(DownButton);
 
             // Display Up button
-            UpButton = new GUIButton(Game, new Vector2(100, 0), "up", "^");
+            UpButton = new GUIButton(Game, new Vector2(100, 0), new Vector2(20, 20), "up", "-");
             UpButton.Initialize();
             UpButton.OnMouseClick += new GUIButton.MouseClickHandler(ScrollUp);
             UpButton.UpdateLocation(UpButton.Location + new Vector2(Location.X, Location.Y));
             components.Add(UpButton);
+
+            // Calculate bar intervals
+            barIntervals = ((boxHeight-20) / Items.Count);
+
+            PosBar = new GUIButton(Game, new Vector2(100, 20), new Vector2(20, barIntervals * numItems), "bar", "");
+            PosBar.BackgroundColor = HighlightColor;
+            PosBar.AllowHold = true;
+            PosBar.Initialize();
+            PosBar.OnMouseHold += new GUIButton.MouseClickHandler(DragScroll);
+            PosBar.UpdateLocation(PosBar.Location + new Vector2(Location.X, Location.Y));
+            components.Add(PosBar);
         }
 
+        /// <summary>
+        /// Ensures that only one value is selected at a time
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        void SelectItem(GUIComponent sender, OnMouseClickEventArgs args)
+        {
+            GUIListBoxItem listBox = (GUIListBoxItem)sender;
+
+            if (selectedItem == "")
+            {
+                // If nothing is currently selected, select.
+                listBox.SelectItem(true);
+                selectedItem = listBox.Name;
+            }
+            else if (selectedItem == listBox.Name)
+            {
+                // If this item is already selected, deselect it.
+                listBox.SelectItem(false);
+                selectedItem = "";
+            }
+            else
+            {
+                // If there's something else selected, remove it, then add the new one
+                foreach (GUIListBoxItem lbi in Items)
+                {
+                    if (lbi.Name == selectedItem)
+                    {
+                        lbi.SelectItem(false);
+                    }
+                }
+
+                listBox.SelectItem(true);
+                selectedItem = listBox.Name;
+            }
+        }
+
+        /// <summary>
+        /// Rad Dragging of the Scrollbar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        void DragScroll(GUIComponent sender, OnMouseClickEventArgs args)
+        {
+            float mousePos = input.MousePosition.Y;
+            if (lastMousePos != null)
+            {
+                if (mousePos > lastMousePos + 2.5)
+                {
+                    ScrollDown(sender, args);
+                }
+                else if (mousePos < lastMousePos - 2.5)
+                {
+                    ScrollUp(sender, args);
+                }
+            }
+
+            this.lastMousePos = input.MousePosition.Y;
+        }
+
+        /// <summary>
+        /// Down Scroll Button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         void ScrollDown(GUIComponent sender, OnMouseClickEventArgs args)
         {
             if (topItem < Items.Count - numItems)
             {
                 topItem++;
                 UpdateList();
+                PosBar.UpdateLocation(PosBar.Location + new Vector2(0, barIntervals));
             }
         }
 
+        /// <summary>
+        /// Up Scroll Button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         void ScrollUp(GUIComponent sender, OnMouseClickEventArgs args)
         {
             if (topItem > 0)
             {
                 topItem--;
                 UpdateList();
+                PosBar.UpdateLocation(PosBar.Location + new Vector2(0, 0 - barIntervals));
             }
         }
 
@@ -161,7 +254,7 @@ namespace Parasite
 
             foreach (GUIComponent c in components)
             {
-                //c.UpdateLocation(c.Location - delta);
+                c.Location = c.Location + new Vector2(Location.X, Location.Y);
             }
         }
 
@@ -173,6 +266,21 @@ namespace Parasite
                 CurrentItem = (GUIListBoxItem)Items[i];
                 CurrentItem.UpdateLocation(this.Location + new Vector2(0, (i - topItem) * CurrentItem.Bounds.Height));
             }
+        }
+
+        public string getSelectedItem()
+        {
+            string returnString = "";
+
+            foreach (GUIListBoxItem lbi in Items)
+            {
+                if (lbi.Selected)
+                {
+                    returnString = lbi.Name;
+                }
+            }
+
+            return returnString;
         }
 
         public override void Draw(GameTime gameTime)

@@ -36,6 +36,7 @@ namespace Parasite
         //Event handler for when we're clicked
         public delegate void MouseClickHandler(GUIComponent sender, OnMouseClickEventArgs args);
         public event MouseClickHandler OnMouseClick;
+        public event MouseClickHandler OnMouseHold;
 
         //drws the button geometry
         PrimitiveBatch batch;
@@ -43,7 +44,11 @@ namespace Parasite
         //draws the button text
         SpriteBatch textBatch;
         SpriteFont font;
-        
+
+        // width and height of the button
+        Vector2 Dimensions = Vector2.Zero;
+
+        public bool AllowHold = false;
 
         //width and height of the font
         Vector2 fontDimensions = Vector2.Zero;
@@ -61,7 +66,15 @@ namespace Parasite
                 //measure the caption so we know how big to make the button
                 fontDimensions = font.MeasureString(caption);
                 //set the bounds of the button to incorporate the caption + any padding
-                Bounds = new Rectangle((int)Location.X, (int)Location.Y, (int)(fontDimensions.X + (textPaddingSide * 2)), (int)(fontDimensions.Y + (textPaddingTopAndBottom * 2)));
+                //Bounds = new Rectangle((int)Location.X, (int)Location.Y, (int)(fontDimensions.X + (textPaddingSide * 2)), (int)(fontDimensions.Y + (textPaddingTopAndBottom * 2)));
+
+                if (Dimensions == Vector2.Zero)
+                {
+                    Dimensions = new Vector2((fontDimensions.X + (textPaddingSide * 2)), (fontDimensions.Y + (textPaddingTopAndBottom * 2)));
+                }
+
+                Bounds = new Rectangle((int)Location.X, (int)Location.Y, (int)Dimensions.X, (int)Dimensions.Y);
+
                 //set the position of the caption.
                 textPosition = new Vector2(Location.X + textPaddingSide, Location.Y + textPaddingTopAndBottom);
             }
@@ -78,6 +91,16 @@ namespace Parasite
             Location = location;
             Name = name;
             Caption = caption;
+            Dimensions = Vector2.Zero;
+        }
+
+        public GUIButton(Game game, Vector2 location, Vector2 dimensions, string name, string caption)
+            : base(game)
+        {
+            Location = location;
+            Name = name;
+            Caption = caption;
+            Dimensions = dimensions;
         }
 
         /// <summary>
@@ -109,6 +132,15 @@ namespace Parasite
                 {
                     //fire off any mouseclick event handlers that are listening
                     OnMouseClick(this, null);
+                }
+            }
+
+            if (input.IsMouseButtonPressed("left") && Bounds.Contains(mState.X, mState.Y) && AllowHold)
+            {
+                if (OnMouseHold != null)
+                {
+                    //fire off any mouseclick event handlers that are listening
+                    OnMouseHold(this, null);
                 }
             }
             
@@ -147,7 +179,10 @@ namespace Parasite
         public override void UpdateLocation(Vector2 newLocation)
         {
             Location = newLocation;
-            Bounds = new Rectangle((int)Location.X, (int)Location.Y, (int)(fontDimensions.X + (textPaddingSide * 2)), (int)(fontDimensions.Y + (textPaddingTopAndBottom * 2)));
+            //Bounds = new Rectangle((int)Location.X, (int)Location.Y, (int)(fontDimensions.X + (textPaddingSide * 2)), (int)(fontDimensions.Y + (textPaddingTopAndBottom * 2)));
+
+            Bounds = new Rectangle((int)Location.X, (int)Location.Y, (int)Dimensions.X, (int)Dimensions.Y);
+
             textPosition = new Vector2(Location.X + textPaddingSide, Location.Y + textPaddingTopAndBottom);
         }
 

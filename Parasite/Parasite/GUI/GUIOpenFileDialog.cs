@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -44,6 +45,20 @@ namespace Parasite
             cancel.Initialize();
             cancel.OnMouseClick += new GUIButton.MouseClickHandler(CancelMouseClick);
             AddComponent(cancel);
+
+            // Add List Box
+            /*List<GUIListBoxItem> guiListItems = new List<GUIListBoxItem>();
+
+            string[] filenames = Directory.GetFiles("Content\\LevelArt");
+
+            for (int i = 0; i < filenames.Length; i++)
+            {
+                guiListItems.Add(new GUIListBoxItem(Game, filenames[i], filenames[i]));
+            }
+
+            GUIListBox fileList = new GUIListBox(Game, new Vector2(100, 10), "list box", guiListItems);
+            fileList.Initialize();
+            AddComponent(fileList);*/
         }
 
         protected override void Dispose(bool disposing)
