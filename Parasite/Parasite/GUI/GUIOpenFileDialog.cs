@@ -20,9 +20,14 @@ namespace Parasite
     /// </summary>
     class GUIOpenFileDialog : GUIPanel
     {
-        public GUIOpenFileDialog(Game game) : base(game, new Vector2(100, 100), new Vector2(600, 100), "ofdialog", "Open File...")
+        public delegate void BoxOkHandler(string file, Vector2 position);
+        public event BoxOkHandler OnBoxOk;
+
+        public GUIOpenFileDialog(Game game) : base(game, new Vector2(100, 100), new Vector2(600, 300), "ofdialog", "Open File...")
         {         
         }
+
+        private GUIListBox fileList;
 
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
@@ -34,9 +39,9 @@ namespace Parasite
             GUILabel label = new GUILabel(Game, new Vector2(10, 10), "lblOpen", "Filename:");
             label.Initialize();
             AddComponent(label);
-            GUIEditBox edit = new GUIEditBox(Game, new Vector2(100, 10), "edtOpen", 300, "");
-            edit.Initialize();
-            AddComponent(edit);
+            //GUIEditBox edit = new GUIEditBox(Game, new Vector2(100, 10), "edtOpen", 300, "");
+            //edit.Initialize();
+            //AddComponent(edit);
             GUIButton ok = new GUIButton(Game, new Vector2(480, 50), "okbutton", "Ok");
             ok.Initialize();
             ok.OnMouseClick += new GUIButton.MouseClickHandler(OkMouseClick);
@@ -47,18 +52,19 @@ namespace Parasite
             AddComponent(cancel);
 
             // Add List Box
-            /*List<GUIListBoxItem> guiListItems = new List<GUIListBoxItem>();
+            List<GUIListBoxItem> guiListItems = new List<GUIListBoxItem>();
 
             string[] filenames = Directory.GetFiles("Content\\LevelArt");
 
             for (int i = 0; i < filenames.Length; i++)
             {
-                guiListItems.Add(new GUIListBoxItem(Game, filenames[i], filenames[i]));
+                string shortName = (string)filenames[i].Substring(17);
+                guiListItems.Add(new GUIListBoxItem(Game, filenames[i], shortName));
             }
 
-            GUIListBox fileList = new GUIListBox(Game, new Vector2(100, 10), "list box", guiListItems);
+            fileList = new GUIListBox(Game, new Vector2(100, 10), "list box", guiListItems);
             fileList.Initialize();
-            AddComponent(fileList);*/
+            AddComponent(fileList);
         }
 
         protected override void Dispose(bool disposing)
@@ -74,7 +80,19 @@ namespace Parasite
 
         void OkMouseClick(GUIComponent sender, OnMouseClickEventArgs args)
         {
+            string selectedItem = fileList.getSelectedLabel();
             //throw new NotImplementedException();
+            if (selectedItem != null)
+            {
+                // load fileList.getSelectedItem();
+                if (OnBoxOk != null)
+                {
+                    //fire off any mouseclick event handlers that are listening
+                    OnBoxOk(selectedItem, Vector2.Zero);
+                }
+            }
+
+            ((GUIManager)Game.Services.GetService(typeof(IGUIManager))).RemoveComponent(Name);
         }
 
    }

@@ -63,13 +63,14 @@ namespace Parasite
                 caption = value;
                 fontDimensions = Vector2.Zero;
                 if (font == null) return;
-                //measure the caption so we know how big to make the button
-                fontDimensions = font.MeasureString(caption);
+                //measure the caption so we know how big to make the button               
+
                 //set the bounds of the button to incorporate the caption + any padding
                 //Bounds = new Rectangle((int)Location.X, (int)Location.Y, (int)(fontDimensions.X + (textPaddingSide * 2)), (int)(fontDimensions.Y + (textPaddingTopAndBottom * 2)));
 
                 if (Dimensions == Vector2.Zero)
                 {
+                    fontDimensions = font.MeasureString(caption);
                     Dimensions = new Vector2((fontDimensions.X + (textPaddingSide * 2)), (fontDimensions.Y + (textPaddingTopAndBottom * 2)));
                 }
 
@@ -182,7 +183,6 @@ namespace Parasite
             //Bounds = new Rectangle((int)Location.X, (int)Location.Y, (int)(fontDimensions.X + (textPaddingSide * 2)), (int)(fontDimensions.Y + (textPaddingTopAndBottom * 2)));
 
             Bounds = new Rectangle((int)Location.X, (int)Location.Y, (int)Dimensions.X, (int)Dimensions.Y);
-
             textPosition = new Vector2(Location.X + textPaddingSide, Location.Y + textPaddingTopAndBottom);
         }
 

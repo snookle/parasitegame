@@ -69,15 +69,13 @@ namespace Parasite
             // Set up GUI
             GUIButton but_loadtexture = guimanager.AddButton(new Vector2(10, 10), "loadtexture", "Load Texture", new GUIButton.MouseClickHandler(testFunction));
 
-            guimanager.AddEditBox(new Vector2(120, 10), "texturename", 100, "");
-
             guimanager.AddEditBox(new Vector2(10, 70), "levelname", 100, "levelname");
             guimanager.AddButton(new Vector2(10, 100), "loadlevel", "Load Level");
             guimanager.AddButton(new Vector2(10, 130), "savelevel", "Save Level");
 
             //guimanager.AddLabel(new Vector2(50, 150), "label", "THIS IS A LABEL! WOOO!");
 
-            List<GUIListBoxItem> testboxitems = new List<GUIListBoxItem>();
+            /*List<GUIListBoxItem> testboxitems = new List<GUIListBoxItem>();
 
             testboxitems.Add(new GUIListBoxItem(Game, "item 1", "item 1"));
             testboxitems.Add(new GUIListBoxItem(Game, "item 2", "item 2"));
@@ -100,7 +98,7 @@ namespace Parasite
             testboxitems.Add(new GUIListBoxItem(Game, "item 19", "item 19"));
             testboxitems.Add(new GUIListBoxItem(Game, "item 20", "item 20"));
 
-            guimanager.AddListBox(new Vector2(500, 100), "Test", testboxitems);
+            guimanager.AddListBox(new Vector2(500, 100), "Test", testboxitems);*/
 
             console.Write("Level Editor Loaded.");
         }
@@ -113,7 +111,13 @@ namespace Parasite
             //LoadTexture(testbox.Text, new Vector2(0, 0));
             GUIOpenFileDialog ofd = new GUIOpenFileDialog(Game);
             ofd.Initialize();
+            ofd.OnBoxOk += new GUIOpenFileDialog.BoxOkHandler(selectTexture);
             guimanager.AddComponent(ofd);
+        }
+
+        void selectTexture(string name, Vector2 location)
+        {
+            LoadTexture(name.Substring(0,name.Length-4), location);
         }
 
         /// <summary>
