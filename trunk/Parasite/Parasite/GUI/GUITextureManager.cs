@@ -23,11 +23,21 @@ namespace Parasite
         public delegate void BoxOkHandler(string file, Vector2 position);
         public event BoxOkHandler OnBoxOk;
 
+        // Texture Information
+        string Tex_name;
+        float Tex_layer;
+        LevelArt Art;
+
         public GUITexureManager(Game game) : base(game, new Vector2(700, 0), new Vector2(300, 500), "texturemanager", "Texture Properties")
         {         
         }
 
         private GUIListBox fileList;
+
+        public void initTextureInformation(LevelArt levelArt)
+        {
+            Art = levelArt;
+        }
 
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
@@ -37,9 +47,18 @@ namespace Parasite
         {
             this.minimised = true;
             base.Initialize();
-            GUILabel label = new GUILabel(Game, new Vector2(10, 10), "texturename", "Texture:");
+            GUILabel label = new GUILabel(Game, new Vector2(10, 10), "texturename", "Texture : " + Art.Name);
             label.Initialize();
             AddComponent(label);
+
+            GUILabel depthlabel = new GUILabel(Game, new Vector2(10, 30), "depth", "Depth : ");
+            depthlabel.Initialize();
+            AddComponent(depthlabel);
+
+            GUIEditBox depthEdit = new GUIEditBox(Game, new Vector2(70, 30), "depth_edit", 3, Art.ScreenDepth.ToString());
+            depthEdit.Initialize();
+            AddComponent(depthEdit);
+
             //GUIEditBox edit = new GUIEditBox(Game, new Vector2(100, 10), "edtOpen", 300, "");
             //edit.Initialize();
             //AddComponent(edit);
@@ -70,6 +89,10 @@ namespace Parasite
 
         void OkMouseClick(GUIComponent sender, OnMouseClickEventArgs args)
         {
+            // Update Depth
+            GUIEditBox depthEdit = (GUIEditBox)this.getComponent("depth_edit");
+            Art.ScreenDepth = float.Parse(depthEdit.Text);
+
             ((GUIManager)Game.Services.GetService(typeof(IGUIManager))).RemoveComponent(Name);
         }
 
