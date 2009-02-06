@@ -220,6 +220,13 @@ namespace Parasite
                             la.EditorSelect(true);
                             selectedArt = la;
 
+                            if ((GUITexureManager)guimanager.GetComponent("texturemanager") != null)
+                            {
+                                ((GUIManager)Game.Services.GetService(typeof(IGUIManager))).RemoveComponent("texturemanager");
+                            }
+
+                            EditorDisplayTextureInformation();
+
                             //calculate an offset based on where the mouse was when it was clicked
                             //so we don't snap the level art origin to the mouse position
                             selectionOffset = camera.MouseToWorld() - la.WorldPosition;
@@ -230,18 +237,28 @@ namespace Parasite
                             if (selectedArt != null)
                             {
                                 selectedArt.EditorSelect(false);
+                                if ((GUITexureManager)guimanager.GetComponent("texturemanager") != null)
+                                {
+                                    ((GUIManager)Game.Services.GetService(typeof(IGUIManager))).RemoveComponent("texturemanager");
+                                }
                             }
                             selectedArt = null;
                         }
                     }
                 }
-                EditorDisplayTextureInformation();
             }
         }
 
         private void EditorDisplayTextureInformation()
         {
-            GUILabel infolabel = (GUILabel)guimanager.GetComponent("texturelabel");
+            GUITexureManager textureman = new GUITexureManager(Game);
+            textureman.Name = "texturemanager";
+            textureman.Initialize();
+            //ofd.OnBoxOk += new GUIOpenFileDialog.BoxOkHandler(selectTexture);
+            guimanager.AddComponent(textureman);
+
+
+            /*GUILabel infolabel = (GUILabel)guimanager.GetComponent("texturelabel");
             if (infolabel == null)
             {
                 if (selectedArt == null)
@@ -263,7 +280,7 @@ namespace Parasite
                 {
                     infolabel.Text = "Selected Texture: " + selectedArt.Name;
                 }
-            }
+            }*/
         }
 
         public override void Draw(GameTime gameTime)

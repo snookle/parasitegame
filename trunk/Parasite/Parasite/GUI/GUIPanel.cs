@@ -40,6 +40,8 @@ namespace Parasite
         public Vector2 Dimensions;
         Rectangle titleBarBounds;
         bool ignoreMouseOutOfBounds = false;
+
+        public bool minimised = false;
         
 
         List<GUIComponent> components = new List<GUIComponent>();
@@ -120,8 +122,11 @@ namespace Parasite
             {
                 ignoreMouseOutOfBounds = true;
                 UpdateLocation(input.GetMouseDisplacement());
-            } 
-            else
+            }
+            else if (input.IsMouseButtonClicked("right") && (titleBarBounds.Contains(Convert.ToInt32(mouseLoc.X), Convert.ToInt32(mouseLoc.Y)) || ignoreMouseOutOfBounds))
+            {
+                minimised = !minimised;
+            } else 
             {
                 ignoreMouseOutOfBounds = false;
             }
@@ -155,30 +160,35 @@ namespace Parasite
         {
 
             primBatch.Begin(PrimitiveType.TriangleList);
-
-            //black outline
-            primBatch.AddVertex(new Vector2(Bounds.Left - 1, Bounds.Bottom + 1), Color.Black);
-            primBatch.AddVertex(new Vector2(Bounds.Left - 1, Bounds.Top - 1), Color.Black);
-            primBatch.AddVertex(new Vector2(Bounds.Right + 1, Bounds.Top - 1), Color.Black);
-            primBatch.AddVertex(new Vector2(Bounds.Right + 1, Bounds.Top - 1), Color.Black);
-            primBatch.AddVertex(new Vector2(Bounds.Right + 1, Bounds.Bottom + 1), Color.Black);
-            primBatch.AddVertex(new Vector2(Bounds.Left -1, Bounds.Bottom+1), Color.Black);
+            if (!minimised)
+            {
+                //black outline
+                primBatch.AddVertex(new Vector2(Bounds.Left - 1, Bounds.Bottom + 1), Color.Black);
+                primBatch.AddVertex(new Vector2(Bounds.Left - 1, Bounds.Top - 1), Color.Black);
+                primBatch.AddVertex(new Vector2(Bounds.Right + 1, Bounds.Top - 1), Color.Black);
+                primBatch.AddVertex(new Vector2(Bounds.Right + 1, Bounds.Top - 1), Color.Black);
+                primBatch.AddVertex(new Vector2(Bounds.Right + 1, Bounds.Bottom + 1), Color.Black);
+                primBatch.AddVertex(new Vector2(Bounds.Left - 1, Bounds.Bottom + 1), Color.Black);
+            }
 
             //title bar
-            primBatch.AddVertex(new Vector2(titleBarBounds.Left, titleBarBounds.Bottom), Color.Blue);
-            primBatch.AddVertex(new Vector2(titleBarBounds.Left, titleBarBounds.Top), Color.Blue);
-            primBatch.AddVertex(new Vector2(titleBarBounds.Right, titleBarBounds.Top), Color.LightBlue);
-            primBatch.AddVertex(new Vector2(titleBarBounds.Right, titleBarBounds.Top), Color.LightBlue);
-            primBatch.AddVertex(new Vector2(titleBarBounds.Right, titleBarBounds.Bottom), Color.LightBlue);
-            primBatch.AddVertex(new Vector2(titleBarBounds.Left, titleBarBounds.Bottom), Color.Blue);
-            
-            //panel body
-            primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Bottom), BackgroundColor);
-            primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Top+titleBarBounds.Height), BackgroundColor);
-            primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Top + titleBarBounds.Height), BackgroundColor);
-            primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Top + titleBarBounds.Height), BackgroundColor);
-            primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Bottom), BackgroundColor);
-            primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Bottom), BackgroundColor);
+            primBatch.AddVertex(new Vector2(titleBarBounds.Left, titleBarBounds.Bottom), Color.Gray);
+            primBatch.AddVertex(new Vector2(titleBarBounds.Left, titleBarBounds.Top), Color.Gray);
+            primBatch.AddVertex(new Vector2(titleBarBounds.Right, titleBarBounds.Top), Color.SlateGray);
+            primBatch.AddVertex(new Vector2(titleBarBounds.Right, titleBarBounds.Top), Color.SlateGray);
+            primBatch.AddVertex(new Vector2(titleBarBounds.Right, titleBarBounds.Bottom), Color.SlateGray);
+            primBatch.AddVertex(new Vector2(titleBarBounds.Left, titleBarBounds.Bottom), Color.Gray);
+
+            if (!minimised)
+            {
+                //panel body
+                primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Bottom), BackgroundColor);
+                primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Top + titleBarBounds.Height), BackgroundColor);
+                primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Top + titleBarBounds.Height), BackgroundColor);
+                primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Top + titleBarBounds.Height), BackgroundColor);
+                primBatch.AddVertex(new Vector2(Bounds.Right, Bounds.Bottom), BackgroundColor);
+                primBatch.AddVertex(new Vector2(Bounds.Left, Bounds.Bottom), BackgroundColor);
+            }
             
             primBatch.End();
          
@@ -187,9 +197,12 @@ namespace Parasite
             batch.DrawString(font, Caption, captionPosition, Color.White);
             batch.End();
 
-            foreach (GUIComponent c in components)
+            if (!minimised)
             {
-                c.Draw(gameTime);
+                foreach (GUIComponent c in components)
+                {
+                    c.Draw(gameTime);
+                }
             }
         }
     }
