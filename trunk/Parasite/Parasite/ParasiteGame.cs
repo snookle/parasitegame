@@ -26,6 +26,10 @@ namespace Parasite
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            this.graphics.ApplyChanges();
+            this.graphics.PreferredBackBufferHeight = 768;
+            this.graphics.PreferredBackBufferWidth = 1024;
         }
 
         /// <summary>

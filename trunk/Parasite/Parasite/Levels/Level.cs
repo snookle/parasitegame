@@ -77,6 +77,18 @@ namespace Parasite
 
             //guimanager.AddLabel(new Vector2(50, 150), "label", "THIS IS A LABEL! WOOO!");
 
+            List<GUIListBoxItem> testboxitems = new List<GUIListBoxItem>();
+
+            testboxitems.Add(new GUIListBoxItem(Game, "item 1", "item 1"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 2", "item 2"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 3", "item 3"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 4", "item 4"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 5", "item 5"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 6", "item 6"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 7", "item 7"));
+
+            guimanager.AddListBox(new Vector2(500, 100), "Test", testboxitems);
+
             console.Write("Level Editor Loaded.");
         }
 

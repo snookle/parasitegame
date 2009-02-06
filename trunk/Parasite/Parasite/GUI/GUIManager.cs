@@ -135,6 +135,22 @@ namespace Parasite
             return l;
         }
 
+        internal GUIListBox AddListBox(Vector2 location, string name, List<GUIListBoxItem> items)
+        {
+            GUIListBox lb = new GUIListBox(Game, location, name, items);
+            lb.Initialize();
+            components.Add(lb);
+            return lb;
+        }
+
+        internal GUIListBoxItem AddListBoxItem(string name, string text)
+        {
+            GUIListBoxItem lbi = new GUIListBoxItem(Game, name, text);
+            lbi.Initialize();
+            components.Add(lbi);
+            return lbi;
+        }
+
         internal bool RemoveComponent(string name)
         {
             for (int i = 0; i < components.Count; i++)
