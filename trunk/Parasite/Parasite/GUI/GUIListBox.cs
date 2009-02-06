@@ -38,6 +38,7 @@ namespace Parasite
         int topItem = 0;
         private static int numItems = 10;
         private float lastMousePos;
+        private float maxWidth = 100;
 
         // Sizes
         float barIntervals;
@@ -93,25 +94,36 @@ namespace Parasite
             foreach (GUIListBoxItem lbi in Items)
             {
                 lbi.Initialize();
+
+                if (font.MeasureString(lbi.Name).X > maxWidth)
+                {
+                    maxWidth = font.MeasureString(lbi.Name).X;
+                }
                 lbi.OnMouseClick += new GUIListBoxItem.MouseClickHandler(SelectItem);
+            }
+
+            foreach (GUIListBoxItem lbi in Items)
+            {
+                lbi.boxDimensions.X = maxWidth;
             }
 
             // And set the initial locations
             UpdateList();
 
             components = new List<GUIComponent>();
-      
+
+            // Get width of the listbox
             float boxHeight = (numItems - 1) * Items[0].Bounds.Height;
 
             // Display Down button
-            DownButton = new GUIButton(Game, new Vector2(100, boxHeight), new Vector2(20, 20), "down", "+");
+            DownButton = new GUIButton(Game, new Vector2(maxWidth, boxHeight), new Vector2(20, 20), "down", "+");
             DownButton.Initialize();
             DownButton.OnMouseClick += new GUIButton.MouseClickHandler(ScrollDown);
             DownButton.UpdateLocation(DownButton.Location + new Vector2(Location.X, Location.Y));
             components.Add(DownButton);
 
             // Display Up button
-            UpButton = new GUIButton(Game, new Vector2(100, 0), new Vector2(20, 20), "up", "-");
+            UpButton = new GUIButton(Game, new Vector2(maxWidth, 0), new Vector2(20, 20), "up", "-");
             UpButton.Initialize();
             UpButton.OnMouseClick += new GUIButton.MouseClickHandler(ScrollUp);
             UpButton.UpdateLocation(UpButton.Location + new Vector2(Location.X, Location.Y));
@@ -120,7 +132,7 @@ namespace Parasite
             // Calculate bar intervals
             barIntervals = ((boxHeight-20) / Items.Count);
 
-            PosBar = new GUIButton(Game, new Vector2(100, 20), new Vector2(20, barIntervals * numItems), "bar", "");
+            PosBar = new GUIButton(Game, new Vector2(maxWidth, 20), new Vector2(20, barIntervals * numItems), "bar", "");
             PosBar.BackgroundColor = HighlightColor;
             PosBar.AllowHold = true;
             PosBar.Initialize();
@@ -246,16 +258,16 @@ namespace Parasite
 
         public override void UpdateLocation(Vector2 newLocation)
         {
+            foreach (GUIComponent c in components)
+            {
+                c.Location += (newLocation - Location);
+            }
+
             Location = newLocation;
             Bounds = new Rectangle(Convert.ToInt32(Location.X), Convert.ToInt32(Location.Y), Convert.ToInt32(fontDimensions.X + (textPaddingSide * 2)), Convert.ToInt32(fontDimensions.Y + (textPaddingTopAndBottom * 2)));
             textPosition = new Vector2(Location.X + textPaddingSide, Location.Y + textPaddingTopAndBottom);
 
             UpdateList();
-
-            foreach (GUIComponent c in components)
-            {
-                c.Location = c.Location + new Vector2(Location.X, Location.Y);
-            }
         }
 
         private void UpdateList()
@@ -277,6 +289,21 @@ namespace Parasite
                 if (lbi.Selected)
                 {
                     returnString = lbi.Name;
+                }
+            }
+
+            return returnString;
+        }
+
+        public string getSelectedLabel()
+        {
+            string returnString = "";
+
+            foreach (GUIListBoxItem lbi in Items)
+            {
+                if (lbi.Selected)
+                {
+                    returnString = lbi.Text;
                 }
             }
 

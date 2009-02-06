@@ -14,6 +14,18 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace Parasite
 {
+    class OnBoxOk : EventArgs
+    {
+        public OnBoxOk(string command, string argument)
+            : base()
+        {
+            Command = command;
+            Argument = argument;
+        }
+        public string Command;
+        public string Argument;
+    };
+
     /// <summary>
     /// A panel is a container of GUI components. Acts sort of like a moveable window.
     /// </summary>
