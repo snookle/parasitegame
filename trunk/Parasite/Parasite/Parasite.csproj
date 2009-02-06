@@ -85,6 +85,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeveloperConsole.cs" />
+    <Compile Include="GUI\GUIListBox.cs" />
+    <Compile Include="GUI\GUIListBoxItem.cs" />
     <Compile Include="GUI\GUIOpenFileDialog.cs" />
     <Compile Include="GUI\GUILabel.cs" />
     <Compile Include="GUI\GUIEditBox.cs" />
