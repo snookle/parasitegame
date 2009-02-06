@@ -110,6 +110,21 @@ namespace Parasite
             components.Add(c);
         }
 
+            public GUIComponent getComponent(string name)
+        {
+            if (String.IsNullOrEmpty(name))
+                return null;
+
+            foreach (GUIComponent g in components)
+            {
+                if (g.Name.ToLower() == name.ToLower())
+                {
+                    return g;
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// Allows the game component to update itself.
         /// </summary>

@@ -212,10 +212,11 @@ namespace Parasite
                         {
                             //deselect the current selected levelart (if there was one)
                             //before selecting the newly clicked piece
-                            if (selectedArt != null)
+                            if (selectedArt != null && selectedArt != la)
                             {
                                 selectedArt.EditorSelect(false);
                             }
+
                             //tell the piece that it's been selected
                             la.EditorSelect(true);
                             selectedArt = la;
@@ -224,7 +225,6 @@ namespace Parasite
                             {
                                 ((GUIManager)Game.Services.GetService(typeof(IGUIManager))).RemoveComponent("texturemanager");
                             }
-
                             EditorDisplayTextureInformation();
 
                             //calculate an offset based on where the mouse was when it was clicked
@@ -252,7 +252,7 @@ namespace Parasite
         private void EditorDisplayTextureInformation()
         {
             GUITexureManager textureman = new GUITexureManager(Game);
-            textureman.Name = "texturemanager";
+            textureman.initTextureInformation(selectedArt);
             textureman.Initialize();
             //ofd.OnBoxOk += new GUIOpenFileDialog.BoxOkHandler(selectTexture);
             guimanager.AddComponent(textureman);
@@ -311,10 +311,10 @@ namespace Parasite
                 }
             }
 
-            artBatch.Begin();
+            artBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None);
             foreach (LevelArt la in Art)
             {
-                artBatch.Draw(la.Texture, la.GetScreenPosition(), null, la.Tint, la.Rotation, la.Origin, camera.ZoomLevel, SpriteEffects.None, 1f);
+                artBatch.Draw(la.Texture, la.GetScreenPosition(), null, la.Tint, la.Rotation, la.Origin, camera.ZoomLevel, SpriteEffects.None, 1 - la.ScreenDepth);
                 if (editing && la.EditorSelected)
                     la.DrawBoundingBox();
             }
