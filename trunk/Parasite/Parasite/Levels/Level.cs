@@ -86,6 +86,19 @@ namespace Parasite
             testboxitems.Add(new GUIListBoxItem(Game, "item 5", "item 5"));
             testboxitems.Add(new GUIListBoxItem(Game, "item 6", "item 6"));
             testboxitems.Add(new GUIListBoxItem(Game, "item 7", "item 7"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 8", "item 8"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 9", "item 9"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 10", "item 10"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 11", "item 11"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 12", "item 12"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 13", "item 13"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 14", "item 14"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 15", "item 15"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 16", "item 16"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 17", "item 17"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 18", "item 18"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 19", "item 19"));
+            testboxitems.Add(new GUIListBoxItem(Game, "item 20", "item 20"));
 
             guimanager.AddListBox(new Vector2(500, 100), "Test", testboxitems);
 
