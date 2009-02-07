@@ -56,6 +56,26 @@ namespace Parasite
             ScreenCentre.Y = Game.GraphicsDevice.Viewport.Height / 2;
             input = (InputHandler)Game.Services.GetService(typeof(IInputHandler));
             console = (DeveloperConsole)Game.Services.GetService(typeof(IDeveloperConsole));
+            console.MessageHandler += new DeveloperConsole.DeveloperConsoleMessageHandler(ConsoleMessageHandler);
+        }
+
+        void ConsoleMessageHandler(string command, string argument)
+        {
+            switch (command)
+            {
+                case "movecamera":
+                    string[] coords = argument.Split(',');
+                    if (coords.Length != 2)
+                    {
+                        console.Write("Invalid coordinates: " + argument, ConsoleMessageType.Error);
+                        console.CommandHandled = true;
+                        break;
+                    }
+                    console.Write("Moving Camera to : " + argument);
+                    SetTarget(new Vector2(float.Parse(coords[0]), float.Parse(coords[1])), true);
+                    console.CommandHandled = true;
+                    break;
+            }
         }
 
         //returns the mouse as a position in the world

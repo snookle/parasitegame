@@ -14,7 +14,18 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace Parasite
 {
+    public enum ConsoleMessageType { Info, Warning, Error };
     public interface IDeveloperConsole { };
+    public class DeveloperConsoleMessage
+    {
+        public string Message;
+        public ConsoleMessageType MessageType;
+        public DeveloperConsoleMessage(string message, ConsoleMessageType type)
+        {
+            Message = message;
+            MessageType = type;
+        }
+    }
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
@@ -22,7 +33,7 @@ namespace Parasite
     {
         private InputHandler input;
         private bool show = false;
-        private Queue<String> lines;
+        private Queue<DeveloperConsoleMessage> lines;
         private int maxLines = 15;
 
         private PrimitiveBatch batch;
@@ -43,14 +54,22 @@ namespace Parasite
 
         public bool CommandHandled = false;
 
+        private Dictionary<ConsoleMessageType, Color> MessageColors;
+
         public DeveloperConsole(Game game)
             : base(game)
         {
             show = false;
             game.Services.AddService(typeof(IDeveloperConsole), this);
-            lines = new Queue<string>();
+            lines = new Queue<DeveloperConsoleMessage>();
             history = new List<string>();
             historyIndex = 0;
+
+            MessageColors = new Dictionary<ConsoleMessageType, Color>();
+            MessageColors.Add(ConsoleMessageType.Info, Color.White);
+            MessageColors.Add(ConsoleMessageType.Error, Color.Red);
+            MessageColors.Add(ConsoleMessageType.Warning, Color.Yellow);
+
         }
         protected override void LoadContent()
         {
@@ -97,7 +116,7 @@ namespace Parasite
                     //handle enter key.
                     if (key == "enter")
                     {
-                        lines.Enqueue(inputString);
+                        lines.Enqueue(new DeveloperConsoleMessage(inputString, ConsoleMessageType.Info));
                         AddToHistory(inputString);
                         string command = "";
                         string argument = "";
@@ -117,7 +136,7 @@ namespace Parasite
                             MessageHandler(command, argument);
                             if (!CommandHandled)
                             {
-                                Write("Unknown command: " + inputString);
+                                Write("Unknown command: " + inputString, ConsoleMessageType.Error);
                             }
                         }
 
@@ -198,7 +217,7 @@ namespace Parasite
 
             if (lines.Count > 0)
             {
-                string[] strArray = lines.ToArray<String>();
+                DeveloperConsoleMessage[] msgArray = lines.ToArray<DeveloperConsoleMessage>();
                 for (int i = 0; i < lines.Count; i++)
                 {
                     // Attempt at word wrapping...
@@ -214,7 +233,8 @@ namespace Parasite
                     }
                     else
                     {*/
-                        textBatch.DrawString(font, strArray[lines.Count - i - 1], new Vector2(bounds.Left + 5, bounds.Bottom - textHeight - ((i + 1) * textHeight)), Color.White);
+                        DeveloperConsoleMessage msg = msgArray[lines.Count - i - 1];
+                        textBatch.DrawString(font, msg.Message, new Vector2(bounds.Left + 5, bounds.Bottom - textHeight - ((i + 1) * textHeight)), MessageColors[msg.MessageType]);
                     //}
                 }
             }
@@ -227,11 +247,17 @@ namespace Parasite
 
         public void Write(String str)
         {
+            Write(str, ConsoleMessageType.Info);
+        }
+
+        public void Write(String str, ConsoleMessageType type)
+        {
             string[] splits = str.Split('\n');
             foreach (string stri in splits)
-                lines.Enqueue(stri);
+                lines.Enqueue(new DeveloperConsoleMessage(stri, type));
             if (lines.Count > maxLines)
                 lines.Dequeue();
         }
+
     }
 }
