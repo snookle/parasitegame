@@ -37,6 +37,8 @@ namespace Parasite
 
         private DeveloperConsole console;
 
+        private Vector2 TargetPosition;
+
         private float previousScrollValue = 0;
 
         public Camera(Game game) : base(game)
@@ -158,7 +160,8 @@ namespace Parasite
             {
                 if (Target != null)
                 {
-                    Vector2 intermediatePosition = (Target.WorldPosition - Position) * 0.2f;
+                    TargetPosition = Target.WorldPosition;
+                    Vector2 intermediatePosition = (TargetPosition - Position) * 0.2f;
                     Position += intermediatePosition;
 
                 }
@@ -175,6 +178,14 @@ namespace Parasite
             userControlled = false;          
             Target = node;
             Target.IsCameraTarget = true;
+            TargetPosition = node.WorldPosition;
+        }
+
+        public void SetTarget(Vector2 worldPos)
+        {
+            //clear any current targets
+            ClearTarget();
+            TargetPosition = worldPos;
         }
 
         //Clears the current target and returns control of the camera to the user.

@@ -40,6 +40,8 @@ namespace Parasite
 
         private Object ignoreException = null;
 
+        private char[] numberSuperScript = {')', '!', '@', '#', '$', '%', '^', '&' , '*', '(' };
+
         public InputHandler(Game game) : base(game)
         {
             currentKeyboardState = Keyboard.GetState();
@@ -319,17 +321,18 @@ namespace Parasite
                     }
                     continue;
                 }
+
                 if ("d1d2d3d4d5d6d7d8d9d0".Contains(key))
                 {
+                    string num = key.Remove(0, 1);
                     if (IsShiftDown())
                     {
-                        //handle number superscript functions
-                        //eg !@#$%^ etc
+                        strings[i++] = numberSuperScript[Convert.ToInt32(num)].ToString();
 
                     }
                     else
                     {
-                        strings[i++] = key.Remove(0, 1);
+                        strings[i++] = num;
                     }
                     continue;
                 }
