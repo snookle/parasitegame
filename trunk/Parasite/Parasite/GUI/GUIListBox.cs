@@ -147,7 +147,7 @@ namespace Parasite
             PosBar.UpdateLocation(PosBar.Location + new Vector2(Location.X, Location.Y));
             components.Add(PosBar);
 
-            currentItem = new GUILabel(Game, new Vector2(0, 0), new Vector2(maxWidth,20), "label", "Select File ...");
+            currentItem = new GUILabel(Game, new Vector2(0, 0), new Vector2(maxWidth,20), "label", "Select ...");
             currentItem.Initialize();
             currentItem.BackgroundColor = Color.AntiqueWhite;
             currentItem.UpdateLocation(currentItem.Location + new Vector2(Location.X, Location.Y));
@@ -170,6 +170,23 @@ namespace Parasite
             else
             {
                 OpenCloseList.Caption = "+";
+            }
+        }
+
+        public void SetItem(string itemname)
+        {
+            GUIListBoxItem Item = null;
+
+            foreach(GUIListBoxItem lbi in Items){
+                if(lbi.Name==itemname){
+                    Item = lbi;
+                    continue;
+                }
+            }
+
+            if (Item != null)
+            {
+                SelectItem(Item, null);
             }
         }
 
