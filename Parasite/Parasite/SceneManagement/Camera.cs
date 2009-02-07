@@ -31,6 +31,7 @@ namespace Parasite
 
         //controls whether or not this camera is being controlled by the user.
         private bool userControlled;
+        private bool enableOnArrival = false;       // Renables user control on arrival at location
 
         private InputHandler input;
         private Vector2 ScreenCentre;
@@ -161,9 +162,19 @@ namespace Parasite
                 if (Target != null)
                 {
                     TargetPosition = Target.WorldPosition;
-                    Vector2 intermediatePosition = (TargetPosition - Position) * 0.2f;
-                    Position += intermediatePosition;
+                }
+                Vector2 intermediatePosition = (TargetPosition - Position) * 0.2f;
+                Position += intermediatePosition;
 
+                if (enableOnArrival)
+                {
+                    Vector2 distanceVector = (Position - TargetPosition);
+                    if (distanceVector.Length() < 0.01f)
+                    {
+                        enableOnArrival = false;
+                        userControlled = true;
+                        ClearTarget();
+                    }
                 }
             }
         }
@@ -181,18 +192,22 @@ namespace Parasite
             TargetPosition = node.WorldPosition;
         }
 
-        public void SetTarget(Vector2 worldPos)
+        public void SetTarget(Vector2 worldPos, bool enableUserControl)
         {
             //clear any current targets
             ClearTarget();
+            userControlled = false;
+            enableOnArrival = enableUserControl;
             TargetPosition = worldPos;
         }
 
         //Clears the current target and returns control of the camera to the user.
         public void ClearTarget()
         {
-            userControlled = true;
-            Target.IsCameraTarget = false;
+            if (Target != null)
+            {
+                Target.IsCameraTarget = false;
+            }
             Target = null;
         }
     }

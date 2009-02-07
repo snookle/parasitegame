@@ -309,6 +309,12 @@ namespace Parasite
                     continue;
                 }
 
+                if (key == "oemcomma")
+                {
+                   strings[i++] = ",";
+                   continue;
+                }
+
                 if ("abcdefghijklmnopqrstuvwxyz".Contains(key))
                 {
                     if (IsShiftDown())

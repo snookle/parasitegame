@@ -153,6 +153,7 @@ namespace Parasite
                         inputString = history[historyIndex];
                         continue;
                     }
+
                     inputString += key;
                 }
 
