@@ -25,6 +25,8 @@ namespace Parasite
 
         Vector2 fontDimensions = Vector2.Zero;
         Vector2 textPosition;
+
+        Vector2 Dimensions = Vector2.Zero;
         
         private string text;
         public string Text
@@ -34,9 +36,16 @@ namespace Parasite
                 text = value;
                 fontDimensions = Vector2.Zero;
                 if (font == null) return;
-                fontDimensions = font.MeasureString(text);
+
+                if (Dimensions == Vector2.Zero)
+                {
+                    fontDimensions = font.MeasureString(text);
+                    Dimensions = new Vector2((fontDimensions.X + (textPaddingSide * 2)), (fontDimensions.Y + (textPaddingTopAndBottom * 2)));
+                }
+
                 //set bounds
-                Bounds = new Rectangle(Convert.ToInt32(Location.X), Convert.ToInt32(Location.Y), Convert.ToInt32(fontDimensions.X + (textPaddingSide * 2)), Convert.ToInt32(fontDimensions.Y + (textPaddingTopAndBottom * 2)));
+                //Bounds = new Rectangle(Convert.ToInt32(Location.X), Convert.ToInt32(Location.Y), Convert.ToInt32(fontDimensions.X + (textPaddingSide * 2)), Convert.ToInt32(fontDimensions.Y + (textPaddingTopAndBottom * 2)));
+                Bounds = new Rectangle((int)Location.X, (int)Location.Y, (int)Dimensions.X, (int)Dimensions.Y);
                 //set position of the text
                 textPosition = new Vector2(Location.X + textPaddingSide, Location.Y + textPaddingTopAndBottom);
             }
@@ -53,6 +62,15 @@ namespace Parasite
             Location = location;
             Name = name;
             Text = caption;
+        }
+
+        public GUILabel(Game game, Vector2 location, Vector2 dimensions, string name, string caption)
+            : base(game)
+        {
+            Location = location;
+            Name = name;
+            Text = caption;
+            Dimensions = dimensions;
         }
 
         protected override void Dispose(bool disposing)
@@ -105,7 +123,8 @@ namespace Parasite
         public override void UpdateLocation(Vector2 newLocation)
         {
             Location = newLocation;
-            Bounds = new Rectangle(Convert.ToInt32(Location.X), Convert.ToInt32(Location.Y), Convert.ToInt32(fontDimensions.X + (textPaddingSide * 2)), Convert.ToInt32(fontDimensions.Y + (textPaddingTopAndBottom * 2)));
+            //Bounds = new Rectangle(Convert.ToInt32(Location.X), Convert.ToInt32(Location.Y), Convert.ToInt32(fontDimensions.X + (textPaddingSide * 2)), Convert.ToInt32(fontDimensions.Y + (textPaddingTopAndBottom * 2)));
+            Bounds = new Rectangle((int)Location.X, (int)Location.Y, (int)Dimensions.X, (int)Dimensions.Y);
             textPosition = new Vector2(Location.X + textPaddingSide, Location.Y + textPaddingTopAndBottom);
         }
 

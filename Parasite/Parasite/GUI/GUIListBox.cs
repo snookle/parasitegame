@@ -29,6 +29,10 @@ namespace Parasite
         GUIButton DownButton;
         GUIButton UpButton;
         GUIButton PosBar;
+        GUILabel currentItem;
+        GUIButton OpenCloseList;
+
+        bool ListOpen = false;
 
         string selectedItem = "";
 
@@ -90,6 +94,7 @@ namespace Parasite
                 numItems = Items.Count;
             }
 
+
             // Initialise the buttons
             foreach (GUIListBoxItem lbi in Items)
             {
@@ -101,6 +106,8 @@ namespace Parasite
                 }
                 lbi.OnMouseClick += new GUIListBoxItem.MouseClickHandler(SelectItem);
             }
+
+            maxWidth += 20;
 
             foreach (GUIListBoxItem lbi in Items)
             {
@@ -116,14 +123,14 @@ namespace Parasite
             float boxHeight = (numItems - 1) * Items[0].Bounds.Height;
 
             // Display Down button
-            DownButton = new GUIButton(Game, new Vector2(maxWidth, boxHeight), new Vector2(20, 20), "down", "+");
+            DownButton = new GUIButton(Game, new Vector2(maxWidth, boxHeight + 20), new Vector2(20, 20), "down", "+");
             DownButton.Initialize();
             DownButton.OnMouseClick += new GUIButton.MouseClickHandler(ScrollDown);
             DownButton.UpdateLocation(DownButton.Location + new Vector2(Location.X, Location.Y));
             components.Add(DownButton);
 
             // Display Up button
-            UpButton = new GUIButton(Game, new Vector2(maxWidth, 0), new Vector2(20, 20), "up", "-");
+            UpButton = new GUIButton(Game, new Vector2(maxWidth, 20), new Vector2(20, 20), "up", "-");
             UpButton.Initialize();
             UpButton.OnMouseClick += new GUIButton.MouseClickHandler(ScrollUp);
             UpButton.UpdateLocation(UpButton.Location + new Vector2(Location.X, Location.Y));
@@ -132,13 +139,38 @@ namespace Parasite
             // Calculate bar intervals
             barIntervals = ((boxHeight-20) / Items.Count);
 
-            PosBar = new GUIButton(Game, new Vector2(maxWidth, 20), new Vector2(20, barIntervals * numItems), "bar", "");
+            PosBar = new GUIButton(Game, new Vector2(maxWidth, 40), new Vector2(20, barIntervals * numItems), "bar", "");
             PosBar.BackgroundColor = HighlightColor;
             PosBar.AllowHold = true;
             PosBar.Initialize();
             PosBar.OnMouseHold += new GUIButton.MouseClickHandler(DragScroll);
             PosBar.UpdateLocation(PosBar.Location + new Vector2(Location.X, Location.Y));
             components.Add(PosBar);
+
+            currentItem = new GUILabel(Game, new Vector2(0, 0), new Vector2(maxWidth,20), "label", "Select File ...");
+            currentItem.Initialize();
+            currentItem.BackgroundColor = Color.AntiqueWhite;
+            currentItem.UpdateLocation(currentItem.Location + new Vector2(Location.X, Location.Y));
+            components.Add(currentItem);
+
+            OpenCloseList = new GUIButton(Game, new Vector2(maxWidth, 0), new Vector2(20, 20), "openclose", "+");
+            OpenCloseList.Initialize();
+            OpenCloseList.OnMouseClick += new GUIButton.MouseClickHandler(OCList);
+            OpenCloseList.UpdateLocation(OpenCloseList.Location + new Vector2(Location.X, Location.Y));
+            components.Add(OpenCloseList);
+        }
+
+        void OCList(GUIComponent sender, OnMouseClickEventArgs args)
+        {
+            ListOpen = !ListOpen;
+            if (ListOpen)
+            {
+                OpenCloseList.Caption = "-";
+            }
+            else
+            {
+                OpenCloseList.Caption = "+";
+            }
         }
 
         /// <summary>
@@ -155,12 +187,14 @@ namespace Parasite
                 // If nothing is currently selected, select.
                 listBox.SelectItem(true);
                 selectedItem = listBox.Name;
+                currentItem.Text = listBox.Text;
             }
             else if (selectedItem == listBox.Name)
             {
                 // If this item is already selected, deselect it.
-                listBox.SelectItem(false);
-                selectedItem = "";
+                //listBox.SelectItem(false);
+                //selectedItem = "";
+                //currentItem.Text = "Select Item ...";
             }
             else
             {
@@ -175,6 +209,7 @@ namespace Parasite
 
                 listBox.SelectItem(true);
                 selectedItem = listBox.Name;
+                currentItem.Text = listBox.Text;
             }
         }
 
@@ -237,19 +272,31 @@ namespace Parasite
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            for (int i = 0; i < Items.Count; i++)
+            if (ListOpen)
             {
-                GUIComponent c = Items[i];
-                if (c != null)
-                    c.Update(gameTime);
-                if (disposed) return;
-            }
+                for (int i = 0; i < Items.Count; i++)
+                {
+                    GUIComponent c = Items[i];
+                    if (c != null)
+                        c.Update(gameTime);
+                    if (disposed) return;
+                }
 
-            for (int i = 0; i < components.Count; i++)
+                for (int i = 0; i < components.Count; i++)
+                {
+                    GUIComponent c = components[i];
+                    if (c != null)
+                        c.Update(gameTime);
+                    if (disposed) return;
+                }
+            }
+            else
             {
-                GUIComponent c = components[i];
-                if (c != null)
-                    c.Update(gameTime);
+                if (currentItem != null)
+                    currentItem.Update(gameTime);
+                if (OpenCloseList != null)
+                    OpenCloseList.Update(gameTime);
+
                 if (disposed) return;
             }
 
@@ -260,7 +307,7 @@ namespace Parasite
         {
             foreach (GUIComponent c in components)
             {
-                c.Location += (newLocation - Location);
+                c.UpdateLocation(c.Location + (newLocation-Location));
             }
 
             Location = newLocation;
@@ -276,7 +323,7 @@ namespace Parasite
             for (int i = topItem; i < topItem + numItems; i++)
             {
                 CurrentItem = (GUIListBoxItem)Items[i];
-                CurrentItem.UpdateLocation(this.Location + new Vector2(0, (i - topItem) * CurrentItem.Bounds.Height));
+                CurrentItem.UpdateLocation(this.Location + new Vector2(0, 20 + (i - topItem) * CurrentItem.Bounds.Height));
             }
         }
 
@@ -325,15 +372,24 @@ namespace Parasite
             primBatch.End();
 
             GUIListBoxItem CurrentItem;
-            for (int i = topItem; i < topItem + numItems; i++)
+            if (ListOpen)
             {
-                CurrentItem = (GUIListBoxItem)Items[i];
-                CurrentItem.Draw(gameTime);
-            }
+                for (int i = topItem; i < topItem + numItems; i++)
+                {
+                    CurrentItem = (GUIListBoxItem)Items[i];
+                    CurrentItem.Draw(gameTime);
+                }
 
-            foreach (GUIComponent c in components)
+                foreach (GUIComponent c in components)
+                {
+                    c.Draw(gameTime);
+                }
+            }
+            else
             {
-                c.Draw(gameTime);
+                // Just draw title and open button
+                currentItem.Draw(gameTime);
+                OpenCloseList.Draw(gameTime);
             }
         }
     }

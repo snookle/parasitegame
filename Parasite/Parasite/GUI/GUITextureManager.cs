@@ -55,7 +55,22 @@ namespace Parasite
             depthlabel.Initialize();
             AddComponent(depthlabel);
 
-            GUIEditBox depthEdit = new GUIEditBox(Game, new Vector2(70, 30), "depth_edit", 3, Art.ScreenDepth.ToString());
+            //GUIEditBox depthEdit = new GUIEditBox(Game, new Vector2(70, 30), "depth_edit", 3, Art.ScreenDepth.ToString());
+            //depthEdit.Initialize();
+            //AddComponent(depthEdit);
+
+            // Depth Options
+            List<GUIListBoxItem> depthItems = new List<GUIListBoxItem>();
+
+            depthItems.Add(new GUIListBoxItem(Game, "0", "Static Background"));
+            depthItems.Add(new GUIListBoxItem(Game, "0.1", "Far Background"));
+            depthItems.Add(new GUIListBoxItem(Game, "0.449", "Background"));
+            depthItems.Add(new GUIListBoxItem(Game, "0.5", "Midground"));
+            depthItems.Add(new GUIListBoxItem(Game, "0.501", "Foreground"));
+            depthItems.Add(new GUIListBoxItem(Game, "0.9", "Far Foreground"));
+            depthItems.Add(new GUIListBoxItem(Game, "1", "Static Foreground"));
+
+            GUIListBox depthEdit = new GUIListBox(Game, new Vector2(80, 30), "depth_edit", depthItems);
             depthEdit.Initialize();
             AddComponent(depthEdit);
 
@@ -90,8 +105,8 @@ namespace Parasite
         void OkMouseClick(GUIComponent sender, OnMouseClickEventArgs args)
         {
             // Update Depth
-            GUIEditBox depthEdit = (GUIEditBox)this.getComponent("depth_edit");
-            Art.ScreenDepth = float.Parse(depthEdit.Text);
+            GUIListBox depthEdit = (GUIListBox)this.getComponent("depth_edit");
+            Art.ScreenDepth = float.Parse(depthEdit.getSelectedItem());
 
             ((GUIManager)Game.Services.GetService(typeof(IGUIManager))).RemoveComponent(Name);
         }
