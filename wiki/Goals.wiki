@@ -17,15 +17,15 @@
   * <font color='#777777'>Smooth Locking/Following Targets</font> *60% done (needs improvement)* : r181
  * Create Basic Level Editor
   * <font color='#CCCCCC'>~~Loading/Saving~~</font>
-  * Collision Maps
+  * <font color='#74B661'>Collision Maps</font>
   * <font color='#CCCCCC'>~~Rotation of Sprites~~ :</font> Done, but no longer required for now
   * Scaling of Sprites
-  * <font color='#74B661'>Basic Editor GUI</font> : *60% GUI Framework built*
+  * <font color='#777777'>Basic Editor GUI</font> : *75% GUI Framework built*
   * <font color='#CCCCCC'>~~Developer Console~~</font>
   * <font color='#CCCCCC'>~~Movement of Sprites~~</font>
   * <font color='#74B661'>Special Sprite Effects</font>
    * Alpha / Blending Modes
-   * Setting Layer
+   * <font color='#777777'>Setting Layer :</font> *50% Done*
    * Duplicating
    * Animated Sprites
   * <font color='#CCCCCC'>~~Simple Texture Placement~~</font>
