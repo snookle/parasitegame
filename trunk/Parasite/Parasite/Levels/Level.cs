@@ -344,12 +344,6 @@ namespace Parasite
         {
             switch (command.ToLower())
             {
-                case "movecamera":
-                    console.Write("Moving Camera to :" + argument);
-                    string[] coords = argument.Split(',');
-                    camera.SetTarget(new Vector2(float.Parse(coords[0]), float.Parse(coords[1])),true);
-                    console.CommandHandled = true;
-                    break;
                 case "listtextures" :
                     console.Write("Textures Listed : ");
                     listDirectory("Content\\LevelArt");
@@ -383,7 +377,7 @@ namespace Parasite
                     int size = Convert.ToInt32(argument);
                     if (size <= 0)
                     {
-                        console.Write("Error: gridsize cannot be <= 0");
+                        console.Write("Error: gridsize cannot be <= 0", ConsoleMessageType.Error);
                     }
                     else
                     {
