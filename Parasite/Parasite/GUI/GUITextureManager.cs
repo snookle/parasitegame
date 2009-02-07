@@ -72,6 +72,12 @@ namespace Parasite
 
             GUIListBox depthEdit = new GUIListBox(Game, new Vector2(80, 30), "depth_edit", depthItems);
             depthEdit.Initialize();
+
+            // Setting current item
+            string currentDepth = Art.ScreenDepth.ToString();
+
+            depthEdit.SetItem(currentDepth);
+
             AddComponent(depthEdit);
 
             //GUIEditBox edit = new GUIEditBox(Game, new Vector2(100, 10), "edtOpen", 300, "");
@@ -88,8 +94,6 @@ namespace Parasite
             cancel.Location.X -= cancel.Bounds.Width / 2;
             AddComponent(cancel);
         }
-
-
 
         protected override void Dispose(bool disposing)
         {
