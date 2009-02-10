@@ -82,7 +82,6 @@ namespace Parasite
                         primBatch.Dispose();
                         primBatch = null;
                     }
-                    
                 }
             }
         }
@@ -153,6 +152,7 @@ namespace Parasite
                 GUIComponent c = components[i];
                 if (c != null)
                     c.Update(gameTime);
+                c = null;
                 if (disposed) return;
             }
             base.Update(gameTime);

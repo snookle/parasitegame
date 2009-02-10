@@ -160,8 +160,6 @@ namespace Parasite
             {
                 if (disposing)
                 {
-                    OnMouseClick = null;
-
                     if (batch != null)
                     {
                         batch.Dispose();
