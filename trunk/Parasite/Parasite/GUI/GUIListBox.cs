@@ -72,6 +72,27 @@ namespace Parasite
                         primBatch.Dispose();
                         primBatch = null;
                     }
+                    if (UpButton != null)
+                    {
+                        UpButton.Dispose();
+                        UpButton = null;
+                    }
+                    if (DownButton != null)
+                    {
+                        DownButton.Dispose();
+                        DownButton = null;
+                    }
+                    if (PosBar != null)
+                    {
+                        PosBar.Dispose();
+                        PosBar = null;
+                    }
+                    components.Clear();
+                    foreach (GUIComponent c in Items)
+                    {
+                        c.Dispose();
+                    }
+                    Items.Clear();
                 }
             }
         }
