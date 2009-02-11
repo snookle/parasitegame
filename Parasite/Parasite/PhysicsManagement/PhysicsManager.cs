@@ -10,19 +10,32 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
-
+using Box2DX;
+using Box2DX.Collision;
+using Box2DX.Common;
+using Box2DX.Dynamics;
 
 namespace Parasite
 {
+    public interface IPhysicsManager { }
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class PhysicsManager : Microsoft.Xna.Framework.GameComponent
+    public class PhysicsManager : Microsoft.Xna.Framework.DrawableGameComponent, IPhysicsManager
     {
+        private World world;
+        Body groundBody;
+
         public PhysicsManager(Game game)
             : base(game)
         {
-            // TODO: Construct any child components here
+            game.Services.AddService(typeof(IPhysicsManager), this);
+        }
+
+        protected override void LoadContent()
+        {
+            base.LoadContent();
+            world.SetDebugDraw(new PhysicsDebugDraw(Game));
         }
 
         /// <summary>
@@ -31,9 +44,40 @@ namespace Parasite
         /// </summary>
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
-
+            AABB worldAABB;
+            worldAABB.UpperBound = new Vec2(100, 100);
+            worldAABB.LowerBound = new Vec2(-100, -100);
+            world = new World(worldAABB, new Vec2(0f, 0f), true);
+            BodyDef groundDef = new BodyDef();
+            groundDef.Position.Set(0, 0);
+            groundBody = world.CreateBody(groundDef);
+            PolygonDef shapeDef = new PolygonDef();
+            shapeDef.SetAsBox(100, 5);
+            groundBody.CreateShape(shapeDef);
             base.Initialize();
+        }
+
+        public void AddStaticCollisionMesh(Vector2[] vs)
+        {
+            if (vs.Length > 4)
+            {
+                throw new Exception("Collision meshes must not have more than 4 verticies.");
+            }
+            PolygonDef sp = new PolygonDef();
+            sp.VertexCount = 4;
+            sp.Type = ShapeType.PolygonShape;
+            for(int i = 0; i < vs.Length; i++)
+            {
+                Vector2 vec = vs[i];
+                sp.Vertices[i].Set(vec);
+            }
+            groundBody.CreateShape(sp);
+
+        }
+
+        public Body CreateBody(BodyDef def)
+        {
+            return world.CreateBody(def);
         }
 
         /// <summary>
@@ -42,7 +86,9 @@ namespace Parasite
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
+            //gameTime.ElapsedGameTime.TotalMilliseconds
+            //simulate the world.
+            world.Step(1.0f/60f, 10, 10);
 
             base.Update(gameTime);
         }

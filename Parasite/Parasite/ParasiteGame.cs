@@ -44,6 +44,7 @@ namespace Parasite
             // TODO: Add your initialization logic here
             Components.Add(new Camera(this));
             Components.Add(new InputHandler(this));
+            Components.Add(new PhysicsManager(this));
             Components.Add(new Level(this, "level1"));
             Components.Add(new GUIManager(this));
 

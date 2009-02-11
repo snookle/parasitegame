@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace Box2DX.Common
 {
@@ -41,15 +42,31 @@ namespace Box2DX.Common
 			Y = y;
 		}
 
+        /// <summary>
+        /// Construct using an XNA Vector2
+        /// </summary>
+        public Vec2(Vector2 vector)
+        {
+            X = vector.X;
+            Y = vector.Y;
+        }
+
 		/// <summary>
 		/// Set this vector to all zeros.
 		/// </summary>
 		public void SetZero() { X = 0.0f; Y = 0.0f; }
 
+        /// <summary>
+        /// Set this vector from an XNA vector2
+        /// </summary>
+        public void Set(Vector2 vec) { X = vec.X; Y = vec.Y; }
+
 		/// <summary>
 		/// Set this vector to some specified coordinates.
 		/// </summary>
 		public void Set(float x, float y) { X = x; Y = y; }
+
+
 
 		/// <summary>
 		///  Get the length of this vector (the norm).

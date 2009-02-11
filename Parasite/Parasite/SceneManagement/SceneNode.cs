@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Box2DX.Dynamics;
+using Box2DX.Common;
+using Box2DX.Collision;
 
 namespace Parasite
 {
@@ -19,6 +22,12 @@ namespace Parasite
         /// </summary>
         public Vector2 WorldPosition;
 
+
+        /// <summary>
+        /// The Box2D physics body
+        /// </summary>
+        public Body PhysicsBody = null;
+
         /// <summary>
         /// Whether or not this scene node is currently being followed by the Camera
         /// </summary>
@@ -32,6 +41,7 @@ namespace Parasite
 
         protected Camera camera;
         protected Game game;
+        protected PhysicsManager physicsManager;
 
         private Vector2 screenCentre;
 
@@ -45,14 +55,37 @@ namespace Parasite
             Initialise(game, new Vector2(0,0));
         }
 
-        private void Initialise(Game game, Vector2 startingPosition)
+        public virtual void Initialise(Game game, Vector2 startingPosition)
         {
-            this.camera = (Camera)game.Services.GetService(typeof(ICamera));
+            camera = (Camera)game.Services.GetService(typeof(ICamera));
+            physicsManager = (PhysicsManager)game.Services.GetService(typeof(IPhysicsManager));
+            
             this.game = game;
             screenCentre.X = game.GraphicsDevice.Viewport.Width / 2;
             screenCentre.Y = game.GraphicsDevice.Viewport.Height / 2;
             ScreenDepth = 0.0f;
             WorldPosition = startingPosition;
+        }
+
+        public void SetBodyDefinition(BodyDef def)
+        {
+            if (PhysicsBody == null)
+            {
+                PhysicsBody = physicsManager.CreateBody(def);
+                PhysicsBody.SetUserData(this);
+            }
+            else
+            {
+                throw new Exception("A SceneNode can not have more than 1 body!");
+            }
+        }
+
+        public void AddShapeDefinition(ShapeDef def)
+        {
+            if (PhysicsBody != null)
+                PhysicsBody.CreateShape(def);
+            else
+                throw new Exception("Unable to add shape: No Body exists for this SceneNode");
         }
 
         /// <summary>
@@ -62,6 +95,16 @@ namespace Parasite
         public Vector2 GetScreenPosition()
         {
             return (screenCentre - ((camera.Position - WorldPosition) * camera.ZoomLevel) * (1 - ScreenDepth));
+        }
+
+        public void Update()
+        {
+            if (PhysicsBody != null)
+            {
+                Box2DX.Common.Vec2 vec = PhysicsBody.GetWorldCenter();
+                WorldPosition.X = vec.X * 4;
+                WorldPosition.Y = vec.Y * 4;
+            }
         }
 
     }

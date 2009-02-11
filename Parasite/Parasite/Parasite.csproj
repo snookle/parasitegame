@@ -97,8 +97,10 @@
     <Compile Include="GUI\GUIComponent.cs" />
     <Compile Include="GUI\GUIManager.cs" />
     <Compile Include="Input\InputHandler.cs" />
+    <Compile Include="Levels\DynamicLevelObject.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\LevelArt.cs" />
+    <Compile Include="PhysicsDebugDraw.cs" />
     <Compile Include="PhysicsManagement\PhysicsManager.cs" />
     <Compile Include="PrimitiveBatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -155,7 +157,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\box2d\src\Box2DX.csproj">
+    <ProjectReference Include="..\box2d\src\Box2DX.csproj">
       <Project>{C157BCA5-BAC7-455F-A7DE-59D506D46ECF}</Project>
       <Name>Box2DX</Name>
     </ProjectReference>

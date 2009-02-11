@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C# Express 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parasite", "Parasite\Parasite.csproj", "{7B2CE410-AC3D-4605-9EE9-A1E8A1D52EB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Box2DX", "..\..\box2d\src\Box2DX.csproj", "{C157BCA5-BAC7-455F-A7DE-59D506D46ECF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Box2DX", "box2d\src\Box2DX.csproj", "{C157BCA5-BAC7-455F-A7DE-59D506D46ECF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
