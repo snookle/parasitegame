@@ -28,7 +28,6 @@ namespace Parasite
 
         public Rectangle BoundingBox;
 
-        public Vector2 Origin;
         public Vector2 Scale = new Vector2(1, 1);
 
         public bool EditorSelected;

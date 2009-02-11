@@ -64,7 +64,7 @@ namespace Parasite
 
             for (int i = -1; i < 1; i++)
             {
-                DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(i*80, -100), @"LevelArt\WallTest01")); 
+                DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(i*150, -100), @"LevelArt\WallTest01")); 
             }
         }
 
@@ -310,7 +310,7 @@ namespace Parasite
             {
                 if (da.Texture != null)
                 {
-                    artBatch.Draw(da.Texture, new Rectangle((int)da.GetScreenPosition().X, (int)da.GetScreenPosition().Y, da.Texture.Width, da.Texture.Height), null, Color.White, da.Rotation, new Vector2(0, 0), SpriteEffects.None, 0);
+                    artBatch.Draw(da.Texture, new Rectangle((int)da.GetScreenPosition().X, (int)da.GetScreenPosition().Y, da.Texture.Width, da.Texture.Height), null, Color.White, da.Rotation, da.Origin, SpriteEffects.None, 0);
                 }
             }
             artBatch.End();

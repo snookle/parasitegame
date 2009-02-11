@@ -17,6 +17,7 @@ namespace Parasite
         {
             // Load the Appropriate Texture
              Texture = game.Content.Load<Texture2D>(textureName);
+             this.Origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
             //Texture = null;
 
             // Crate the body definition
