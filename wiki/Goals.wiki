@@ -14,10 +14,13 @@
  * 2D Camera
   * <font color='#777777'>Movement</font> *(80% done)* : r181
   * <font color='#CCCCCC'>~~Zooming~~</font> : r211
-  * <font color='#777777'>Smooth Locking/Following Targets</font> *60% done (needs improvement)* : r181
+  * <font color='#777777'>Smooth Locking/Following Targets</font> *70% done (needs improvement)* : r181
  * Create Basic Level Editor
   * <font color='#CCCCCC'>~~Loading/Saving~~</font>
   * <font color='#74B661'>Collision Maps</font>
+   * Addition of Physics Engine *(75% done)*
+   * Simple Texture Free Rigid/Static Bodies for Collision Boundaries
+   * Simple Textured Physics Objects
   * <font color='#CCCCCC'>~~Rotation of Sprites~~ :</font> Done, but no longer required for now
   * Scaling of Sprites
   * <font color='#777777'>Basic Editor GUI</font> : *75% GUI Framework built*
