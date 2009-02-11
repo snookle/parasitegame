@@ -18,6 +18,8 @@ namespace Parasite
     class Level : DrawableGameComponent
     {
         private List<LevelArt> Art = new List<LevelArt>();
+        private List<DynamicLevelObject> DynamicObjects = new List<DynamicLevelObject>();
+
         private SpriteBatch artBatch;
         private InputHandler input;
         private Camera camera;
@@ -59,6 +61,11 @@ namespace Parasite
             LoadLevel(LevelFilename);
 
             InitEditor();
+
+            for (int i = -2; i < 2; i++)
+            {
+                DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(i*50, -50), @"LevelArt\WallTest01")); 
+            }
         }
 
         /// <summary>
@@ -151,6 +158,11 @@ namespace Parasite
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            foreach (DynamicLevelObject da in DynamicObjects)
+            {
+                da.Update();
+            }
 
             if (editing)
             {
@@ -317,6 +329,11 @@ namespace Parasite
                 artBatch.Draw(la.Texture, la.GetScreenPosition(), null, la.Tint, la.Rotation, la.Origin, camera.ZoomLevel, SpriteEffects.None, 1 - la.ScreenDepth);
                 if (editing && la.EditorSelected)
                     la.DrawBoundingBox();
+            }
+
+            foreach (DynamicLevelObject da in DynamicObjects)
+            {
+                artBatch.Draw(da.Texture, da.GetScreenPosition(), Color.White);
             }
             artBatch.End();
         }
