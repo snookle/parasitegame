@@ -62,9 +62,9 @@ namespace Parasite
 
             InitEditor();
 
-            for (int i = -2; i < 2; i++)
+            for (int i = -1; i < 1; i++)
             {
-                DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(i*50, -50), @"LevelArt\WallTest01")); 
+                DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(i*80, -100), @"LevelArt\WallTest01")); 
             }
         }
 
@@ -81,31 +81,6 @@ namespace Parasite
             guimanager.AddButton(new Vector2(10, 130), "savelevel", "Save Level");
 
             //guimanager.AddLabel(new Vector2(50, 150), "label", "THIS IS A LABEL! WOOO!");
-
-            /*List<GUIListBoxItem> testboxitems = new List<GUIListBoxItem>();
-
-            testboxitems.Add(new GUIListBoxItem(Game, "item 1", "item 1"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 2", "item 2"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 3", "item 3"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 4", "item 4"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 5", "item 5"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 6", "item 6"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 7", "item 7"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 8", "item 8"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 9", "item 9"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 10", "item 10"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 11", "item 11"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 12", "item 12"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 13", "item 13"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 14", "item 14"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 15", "item 15"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 16", "item 16"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 17", "item 17"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 18", "item 18"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 19", "item 19"));
-            testboxitems.Add(new GUIListBoxItem(Game, "item 20", "item 20"));
-
-            guimanager.AddListBox(new Vector2(500, 100), "Test", testboxitems);*/
 
             console.Write("Level Editor Loaded.");
         }
@@ -333,7 +308,10 @@ namespace Parasite
 
             foreach (DynamicLevelObject da in DynamicObjects)
             {
-                artBatch.Draw(da.Texture, da.GetScreenPosition(), Color.White);
+                if (da.Texture != null)
+                {
+                    artBatch.Draw(da.Texture, new Rectangle((int)da.GetScreenPosition().X, (int)da.GetScreenPosition().Y, da.Texture.Width, da.Texture.Height), null, Color.White, da.Rotation, new Vector2(0, 0), SpriteEffects.None, 0);
+                }
             }
             artBatch.End();
         }

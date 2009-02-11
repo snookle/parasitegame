@@ -17,13 +17,12 @@ namespace Parasite
         GraphicsDevice graphics;
         PrimitiveBatch primBatch;
 
-
         public PhysicsDebugDraw(Game game)
             : base()
         {
             this.game = game;
             graphics = game.GraphicsDevice;
-            primBatch = new PrimitiveBatch(graphics);
+            primBatch = new PrimitiveBatch(game.GraphicsDevice);
             Flags = DrawFlags.Aabb | DrawFlags.CoreShape | DrawFlags.Obb | DrawFlags.Shape;
         }
 
@@ -35,7 +34,16 @@ namespace Parasite
             primBatch.Begin(PrimitiveType.LineList);
             for (int i = 0; i < vertexCount; i++)
             {
-                primBatch.AddVertex(new Vector2(vertices[i].X, vertices[i].Y), new Microsoft.Xna.Framework.Graphics.Color(color.R, color.G, color.B));
+                primBatch.AddVertex(new Vector2(512 + vertices[i].X, 384 + vertices[i].Y), new Microsoft.Xna.Framework.Graphics.Color(color.R, color.G, color.B));
+                if (i == vertexCount - 1)
+                {
+                    primBatch.AddVertex(new Vector2(512 + vertices[0].X, 384 + vertices[0].Y), new Microsoft.Xna.Framework.Graphics.Color(color.R, color.G, color.B));
+                }
+                else
+                {
+                    primBatch.AddVertex(new Vector2(512 + vertices[i+1].X, 384 + vertices[i+1].Y), new Microsoft.Xna.Framework.Graphics.Color(color.R, color.G, color.B));
+                }
+                
             }
             primBatch.End();
         }

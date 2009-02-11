@@ -30,7 +30,6 @@ namespace Parasite
 
         public Vector2 Origin;
         public Vector2 Scale = new Vector2(1, 1);
-        public float Rotation = 0f;
 
         public bool EditorSelected;
 
