@@ -141,7 +141,7 @@ namespace Parasite
                 }
 
                 // Attempt at zoom
-                if (input.IsKeyDown(this, Keys.Add))
+                /*if (input.IsKeyDown(this, Keys.Add))
                 {
                     if (ZoomLevel < 1)
                     {
@@ -152,8 +152,8 @@ namespace Parasite
                 {
                     if(ZoomLevel > 0.25f){
                         ZoomLevel -= 0.25f;
-                    }
-                }
+                    }-
+                }*/
 
                 //if(input.IsKeyDown(this, Keys.Z)){
 

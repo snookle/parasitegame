@@ -52,7 +52,7 @@ namespace Parasite
 
         public override void DrawCircle(Vec2 center, float radius, Box2DX.Dynamics.Color color)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public override void DrawSegment(Vec2 p1, Vec2 p2, Box2DX.Dynamics.Color color)
@@ -62,7 +62,7 @@ namespace Parasite
 
         public override void DrawSolidCircle(Vec2 center, float radius, Vec2 axis, Box2DX.Dynamics.Color color)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public override void DrawSolidPolygon(Vec2[] vertices, int vertexCount, Box2DX.Dynamics.Color color)

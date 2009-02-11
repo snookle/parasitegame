@@ -61,11 +61,13 @@ namespace Parasite
             LoadLevel(LevelFilename);
 
             InitEditor();
-
-            for (int i = -1; i < 1; i++)
+            Random r = new Random();
+            for (var i = 0; i < 100; i++)
             {
-                DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(i*150, -100), @"LevelArt\WallTest01")); 
+                DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(r.Next(200)-100, 50 - r.Next(400)), @"LevelArt\WallTest01")); 
             }
+            //DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(-170, -100), @"LevelArt\WallTest01"));
+            //DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(170, -100), @"LevelArt\WallTest01")); 
         }
 
         /// <summary>

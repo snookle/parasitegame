@@ -25,11 +25,14 @@ namespace Parasite
     {
         private World world;
         Body groundBody;
+        private bool simulate = false;
+        InputHandler input;
 
         public PhysicsManager(Game game)
             : base(game)
         {
             game.Services.AddService(typeof(IPhysicsManager), this);
+            input = (InputHandler)Game.Services.GetService(typeof(IInputHandler));
         }
 
         protected override void LoadContent()
@@ -48,8 +51,8 @@ namespace Parasite
             AABB worldAABB;
 
             // Define the Upper, and Lower bounds
-            worldAABB.UpperBound = new Vec2(200,200);
-            worldAABB.LowerBound = new Vec2(-200,-200);
+            worldAABB.UpperBound = new Vec2(1024 / 2, 768 / 2);
+            worldAABB.LowerBound = new Vec2((1024 / 2) * -1, (768 / 2) * -1);
 
             // Define Gravity
             Vec2 gravity = new Vec2(0f, 10f);
@@ -100,12 +103,19 @@ namespace Parasite
             //gameTime.ElapsedGameTime.TotalMilliseconds
             //simulate the world.
 
+            if(input.IsKeyPressed(this,Keys.Enter)){
+                simulate = !simulate;
+            }
+
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            world.Step(1.0f / 60f, 10, 10);
+            if (simulate)
+            {
+                world.Step(2.0f / 60f, 10, 10);
+            }
             base.Draw(gameTime);
         }
     }
