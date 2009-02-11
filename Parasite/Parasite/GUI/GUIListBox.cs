@@ -120,6 +120,7 @@ namespace Parasite
             foreach (GUIListBoxItem lbi in Items)
             {
                 lbi.Initialize();
+                lbi.Parent = this;
 
                 if (font.MeasureString(lbi.Name).X > maxWidth)
                 {
@@ -248,6 +249,7 @@ namespace Parasite
                 listBox.SelectItem(true);
                 selectedItem = listBox.Name;
                 currentItem.Text = listBox.Text;
+                OCList(this, null);
             }
         }
 

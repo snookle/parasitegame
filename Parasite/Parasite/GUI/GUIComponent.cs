@@ -21,6 +21,7 @@ namespace Parasite
     /// </summary>
     public class GUIComponent : IDisposable
     {
+        public GUIComponent Parent;
         public string Name;
         public Rectangle Bounds;
         public Vector2 Location;

@@ -27,9 +27,9 @@ namespace Parasite
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            this.graphics.ApplyChanges();
-            this.graphics.PreferredBackBufferHeight = 768;
-            this.graphics.PreferredBackBufferWidth = 1024;
+            graphics.ApplyChanges();
+            graphics.PreferredBackBufferHeight = 768;
+            graphics.PreferredBackBufferWidth = 1024;
         }
 
         /// <summary>
@@ -40,6 +40,7 @@ namespace Parasite
         /// </summary>
         protected override void Initialize()
         {
+            
             // TODO: Add your initialization logic here
             Components.Add(new Camera(this));
             Components.Add(new InputHandler(this));
