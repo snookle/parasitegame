@@ -22,6 +22,7 @@ namespace Parasite
         /// </summary>
         public Vector2 WorldPosition;
 
+        public float Rotation = 0f;
 
         /// <summary>
         /// The Box2D physics body
@@ -102,8 +103,9 @@ namespace Parasite
             if (PhysicsBody != null)
             {
                 Box2DX.Common.Vec2 vec = PhysicsBody.GetWorldCenter();
-                WorldPosition.X = vec.X * 4;
-                WorldPosition.Y = vec.Y * 4;
+                WorldPosition.X = vec.X * 2;
+                WorldPosition.Y = vec.Y * 2;
+                this.Rotation = PhysicsBody.GetAngle();// * (float)(System.Math.PI/180);
             }
         }
 

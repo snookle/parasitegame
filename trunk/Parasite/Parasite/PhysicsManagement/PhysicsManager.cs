@@ -44,13 +44,24 @@ namespace Parasite
         /// </summary>
         public override void Initialize()
         {
+            // Define the World
             AABB worldAABB;
-            worldAABB.UpperBound = new Vec2(100, 100);
-            worldAABB.LowerBound = new Vec2(-100, -100);
-            world = new World(worldAABB, new Vec2(0f, 0f), true);
+
+            // Define the Upper, and Lower bounds
+            worldAABB.UpperBound = new Vec2(200,200);
+            worldAABB.LowerBound = new Vec2(-200,-200);
+
+            // Define Gravity
+            Vec2 gravity = new Vec2(0f, 10f);
+
+            world = new World(worldAABB, gravity, true);
+
+            // The Ground
             BodyDef groundDef = new BodyDef();
-            groundDef.Position.Set(0, 0);
+            groundDef.Position.Set(0, 100);
             groundBody = world.CreateBody(groundDef);
+
+            // Ground Polygon Definition
             PolygonDef shapeDef = new PolygonDef();
             shapeDef.SetAsBox(100, 5);
             groundBody.CreateShape(shapeDef);
@@ -88,9 +99,14 @@ namespace Parasite
         {
             //gameTime.ElapsedGameTime.TotalMilliseconds
             //simulate the world.
-            world.Step(1.0f/60f, 10, 10);
 
             base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            world.Step(1.0f / 60f, 10, 10);
+            base.Draw(gameTime);
         }
     }
 }
