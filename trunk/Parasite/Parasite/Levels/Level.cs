@@ -404,7 +404,7 @@ namespace Parasite
             LevelFilename = filename;
             if (string.IsNullOrEmpty(LevelFilename))
             {
-                console.Write("SaveLevel failed: No filename specified");
+                console.Write("SaveLevel failed: No filename specified", ConsoleMessageType.Error);
                 return;
             }
 
@@ -422,7 +422,7 @@ namespace Parasite
             }
             catch (Exception e)
             {
-                console.Write("SaveLevel failed: " + e.Message);
+                console.Write("SaveLevel failed: " + e.Message, ConsoleMessageType.Error);
             }
            
         }
@@ -436,7 +436,7 @@ namespace Parasite
             LevelFilename = filename;
             if (String.IsNullOrEmpty(LevelFilename))
             {
-                console.Write("LoadLevel failed: No filename specified");
+                console.Write("LoadLevel failed: No filename specified", ConsoleMessageType.Error);
                 return false;
             }
             try
@@ -453,7 +453,7 @@ namespace Parasite
             }
             catch (Exception e)
             {
-                console.Write("LoadLevel failed: " + e.Message);
+                console.Write("LoadLevel failed: " + e.Message, ConsoleMessageType.Error);
                 return false;
             }
         }
