@@ -30,13 +30,38 @@ namespace Parasite
         DeveloperConsole console;
         bool debugDraw = false;
         float timeStep = 2.0f / 60f;
+
+        float pausedStep = 0f;
+        float defaultStep = 2.0f / 60f;
+
         int velocityIterations = 3;
         int positionIterations = 3;
+        bool paused;
 
         public PhysicsManager(Game game)
             : base(game)
         {
             game.Services.AddService(typeof(IPhysicsManager), this);
+        }
+
+        public bool Paused
+        {
+            set
+            {
+                paused = value;
+                if (paused)
+                {
+                    timeStep = pausedStep;
+                }
+                else
+                {
+                    timeStep = defaultStep;
+                }
+            }
+            get
+            {
+                return paused;
+            }
         }
 
         void ConsoleMessageHandler(string command, string argument)
@@ -60,6 +85,29 @@ namespace Parasite
                     catch (Exception)
                     {
                         console.Write(argument + " is not a valid argument. Use 0/1.", ConsoleMessageType.Error);
+                    }
+                }
+                console.CommandHandled = true;
+            }
+            else if (command == "phys_pause")
+            {
+                if (string.IsNullOrEmpty(argument))
+                {
+                    console.Write("phys_pause is " + (paused ? "1" : "0"));
+                }
+                else
+                {
+                    try
+                    {
+                        int arg = Convert.ToInt32(argument);
+                        if (arg == 0)
+                            Paused = false;
+                        else
+                            Paused = true;
+                    }
+                    catch (Exception)
+                    {
+                        console.Write(argument + " is not a valid argument. Use 0/1", ConsoleMessageType.Error);
                     }
                 }
                 console.CommandHandled = true;
@@ -141,6 +189,10 @@ namespace Parasite
 
             if(input.IsKeyPressed(this,Keys.Enter)){
                 simulate = !simulate;
+                if (!simulate)
+                {
+                    // reset all blocks to starting position
+                }
             }
 
             if (simulate && !debugDraw)
