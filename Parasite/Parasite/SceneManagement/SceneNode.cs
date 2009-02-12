@@ -22,6 +22,12 @@ namespace Parasite
         /// </summary>
         public Vector2 WorldPosition;
 
+        /// <summary>
+        /// The Starting position of the node in the world
+        /// </summary>
+        public Vector2 StartingPosition;
+        public float StartingRotation;
+
         public float Rotation = 0f;
         public Vector2 Origin;
 

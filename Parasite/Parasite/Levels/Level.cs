@@ -61,13 +61,13 @@ namespace Parasite
             LoadLevel(LevelFilename);
 
             InitEditor();
-            Random r = new Random();
-            for (var i = 0; i < 100; i++)
-            {
-                DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(r.Next(200)-100, 50 - r.Next(400)), @"LevelArt\WallTest01")); 
-            }
-            //DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(-170, -100), @"LevelArt\WallTest01"));
-            //DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(170, -100), @"LevelArt\WallTest01")); 
+            //Random r = new Random();
+            //for (var i = 0; i < 100; i++)
+            //{
+            //    DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(r.Next(200)-100, 50 - r.Next(400)), @"LevelArt\WallTest01")); 
+            //}
+            DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(-170, -100), @"LevelArt\WallTest01"));
+            DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(170, -100), @"LevelArt\WallTest01")); 
         }
 
         /// <summary>
@@ -77,6 +77,8 @@ namespace Parasite
         {
             // Set up GUI
             GUIButton but_loadtexture = guimanager.AddButton(new Vector2(10, 10), "loadtexture", "Load Texture", new GUIButton.MouseClickHandler(testFunction));
+            
+            //guimanager.AddButton(new Vector2(10,50),"texturedphysobj","Load Textured Physics Object", new GuiBut
 
             guimanager.AddEditBox(new Vector2(10, 70), "levelname", 100, "levelname");
             guimanager.AddButton(new Vector2(10, 100), "loadlevel", "Load Level");
@@ -312,7 +314,8 @@ namespace Parasite
             {
                 if (da.Texture != null)
                 {
-                    artBatch.Draw(da.Texture, new Rectangle((int)da.GetScreenPosition().X, (int)da.GetScreenPosition().Y, da.Texture.Width, da.Texture.Height), null, Color.White, da.Rotation, da.Origin, SpriteEffects.None, 0);
+                    //artBatch.Draw(da.Texture, new Rectangle((int)da.GetScreenPosition().X, (int)da.GetScreenPosition().Y, da.Texture.Width, da.Texture.Height), null, Color.White, da.Rotation,da.Origin, SpriteEffects.None, 0);
+                    artBatch.Draw(da.Texture, da.GetScreenPosition(), null, Color.White, da.Rotation, da.Origin, camera.ZoomLevel, SpriteEffects.None, 0);
                 }
             }
             artBatch.End();
@@ -333,6 +336,23 @@ namespace Parasite
         }
 
         /// <summary>
+        /// Resets all the elements in the world
+        /// </summary>
+        private void resetLevel()
+        {
+            // Reset Physics Objects
+            foreach (DynamicLevelObject dlo in DynamicObjects)
+            {
+                dlo.WorldPosition = dlo.StartingPosition;
+                dlo.Rotation = dlo.StartingRotation;
+                // How to reset physics object ? 
+                dlo.PhysicsBody.SetXForm(new Box2DX.Common.Vec2(dlo.StartingPosition.X, dlo.StartingPosition.Y), dlo.Rotation);
+                dlo.PhysicsBody.SetLinearVelocity(new Box2DX.Common.Vec2(0, 0));
+                dlo.PhysicsBody.SetAngularVelocity(0);
+            }
+        }
+
+        /// <summary>
         /// Listens for certain commands from the console and processes them
         /// </summary>
         /// <param name="command">The console command</param>
@@ -344,6 +364,11 @@ namespace Parasite
                 case "listtextures" :
                     console.Write("Textures Listed : ");
                     listDirectory("Content\\LevelArt");
+                    console.CommandHandled = true;
+                    break;
+                case "resetlevel":
+                    console.Write("Level Reset");
+                    resetLevel();
                     console.CommandHandled = true;
                     break;
                 case "listlevels":
