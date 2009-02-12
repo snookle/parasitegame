@@ -27,12 +27,43 @@ namespace Parasite
         Body groundBody;
         private bool simulate = false;
         InputHandler input;
+        DeveloperConsole console;
+        bool debugDraw = false;
+        float timeStep = 2.0f / 60f;
+        int velocityIterations = 3;
+        int positionIterations = 3;
 
         public PhysicsManager(Game game)
             : base(game)
         {
             game.Services.AddService(typeof(IPhysicsManager), this);
-            input = (InputHandler)Game.Services.GetService(typeof(IInputHandler));
+        }
+
+        void ConsoleMessageHandler(string command, string argument)
+        {
+            if (command == "phys_debug_draw")
+            {
+                if (string.IsNullOrEmpty(argument))
+                {
+                    console.Write("phys_debug_draw is " + (debugDraw ? "1" : "0"));
+                }
+                else
+                {
+                    try
+                    {
+                        int arg = Convert.ToInt32(argument);
+                        if (arg == 0)
+                            debugDraw = false;
+                        else
+                            debugDraw = true;
+                    }
+                    catch (Exception)
+                    {
+                        console.Write(argument + " is not a valid argument. Use 0/1.", ConsoleMessageType.Error);
+                    }
+                }
+                console.CommandHandled = true;
+            }
         }
 
         protected override void LoadContent()
@@ -47,6 +78,11 @@ namespace Parasite
         /// </summary>
         public override void Initialize()
         {
+
+            input = (InputHandler)Game.Services.GetService(typeof(IInputHandler));
+            console = (DeveloperConsole)Game.Services.GetService(typeof(IDeveloperConsole));
+            console.MessageHandler += new DeveloperConsole.DeveloperConsoleMessageHandler(ConsoleMessageHandler);
+
             // Define the World
             AABB worldAABB;
 
@@ -107,14 +143,19 @@ namespace Parasite
                 simulate = !simulate;
             }
 
+            if (simulate && !debugDraw)
+            {
+                world.Step(timeStep, velocityIterations, positionIterations);
+            }
+
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            if (simulate)
+            if (simulate && debugDraw)
             {
-                world.Step(2.0f / 60f, 10, 10);
+                world.Step(timeStep, velocityIterations, positionIterations);
             }
             base.Draw(gameTime);
         }
