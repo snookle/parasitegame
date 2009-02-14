@@ -44,7 +44,7 @@ namespace Parasite
         public bool minimised = false;
         
 
-        List<GUIComponent> components = new List<GUIComponent>();
+        protected List<GUIComponent> components = new List<GUIComponent>();
                 
         public GUIPanel(Game game, Vector2 location, Vector2 dimensions, string name, string caption)
             : base(game)

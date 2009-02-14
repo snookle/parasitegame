@@ -25,10 +25,13 @@ namespace Parasite
     {
         private World world;
         Body groundBody;
-        private bool simulate = false;
         InputHandler input;
         DeveloperConsole console;
-        bool debugDraw = false;
+
+        bool debugDraw = true;              // Debug draw should be on by default in edit mode
+        private bool simulate = true;       // Simulate on by default
+        private bool paused;
+
         float timeStep = 2.0f / 60f;
 
         float pausedStep = 0f;
@@ -36,7 +39,6 @@ namespace Parasite
 
         int velocityIterations = 3;
         int positionIterations = 3;
-        bool paused;
 
         public PhysicsManager(Game game)
             : base(game)
@@ -144,14 +146,17 @@ namespace Parasite
             world = new World(worldAABB, gravity, true);
 
             // The Ground
-            BodyDef groundDef = new BodyDef();
-            groundDef.Position.Set(0, 100);
-            groundBody = world.CreateBody(groundDef);
+            //BodyDef groundDef = new BodyDef();
+            //groundDef.Position.Set(0, 100);
+            //groundBody = world.CreateBody(groundDef);
+
+            // PAUSE
+            Paused = true;
 
             // Ground Polygon Definition
-            PolygonDef shapeDef = new PolygonDef();
-            shapeDef.SetAsBox(100, 5);
-            groundBody.CreateShape(shapeDef);
+            //PolygonDef shapeDef = new PolygonDef();
+            //shapeDef.SetAsBox(100, 5);
+            //groundBody.CreateShape(shapeDef);
             base.Initialize();
         }
 

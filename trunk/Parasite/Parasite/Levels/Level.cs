@@ -66,8 +66,6 @@ namespace Parasite
             //{
             //    DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(r.Next(200)-100, 50 - r.Next(400)), @"LevelArt\WallTest01")); 
             //}
-            DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(-170, -100), @"LevelArt\WallTest01"));
-            DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(170, -100), @"LevelArt\WallTest01")); 
         }
 
         /// <summary>
@@ -77,8 +75,8 @@ namespace Parasite
         {
             // Set up GUI
             GUIButton but_loadtexture = guimanager.AddButton(new Vector2(10, 10), "loadtexture", "Load Texture", new GUIButton.MouseClickHandler(testFunction));
-            
-            //guimanager.AddButton(new Vector2(10,50),"texturedphysobj","Load Textured Physics Object", new GuiBut
+
+            guimanager.AddButton(new Vector2(10,40), "physobj", "Add PhysObj", new GUIButton.MouseClickHandler(addPhysObj));
 
             guimanager.AddEditBox(new Vector2(10, 70), "levelname", 100, "levelname");
             guimanager.AddButton(new Vector2(10, 100), "loadlevel", "Load Level");
@@ -87,6 +85,19 @@ namespace Parasite
             //guimanager.AddLabel(new Vector2(50, 150), "label", "THIS IS A LABEL! WOOO!");
 
             console.Write("Level Editor Loaded.");
+        }
+
+        public void addPhysObj(GUIComponent sender, OnMouseClickEventArgs args)
+        {
+            GUIAddPhysPanel gfp = new GUIAddPhysPanel(Game);
+            gfp.Initialize();
+            gfp.OnBoxOk += new GUIAddPhysPanel.BoxOkHandler(newPhysicsObject);
+            guimanager.AddComponent(gfp);
+        }
+
+        void newPhysicsObject(string name, string texturename, Vector2 dimensions)
+        {
+            DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(0, 0), texturename, dimensions));
         }
 
         public void testFunction(GUIComponent sender, OnMouseClickEventArgs args)
@@ -343,12 +354,7 @@ namespace Parasite
             // Reset Physics Objects
             foreach (DynamicLevelObject dlo in DynamicObjects)
             {
-                dlo.WorldPosition = dlo.StartingPosition;
-                dlo.Rotation = dlo.StartingRotation;
-                // How to reset physics object ? 
-                dlo.PhysicsBody.SetXForm(new Box2DX.Common.Vec2(dlo.StartingPosition.X, dlo.StartingPosition.Y), dlo.Rotation);
-                dlo.PhysicsBody.SetLinearVelocity(new Box2DX.Common.Vec2(0, 0));
-                dlo.PhysicsBody.SetAngularVelocity(0);
+                dlo.Reset();
             }
         }
 

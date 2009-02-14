@@ -13,14 +13,20 @@ namespace Parasite
     {
         public Texture2D Texture = null;
 
-        public DynamicLevelObject(Game game, Vector2 startingPosition, string textureName): base(game, startingPosition)
+        public DynamicLevelObject(Game game, Vector2 startingPosition, string textureName, Vector2 dimensions): base(game, startingPosition)
         {
             StartingPosition = startingPosition;
-            StartingRotation = 0.50f;
+            //StartingRotation = 0.50f;
             // Load the Appropriate Texture
-            Texture = game.Content.Load<Texture2D>(textureName);
-            this.Origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
-            //Texture = null;
+            if (textureName != "")
+            {
+                Texture = game.Content.Load<Texture2D>(textureName);
+                this.Origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
+            }
+            else
+            {
+                Texture = null;
+            }
 
             // Crate the body definition
             BodyDef def = new BodyDef();
@@ -37,12 +43,39 @@ namespace Parasite
             AddShapeDefinition(circleDef);*/
 
             PolygonDef polyDef = new PolygonDef();
-            polyDef.SetAsBox(Texture.Width / 2, Texture.Height / 2);
-            //polyDef.SetAsBox(5, 5);
+            if (textureName != "")
+            {
+                polyDef.SetAsBox(Texture.Width / 2, Texture.Height / 2);
+            }
+            else
+            {
+                polyDef.SetAsBox(dimensions.X, dimensions.Y);
+            }
             polyDef.Friction = 0.3f;
             polyDef.Density = 1.0f;
             AddShapeDefinition(polyDef);
             PhysicsBody.SetMassFromShapes();
+        }
+
+        /// <summary>
+        /// Resets DLO to it's starting position and rotation
+        /// </summary>
+        public void Reset()
+        {
+            WorldPosition = StartingPosition;
+            Rotation = StartingRotation;
+
+            PhysicsBody.PutToSleep();
+
+            PhysicsBody.SetXForm(new Box2DX.Common.Vec2(StartingPosition.X, StartingPosition.Y), Rotation);
+            PhysicsBody.SetLinearVelocity(new Box2DX.Common.Vec2(0, 0));
+            PhysicsBody.SetAngularVelocity(0);
+
+            PhysicsBody.WakeUp();
+
+            //while(PhysicsBody.GetShapeList().GetNext()!=null){
+            //    PhysicsBody.DestroyShape(PhysicsBody.GetShapeList().GetNext());
+            //}
         }
     }
 }
