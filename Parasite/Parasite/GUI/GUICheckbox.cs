@@ -23,13 +23,14 @@ namespace Parasite
         public bool Checked;
     };
 
-    delegate void CheckChangeEventHandler(GUIComponent sender, CheckStateEventArgs args);
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
     class GUICheckbox : GUIComponent
     {
-        protected event CheckChangeEventHandler CheckStateChange;
+        public delegate void CheckChangeEventHandler(GUIComponent sender, CheckStateEventArgs args);
+        public event CheckChangeEventHandler CheckStateChange;
+
         SpriteBatch batch;
         SpriteFont font;
 
