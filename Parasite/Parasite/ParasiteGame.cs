@@ -28,6 +28,7 @@ namespace Parasite
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             
+
             graphics.ApplyChanges();
             graphics.PreferredBackBufferHeight = 768;
             graphics.PreferredBackBufferWidth = 1024;
@@ -126,6 +127,8 @@ namespace Parasite
         /// </summary>
         protected override void LoadContent()
         {
+            GraphicsDevice.PresentationParameters.MultiSampleType = MultiSampleType.FourSamples;
+            GraphicsDevice.RenderState.MultiSampleAntiAlias = true;
         }
 
         /// <summary>

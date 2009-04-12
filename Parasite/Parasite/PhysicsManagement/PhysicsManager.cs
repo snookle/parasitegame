@@ -10,10 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
-using Box2DX;
-using Box2DX.Collision;
-using Box2DX.Common;
-using Box2DX.Dynamics;
+using FarseerGames.FarseerPhysics;
 
 namespace Parasite
 {
@@ -23,47 +20,29 @@ namespace Parasite
     /// </summary>
     public class PhysicsManager : Microsoft.Xna.Framework.DrawableGameComponent, IPhysicsManager
     {
-        private World world;
-        Body groundBody;
         InputHandler input;
         DeveloperConsole console;
+        Camera camera;
 
         bool debugDraw = true;              // Debug draw should be on by default in edit mode
         private bool simulate = true;       // Simulate on by default
-        private bool paused;
 
-        float timeStep = 2.0f / 60f;
+        float timeStep = 5.0f / 60f;
 
         float pausedStep = 0f;
         float defaultStep = 2.0f / 60f;
 
         int velocityIterations = 3;
         int positionIterations = 3;
+        public PhysicsSimulator Simulator;
+        FarseerGames.FarseerPhysics.PhysicsSimulatorView debugView;
+        SpriteBatch debugBatch;
+
 
         public PhysicsManager(Game game)
             : base(game)
         {
             game.Services.AddService(typeof(IPhysicsManager), this);
-        }
-
-        public bool Paused
-        {
-            set
-            {
-                paused = value;
-                if (paused)
-                {
-                    timeStep = pausedStep;
-                }
-                else
-                {
-                    timeStep = defaultStep;
-                }
-            }
-            get
-            {
-                return paused;
-            }
         }
 
         void ConsoleMessageHandler(string command, string argument)
@@ -95,7 +74,7 @@ namespace Parasite
             {
                 if (string.IsNullOrEmpty(argument))
                 {
-                    console.Write("phys_pause is " + (paused ? "1" : "0"));
+                    console.Write("phys_pause is " + (simulate ? "1" : "0"));
                 }
                 else
                 {
@@ -103,9 +82,9 @@ namespace Parasite
                     {
                         int arg = Convert.ToInt32(argument);
                         if (arg == 0)
-                            Paused = false;
+                            simulate = false;
                         else
-                            Paused = true;
+                            simulate = true;
                     }
                     catch (Exception)
                     {
@@ -118,8 +97,9 @@ namespace Parasite
 
         protected override void LoadContent()
         {
+            debugBatch = new SpriteBatch(GraphicsDevice);
+            debugView.LoadContent(GraphicsDevice, Game.Content);
             base.LoadContent();
-            world.SetDebugDraw(new PhysicsDebugDraw(Game));
         }
 
         /// <summary>
@@ -128,59 +108,16 @@ namespace Parasite
         /// </summary>
         public override void Initialize()
         {
-
             input = (InputHandler)Game.Services.GetService(typeof(IInputHandler));
             console = (DeveloperConsole)Game.Services.GetService(typeof(IDeveloperConsole));
             console.MessageHandler += new DeveloperConsole.DeveloperConsoleMessageHandler(ConsoleMessageHandler);
-
+            camera = (Camera)Game.Services.GetService(typeof(ICamera));
+            
             // Define the World
-            AABB worldAABB;
+            Simulator = new PhysicsSimulator(new Vector2(0, 8));
+            debugView = new PhysicsSimulatorView(Simulator);
 
-            // Define the Upper, and Lower bounds
-            worldAABB.UpperBound = new Vec2(1024 / 2, 768 / 2);
-            worldAABB.LowerBound = new Vec2((1024 / 2) * -1, (768 / 2) * -1);
-
-            // Define Gravity
-            Vec2 gravity = new Vec2(0f, 10f);
-
-            world = new World(worldAABB, gravity, true);
-
-            // The Ground
-            //BodyDef groundDef = new BodyDef();
-            //groundDef.Position.Set(0, 100);
-            //groundBody = world.CreateBody(groundDef);
-
-            // PAUSE
-            Paused = true;
-
-            // Ground Polygon Definition
-            //PolygonDef shapeDef = new PolygonDef();
-            //shapeDef.SetAsBox(100, 5);
-            //groundBody.CreateShape(shapeDef);
             base.Initialize();
-        }
-
-        public void AddStaticCollisionMesh(Vector2[] vs)
-        {
-            if (vs.Length > 4)
-            {
-                throw new Exception("Collision meshes must not have more than 4 verticies.");
-            }
-            PolygonDef sp = new PolygonDef();
-            sp.VertexCount = 4;
-            sp.Type = ShapeType.PolygonShape;
-            for(int i = 0; i < vs.Length; i++)
-            {
-                Vector2 vec = vs[i];
-                sp.Vertices[i].Set(vec);
-            }
-            groundBody.CreateShape(sp);
-
-        }
-
-        public Body CreateBody(BodyDef def)
-        {
-            return world.CreateBody(def);
         }
 
         /// <summary>
@@ -189,30 +126,19 @@ namespace Parasite
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            //gameTime.ElapsedGameTime.TotalMilliseconds
-            //simulate the world.
-
-            if(input.IsKeyPressed(this,Keys.Enter)){
-                simulate = !simulate;
-                if (!simulate)
-                {
-                    // reset all blocks to starting position
-                }
-            }
-
-            if (simulate && !debugDraw)
-            {
-                world.Step(timeStep, velocityIterations, positionIterations);
-            }
+            if (simulate)
+                Simulator.Update(gameTime.ElapsedGameTime.Milliseconds * 0.001f);
 
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            if (simulate && debugDraw)
+            if (debugDraw)
             {
-                world.Step(timeStep, velocityIterations, positionIterations);
+                debugBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Deferred, SaveStateMode.SaveState, Matrix.CreateTranslation(Vector3.Negate(new Vector3(camera.Position, 0))));
+                debugView.Draw(debugBatch);
+                debugBatch.End();
             }
             base.Draw(gameTime);
         }

@@ -149,9 +149,9 @@ namespace Parasite
         {
             base.Update(gameTime);
 
-            foreach (DynamicLevelObject da in DynamicObjects)
+            foreach (LevelArt la in Art)
             {
-                da.Update();
+                la.Update();
             }
 
             if (editing)
