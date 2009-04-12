@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Box2DX.Dynamics;
-using Box2DX.Common;
-using Box2DX.Collision;
+using FarseerGames.FarseerPhysics.Collisions;
+using FarseerGames.FarseerPhysics.Controllers;
+using FarseerGames.FarseerPhysics.Dynamics;
+using FarseerGames.FarseerPhysics.Factories;
 
 namespace Parasite
 {
@@ -31,10 +32,8 @@ namespace Parasite
         public float Rotation = 0f;
         public Vector2 Origin;
 
-        /// <summary>
-        /// The Box2D physics body
-        /// </summary>
         public Body PhysicsBody = null;
+        public Geom PhysicsGeometry = null;
 
         /// <summary>
         /// Whether or not this scene node is currently being followed by the Camera
@@ -50,6 +49,7 @@ namespace Parasite
         protected Camera camera;
         protected Game game;
         protected PhysicsManager physicsManager;
+        protected DeveloperConsole console;
 
         private Vector2 screenCentre;
 
@@ -67,33 +67,13 @@ namespace Parasite
         {
             camera = (Camera)game.Services.GetService(typeof(ICamera));
             physicsManager = (PhysicsManager)game.Services.GetService(typeof(IPhysicsManager));
+            console = (DeveloperConsole)game.Services.GetService(typeof(IDeveloperConsole));
             
             this.game = game;
             screenCentre.X = game.GraphicsDevice.Viewport.Width / 2;
             screenCentre.Y = game.GraphicsDevice.Viewport.Height / 2;
             ScreenDepth = 0.0f;
             WorldPosition = startingPosition;
-        }
-
-        public void SetBodyDefinition(BodyDef def)
-        {
-            if (PhysicsBody == null)
-            {
-                PhysicsBody = physicsManager.CreateBody(def);
-                PhysicsBody.SetUserData(this);
-            }
-            else
-            {
-                throw new Exception("A SceneNode can not have more than 1 body!");
-            }
-        }
-
-        public void AddShapeDefinition(ShapeDef def)
-        {
-            if (PhysicsBody != null)
-                PhysicsBody.CreateShape(def);
-            else
-                throw new Exception("Unable to add shape: No Body exists for this SceneNode");
         }
 
         /// <summary>
@@ -107,13 +87,9 @@ namespace Parasite
 
         public void Update()
         {
+            //update the position of the scenenode based on the physics body position
             if (PhysicsBody != null)
-            {
-                Box2DX.Common.Vec2 vec = PhysicsBody.GetWorldCenter();
-                WorldPosition.X = vec.X;
-                WorldPosition.Y = vec.Y;
-                this.Rotation = PhysicsBody.GetAngle();// * (float)(System.Math.PI/180);
-            }
+                WorldPosition = PhysicsBody.Position;
         }
 
     }

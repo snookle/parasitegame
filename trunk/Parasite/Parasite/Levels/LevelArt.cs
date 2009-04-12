@@ -12,7 +12,8 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
-
+using FarseerGames.FarseerPhysics.Collisions;
+using FarseerGames.FarseerPhysics.Factories;
 
 namespace Parasite
 {
@@ -20,7 +21,7 @@ namespace Parasite
     {
         
         public Texture2D Texture = null;
-        public Color Tint = Color.White;
+        public Microsoft.Xna.Framework.Graphics.Color Tint = Microsoft.Xna.Framework.Graphics.Color.White;
         
         //name of the content resource for this texture
         //ie: "LevelArt\\WallTest01"
@@ -63,6 +64,19 @@ namespace Parasite
             BoundingBox = new Rectangle((int)WorldPosition.X - Texture.Width / 2, (int)WorldPosition.Y - Texture.Height / 2, Texture.Width, Texture.Height);
             Origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
             boundingBatch = new PrimitiveBatch(game.GraphicsDevice);
+
+            uint[] data = new uint[Texture.Width * Texture.Height];
+
+            //Transfer the texture data to the array
+            Texture.GetData(data);
+            //get geom, assign to static body
+            Vertices verts = Vertices.CreatePolygon(data, Texture.Width, Texture.Height);
+            Vector2 polyOrigin = verts.GetCentroid();
+
+            PhysicsBody = BodyFactory.Instance.CreatePolygonBody(physicsManager.Simulator, verts, 1);
+            PhysicsBody.Position = WorldPosition;
+            PhysicsBody.IsStatic = true;
+            PhysicsGeometry = GeomFactory.Instance.CreatePolygonGeom(physicsManager.Simulator, PhysicsBody, verts, 0);
         }
         
         /// <summary>
@@ -74,9 +88,9 @@ namespace Parasite
         {
             EditorSelected = select;
             if (EditorSelected)
-                Tint = Color.Yellow;
+                Tint = Microsoft.Xna.Framework.Graphics.Color.Yellow;
             else
-                Tint = Color.White;
+                Tint = Microsoft.Xna.Framework.Graphics.Color.White;
         }
 
         /// <summary>
@@ -88,11 +102,11 @@ namespace Parasite
         {
             position += Origin;
             Rectangle sourceRectangle = new Rectangle((int)position.X, (int)position.Y, 1, 1);
-            Color[] retrievedColour = new Color[1];
+            Microsoft.Xna.Framework.Graphics.Color[] retrievedColour = new Microsoft.Xna.Framework.Graphics.Color[1];
 
-            Texture.GetData<Color>(0, sourceRectangle, retrievedColour, 0, 1);
+            Texture.GetData<Microsoft.Xna.Framework.Graphics.Color>(0, sourceRectangle, retrievedColour, 0, 1);
 
-            if (retrievedColour[0] == Color.TransparentBlack || retrievedColour[0] == Color.TransparentWhite)
+            if (retrievedColour[0] == Microsoft.Xna.Framework.Graphics.Color.TransparentBlack || retrievedColour[0] == Microsoft.Xna.Framework.Graphics.Color.TransparentWhite)
             {
                 return true;
             }
@@ -154,20 +168,20 @@ namespace Parasite
         {
                 boundingBatch.Begin(PrimitiveType.LineList);
                 //top line
-                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Left - 1, BoundingBox.Top -1)), Color.Green);
-                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Right + 1, BoundingBox.Top - 1)), Color.Green);
+                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Left - 1, BoundingBox.Top - 1)), Microsoft.Xna.Framework.Graphics.Color.Green);
+                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Right + 1, BoundingBox.Top - 1)), Microsoft.Xna.Framework.Graphics.Color.Green);
 
                 //left line
-                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Left - 1, BoundingBox.Top)), Color.Green);
-                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Left - 1, BoundingBox.Bottom +1 )), Color.Green);
+                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Left - 1, BoundingBox.Top)), Microsoft.Xna.Framework.Graphics.Color.Green);
+                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Left - 1, BoundingBox.Bottom + 1)), Microsoft.Xna.Framework.Graphics.Color.Green);
 
                 //right line
-                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Right, BoundingBox.Top)), Color.Green);
-                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Right, BoundingBox.Bottom +1 )), Color.Green);
+                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Right, BoundingBox.Top)), Microsoft.Xna.Framework.Graphics.Color.Green);
+                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Right, BoundingBox.Bottom + 1)), Microsoft.Xna.Framework.Graphics.Color.Green);
 
                 //bottom line
-                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Left, BoundingBox.Bottom)), Color.Green);
-                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Right, BoundingBox.Bottom)), Color.Green);
+                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Left, BoundingBox.Bottom)), Microsoft.Xna.Framework.Graphics.Color.Green);
+                boundingBatch.AddVertex(camera.WorldToScreen(new Vector2(BoundingBox.Right, BoundingBox.Bottom)), Microsoft.Xna.Framework.Graphics.Color.Green);
                 boundingBatch.End();
         }
 
@@ -205,7 +219,7 @@ namespace Parasite
 
             ScreenDepth = file.ReadSingle();
 
-            Tint = new Color(file.ReadByte(), file.ReadByte(), file.ReadByte(), file.ReadByte());
+            Tint = new Microsoft.Xna.Framework.Graphics.Color(file.ReadByte(), file.ReadByte(), file.ReadByte(), file.ReadByte());
 
             TextureName = file.ReadString();
 
