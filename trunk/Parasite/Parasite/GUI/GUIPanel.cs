@@ -86,6 +86,12 @@ namespace Parasite
             }
         }
 
+        ///<summary>
+        ///</summary>
+        public void Close()
+        {
+            guimanager.RemoveComponent(Name);
+        }
 
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting

@@ -127,7 +127,7 @@ namespace Parasite
         public override void Update(GameTime gameTime)
         {
             if (simulate)
-                Simulator.Update(gameTime.ElapsedGameTime.Milliseconds * 0.001f);
+                Simulator.Update(gameTime.ElapsedGameTime.Milliseconds * 0.005f);
 
             base.Update(gameTime);
         }
@@ -136,7 +136,7 @@ namespace Parasite
         {
             if (debugDraw)
             {
-                debugBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Deferred, SaveStateMode.SaveState, Matrix.CreateTranslation(Vector3.Negate(new Vector3(camera.Position, 0))));
+                debugBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Deferred, SaveStateMode.SaveState, Matrix.CreateTranslation(new Vector3((camera.ScreenCentre - camera.Position) * camera.ZoomLevel, 0)));
                 debugView.Draw(debugBatch);
                 debugBatch.End();
             }

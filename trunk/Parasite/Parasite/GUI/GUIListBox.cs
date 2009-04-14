@@ -227,6 +227,7 @@ namespace Parasite
                 listBox.SelectItem(true);
                 selectedItem = listBox.Name;
                 currentItem.Text = listBox.Text;
+                OCList(this, null);
             }
             else if (selectedItem == listBox.Name)
             {

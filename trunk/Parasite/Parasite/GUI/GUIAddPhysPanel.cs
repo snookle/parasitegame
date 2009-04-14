@@ -20,7 +20,7 @@ namespace Parasite
     /// </summary>
     class GUIAddPhysPanel : GUIPanel
     {
-        public delegate void BoxOkHandler(string name, string texturename, Vector2 dimensions);
+        public delegate void BoxOkHandler(string name, string texturename);
         public event BoxOkHandler OnBoxOk;
 
         // Texture Information
@@ -187,15 +187,13 @@ namespace Parasite
             {
                 GUIEditBox tempwidth = (GUIEditBox)this.getComponent("s_width");
                 GUIEditBox tempheight = (GUIEditBox)this.getComponent("s_height");
-
-                Dimensions = new Vector2(float.Parse(tempwidth.Text),float.Parse(tempheight.Text));
             }
 
 
             if (OnBoxOk != null)
             {
                 //fire off any mouseclick event handlers that are listening
-                OnBoxOk("test","", Dimensions);
+                OnBoxOk("test","");
             }
             
 

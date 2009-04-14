@@ -34,7 +34,7 @@ namespace Parasite
         private bool enableOnArrival = false;       // Renables user control on arrival at location
 
         private InputHandler input;
-        private Vector2 ScreenCentre;
+        public Vector2 ScreenCentre;
 
         private DeveloperConsole console;
 
