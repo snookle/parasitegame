@@ -81,16 +81,6 @@ namespace Parasite
                         batch.Dispose();
                         batch = null;
                     }
-                    if (uncheckSprite != null)
-                    {
-                        uncheckSprite.Dispose();
-                        uncheckSprite = null;
-                    }
-                    if (checkSprite != null)
-                    {
-                        checkSprite.Dispose();
-                        checkSprite = null;
-                    }
                     CheckStateChange = null;
                 }
             }
@@ -141,7 +131,10 @@ namespace Parasite
         }
 
         public override void Draw(GameTime gameTime)
-        {                         
+        {
+            if (disposed)
+                return;
+
             batch.Begin();
             if (Checked)
             {

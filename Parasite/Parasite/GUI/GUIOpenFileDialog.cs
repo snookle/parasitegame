@@ -20,7 +20,7 @@ namespace Parasite
     /// </summary>
     class GUIOpenFileDialog : GUIPanel
     {
-        public delegate void BoxOkHandler(string file, Vector2 position);
+        public delegate void BoxOkHandler(string file, Vector2 position, bool dynamic);
         public event BoxOkHandler OnBoxOk;
 
         public GUIOpenFileDialog(Game game) : base(game, new Vector2(100, 100), new Vector2(600, 300), "ofdialog", "Open File...")
@@ -51,6 +51,10 @@ namespace Parasite
             cancel.OnMouseClick += new GUIButton.MouseClickHandler(CancelMouseClick);
             AddComponent(cancel);
 
+            GUICheckbox isphys = new GUICheckbox(Game, new Vector2(100, 50), "isphys", "Generate Collision Mesh");
+            isphys.Initialize();
+            AddComponent(isphys);
+
             // Add List Box
             List<GUIListBoxItem> guiListItems = new List<GUIListBoxItem>();
 
@@ -74,8 +78,7 @@ namespace Parasite
 
         void CancelMouseClick(GUIComponent sender, OnMouseClickEventArgs args)
         {
-
-            ((GUIManager)Game.Services.GetService(typeof(IGUIManager))).RemoveComponent(Name);
+            Close();
         }
 
         void OkMouseClick(GUIComponent sender, OnMouseClickEventArgs args)
@@ -88,11 +91,10 @@ namespace Parasite
                 if (OnBoxOk != null)
                 {
                     //fire off any mouseclick event handlers that are listening
-                    OnBoxOk(selectedItem, Vector2.Zero);
+                    OnBoxOk(selectedItem, camera.Position, ((GUICheckbox)getComponent("isphys")).Checked);
                 }
             }
-
-            ((GUIManager)Game.Services.GetService(typeof(IGUIManager))).RemoveComponent(Name);
+            Close();
         }
 
    }

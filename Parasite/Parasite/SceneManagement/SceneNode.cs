@@ -89,7 +89,10 @@ namespace Parasite
         {
             //update the position of the scenenode based on the physics body position
             if (PhysicsBody != null)
+            {
                 WorldPosition = PhysicsBody.Position;
+                Rotation = PhysicsBody.Rotation;
+            }
         }
 
     }

@@ -19,7 +19,7 @@ namespace Parasite
     /// Only handles methods that are global to all components
     /// Such as whether or not a component has focus.
     /// </summary>
-    public class GUIComponent : IDisposable
+    class GUIComponent : IDisposable
     {
         public GUIComponent Parent;
         public string Name;
@@ -41,6 +41,7 @@ namespace Parasite
         protected int textPaddingTopAndBottom = 2;
 
         protected bool disposed = false;
+        protected GUIManager guimanager;
 
         public GUIComponent(Game game)
         {
@@ -55,6 +56,7 @@ namespace Parasite
         {
             camera = (Camera)Game.Services.GetService(typeof(ICamera));
             input = (InputHandler)Game.Services.GetService(typeof(IInputHandler));
+            guimanager = (GUIManager)Game.Services.GetService(typeof(IGUIManager));
         }
 
         public void Dispose()

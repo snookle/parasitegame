@@ -21,6 +21,9 @@ namespace Parasite
     class GUIManager : DrawableGameComponent, IGUIManager
     {
         private List<GUIComponent> components = new List<GUIComponent>();
+        
+        //list of components to be removed on the next update
+        private List<GUIComponent> removeList = new List<GUIComponent>();
 
         public GUIManager(Game game)
             : base(game)
@@ -157,14 +160,18 @@ namespace Parasite
             {
                 if (components[i].Name.ToLower() == name.ToLower())
                 {
-                    GUIComponent c = components[i];
-                    components.RemoveAt(i);
-                    c.Dispose();
-                    c = null;
+                    removeList.Add(components[i]);
                     return true;
                 }
             }
             return false;
+        }
+
+        private void DisposeComponent(GUIComponent c)
+        {
+            components.Remove(c);
+            c.Dispose();
+            c = null;
         }
 
         /// <summary>
@@ -179,6 +186,12 @@ namespace Parasite
                 components[i].Update(gameTime);
             }
             base.Update(gameTime);
+
+            foreach (GUIComponent c in removeList)
+            {
+                DisposeComponent(c);
+            }
+            removeList.Clear();
         }
 
         public override void Draw(GameTime gameTime)

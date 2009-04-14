@@ -35,19 +35,22 @@ namespace Parasite
 
         private PrimitiveBatch boundingBatch;
 
+        /// <summary>
+        /// Whether or not this level art has physics geometry associated with it
+        /// </summary>
+        public bool Physical = false;
 
-        public LevelArt(Game game, Vector2 startingPosition, string textureName) : base (game, startingPosition)
+
+        public LevelArt(Game game, Vector2 startingPosition, string textureName, bool physical) : base (game, startingPosition)
         {
-            this.game = game;
             TextureName = textureName;
-            Texture = game.Content.Load<Texture2D>(TextureName);
+            Physical = physical;
             LoadContent();
         }
 
         public LevelArt(Game game, BinaryReader file) : base(game)
         {
             LoadLevelData(file);
-            Texture = game.Content.Load<Texture2D>(TextureName);
             LoadContent();
         }
 
@@ -59,24 +62,34 @@ namespace Parasite
             }
         }
 
-        public void LoadContent()
+        public virtual void LoadContent()
         {
-            BoundingBox = new Rectangle((int)WorldPosition.X - Texture.Width / 2, (int)WorldPosition.Y - Texture.Height / 2, Texture.Width, Texture.Height);
-            Origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
+            Texture = game.Content.Load<Texture2D>(TextureName);
+           // Origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
+
+            //batch to draw the bounding box
             boundingBatch = new PrimitiveBatch(game.GraphicsDevice);
 
-            uint[] data = new uint[Texture.Width * Texture.Height];
+            if (Physical)
+            {
+                //create the physics body and geometry
+                uint[] data = new uint[Texture.Width * Texture.Height];
 
-            //Transfer the texture data to the array
-            Texture.GetData(data);
-            //get geom, assign to static body
-            Vertices verts = Vertices.CreatePolygon(data, Texture.Width, Texture.Height);
-            Vector2 polyOrigin = verts.GetCentroid();
+                //Transfer the texture data to the array
+                Texture.GetData(data);
+                //get geom, assign to static body
+                Vertices verts = Vertices.CreatePolygon(data, Texture.Width, Texture.Height);
+                Vector2 polyOrigin = verts.GetCentroid();
+                Origin.X = (float)Math.Round(polyOrigin.X);
+                Origin.Y = (float)Math.Round(polyOrigin.Y);
 
-            PhysicsBody = BodyFactory.Instance.CreatePolygonBody(physicsManager.Simulator, verts, 1);
-            PhysicsBody.Position = WorldPosition;
-            PhysicsBody.IsStatic = true;
-            PhysicsGeometry = GeomFactory.Instance.CreatePolygonGeom(physicsManager.Simulator, PhysicsBody, verts, 0);
+                PhysicsBody = BodyFactory.Instance.CreatePolygonBody(physicsManager.Simulator, verts, 1);
+                PhysicsBody.Position = WorldPosition;
+                PhysicsBody.IsStatic = true;
+                PhysicsGeometry = GeomFactory.Instance.CreatePolygonGeom(physicsManager.Simulator, PhysicsBody, verts, 0);
+            }
+
+            BoundingBox = new Rectangle((int)WorldPosition.X - Texture.Width / 2, (int)WorldPosition.Y - Texture.Height / 2, Texture.Width, Texture.Height);
         }
         
         /// <summary>
@@ -100,6 +113,7 @@ namespace Parasite
         /// <returns></returns>
         public bool CheckTrans(Vector2 position)
         {
+            return false;
             position += Origin;
             Rectangle sourceRectangle = new Rectangle((int)position.X, (int)position.Y, 1, 1);
             Microsoft.Xna.Framework.Graphics.Color[] retrievedColour = new Microsoft.Xna.Framework.Graphics.Color[1];
@@ -154,6 +168,10 @@ namespace Parasite
             }
 
             BoundingBox = new Rectangle((int)WorldPosition.X - (int)Origin.X, (int)WorldPosition.Y - (int)Origin.Y, Texture.Width, Texture.Height);
+            if (PhysicsBody != null)
+            {
+                PhysicsBody.Position = WorldPosition;
+            }
         }
 
         public void EditorRotate(Vector2 offset, float rotationAmount)

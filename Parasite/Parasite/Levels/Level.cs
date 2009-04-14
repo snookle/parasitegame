@@ -95,9 +95,9 @@ namespace Parasite
             guimanager.AddComponent(gfp);
         }
 
-        void newPhysicsObject(string name, string texturename, Vector2 dimensions)
+        void newPhysicsObject(string name, string texturename)
         {
-            DynamicObjects.Add(new DynamicLevelObject(Game, new Vector2(0, 0), texturename, dimensions));
+            DynamicObjects.Add(new DynamicLevelObject(Game, camera.Position, texturename));
         }
 
         public void testFunction(GUIComponent sender, OnMouseClickEventArgs args)
@@ -112,9 +112,9 @@ namespace Parasite
             guimanager.AddComponent(ofd);
         }
 
-        void selectTexture(string name, Vector2 location)
+        void selectTexture(string name, Vector2 location, bool dynamic)
         {
-            LoadTexture(name.Substring(0,name.Length-4), location);
+            LoadTexture(name.Substring(0,name.Length-4), location, dynamic);
         }
 
         /// <summary>
@@ -122,18 +122,16 @@ namespace Parasite
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public LevelArt LoadTexture(string name, Vector2 location)
+        public LevelArt LoadTexture(string name, Vector2 location, bool physical)
         {
             LevelArt texture;
             console.Write("Attempting to Load Texture " + name);
-            {
-                texture = new LevelArt(Game, location, @"LevelArt\" + name);
+            texture = new LevelArt(Game, location, @"LevelArt\" + name, physical);
                // textures.Add(name, texture);
-                Art.Add(texture);
-                console.Write("Texture Loaded.");
+            Art.Add(texture);
+            console.Write("Texture Loaded.");
 
-                return texture;
-            }
+            return texture;
         }
 
         /// <summary>
@@ -149,9 +147,9 @@ namespace Parasite
         {
             base.Update(gameTime);
 
-            foreach (LevelArt la in Art)
+            foreach (DynamicLevelObject dlo in DynamicObjects)
             {
-                la.Update();
+                dlo.Update();
             }
 
             if (editing)
@@ -164,7 +162,7 @@ namespace Parasite
 
                 if (input.IsKeyPressed(this, Keys.L))
                 {
-                    LoadTexture("WallTest01", camera.MouseToWorld());
+                    LoadTexture("WallTest01", camera.MouseToWorld(), false);
                 }
 
                 Vector2 mousePos = camera.MouseToWorld(); 
@@ -383,7 +381,7 @@ namespace Parasite
                     console.CommandHandled = true;
                     break;
                 case "loadtexture" :
-                    LoadTexture(argument, new Vector2(0, 0));
+                    LoadTexture(argument, new Vector2(0, 0), false);
                     console.CommandHandled = true;
                     break;
                 case "loadlevel" :
