@@ -20,7 +20,7 @@ namespace Parasite
     /// </summary>
     class GUIAddPhysPanel : GUIPanel
     {
-        public delegate void BoxOkHandler(string name, string texturename);
+        public delegate void BoxOkHandler(string texture, float mass, float bouncy, float friction);
         public event BoxOkHandler OnBoxOk;
 
         // Texture Information
@@ -33,7 +33,7 @@ namespace Parasite
         // Information
         Vector2 Dimensions = new Vector2(10, 10);
 
-        public GUIAddPhysPanel(Game game) : base(game, new Vector2(700, 0), new Vector2(300, 500), "physmanager", "PhysObj Properties")
+        public GUIAddPhysPanel(Game game) : base(game, new Vector2(400, 10), new Vector2(400, 450), "physmanager", "PhysObj Properties")
         {         
         }
 
@@ -47,65 +47,61 @@ namespace Parasite
         {
             this.minimised = false;
             base.Initialize();
-            GUILabel label = new GUILabel(Game, new Vector2(10, 10), "physobjname", "Physics Object");
+            GUILabel label = new GUILabel(Game, new Vector2(10, 10), "physobjname", "Texture:");
             label.Initialize();
             AddComponent(label);
 
-            GUILabel depthlabel = new GUILabel(Game, new Vector2(10, 30), "type", "Type : ");
-            depthlabel.Initialize();
-            AddComponent(depthlabel);
-
-            // Depth Options
-            /*List<GUIListBoxItem> depthItems = new List<GUIListBoxItem>();
-
-            depthItems.Add(new GUIListBoxItem(Game, "0", "Static Background"));
-            depthItems.Add(new GUIListBoxItem(Game, "0.1", "Far Background"));
-            depthItems.Add(new GUIListBoxItem(Game, "0.449", "Background"));
-            depthItems.Add(new GUIListBoxItem(Game, "0.5", "Midground"));
-            depthItems.Add(new GUIListBoxItem(Game, "0.501", "Foreground"));
-            depthItems.Add(new GUIListBoxItem(Game, "0.9", "Far Foreground"));
-            depthItems.Add(new GUIListBoxItem(Game, "1", "Static Foreground"));*/
-
-            //GUIListBox depthEdit = new GUIListBox(Game, new Vector2(80, 30), "depth_edit", depthItems);
-            //depthEdit.Initialize();
-
-            // Setting current item
-            //string currentDepth = Art.ScreenDepth.ToString();
-
-            //depthEdit.SetItem(currentDepth);
-
-            //AddComponent(depthEdit);
-
-            List<GUIListBoxItem> physTypeItems = new List<GUIListBoxItem>();
-
-            physTypeItems.Add(new GUIListBoxItem(Game, "static", "Static"));
-            physTypeItems.Add(new GUIListBoxItem(Game, "rigid", "Rigid"));
-
-            GUIListBox physTypeEdit = new GUIListBox(Game, new Vector2(80, 30), "phystype_edit", physTypeItems);
-            physTypeEdit.Initialize();
-
             // Use Texture
-            GUICheckbox useTextureCheck = new GUICheckbox(Game, new Vector2(80, 60), "usetexturecheck", "Use Texture");
-            useTextureCheck.Initialize();
-            AddComponent(useTextureCheck);
-            useTextureCheck.CheckStateChange += new GUICheckbox.CheckChangeEventHandler(updateUseTexture);
-            useSizeForObject();
+            List<GUIListBoxItem> guiListItems = new List<GUIListBoxItem>();
 
-            //GUIEditBox edit = new GUIEditBox(Game, new Vector2(100, 10), "edtOpen", 300, "");
-            //edit.Initialize();
-            //AddComponent(edit);
-            GUIButton ok = new GUIButton(Game, new Vector2(100, 400), "okbutton", "Apply");
+            string[] filenames = Directory.GetFiles("Content\\LevelArt");
+
+            for (int i = 0; i < filenames.Length; i++)
+            {
+                string shortName = (string)filenames[i].Substring(17);
+                guiListItems.Add(new GUIListBoxItem(Game, filenames[i], shortName));
+            }
+
+            fileList = new GUIListBox(Game, new Vector2(10, 30), "list box", guiListItems);
+            fileList.Initialize();
+
+
+            GUILabel weightlbl = new GUILabel(Game, new Vector2(10, 60), "lblMass", "Mass");
+            weightlbl.Initialize();
+            AddComponent(weightlbl);
+            
+            GUIEditBox weight = new GUIEditBox(Game, new Vector2(100, 60), "edtMass", 50, "10");
+            weight.Initialize();
+            AddComponent(weight);
+
+            GUILabel bouncylbl = new GUILabel(Game, new Vector2(10, 90), "lblBounce", "Bounciness");
+            bouncylbl.Initialize();
+            AddComponent(bouncylbl);
+
+            GUIEditBox bouncy = new GUIEditBox(Game, new Vector2(100, 90), "edtBouncy", 50, "500");
+            bouncy.Initialize();
+            AddComponent(bouncy);
+
+            GUILabel frictionlbl = new GUILabel(Game, new Vector2(10, 120), "lblFriction", "Friction");
+            frictionlbl.Initialize();
+            AddComponent(frictionlbl);
+
+            GUIEditBox friction = new GUIEditBox(Game, new Vector2(100, 120), "edtFriction", 50, "500");
+            friction.Initialize();
+            AddComponent(friction);
+
+            GUIButton ok = new GUIButton(Game, new Vector2(150, 375), "okbutton", "Apply");
             ok.Initialize();
             ok.OnMouseClick += new GUIButton.MouseClickHandler(OkMouseClick);
             ok.Location.X -= ok.Bounds.Width / 2;
             AddComponent(ok);
-            GUIButton cancel = new GUIButton(Game, new Vector2(150, 400), "cancelbutton", "Cancel");
+            GUIButton cancel = new GUIButton(Game, new Vector2(200, 375), "cancelbutton", "Cancel");
             cancel.Initialize();
             cancel.OnMouseClick += new GUIButton.MouseClickHandler(CancelMouseClick);
             cancel.Location.X -= cancel.Bounds.Width / 2;
             AddComponent(cancel);
 
-            AddComponent(physTypeEdit);
+            AddComponent(fileList);
         }
 
         private void useTextureForObject()
@@ -172,28 +168,17 @@ namespace Parasite
 
         void OkMouseClick(GUIComponent sender, OnMouseClickEventArgs args)
         {
-            // Update Depth
-            //GUIListBox depthEdit = (GUIListBox)this.getComponent("depth_edit");
-            //Art.ScreenDepth = float.Parse(depthEdit.getSelectedItem());
-
-            string texturename = "";
-
-            // Compile data
-            if (useTexture)
-            {
-                //texturename = 
-            }
-            else
-            {
-                GUIEditBox tempwidth = (GUIEditBox)this.getComponent("s_width");
-                GUIEditBox tempheight = (GUIEditBox)this.getComponent("s_height");
-            }
-
+            float bounciness = Convert.ToSingle(((GUIEditBox)getComponent("edtBouncy")).Text)/1000;
+            float mass = Convert.ToSingle(((GUIEditBox)getComponent("edtMass")).Text);
+            float friction = Convert.ToSingle(((GUIEditBox)getComponent("edtFriction")).Text) / 1000;
+            string texture = ((GUIListBox)getComponent("list box")).getSelectedLabel();
+            texture = "LevelArt\\" + texture.Substring(0, texture.Length - 4);
+            
 
             if (OnBoxOk != null)
             {
                 //fire off any mouseclick event handlers that are listening
-                OnBoxOk("test","");
+                OnBoxOk(texture, mass, bounciness, friction);
             }
             
 
