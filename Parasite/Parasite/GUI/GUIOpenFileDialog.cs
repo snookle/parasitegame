@@ -55,6 +55,23 @@ namespace Parasite
             isphys.Initialize();
             AddComponent(isphys);
 
+            GUILabel bouncylbl = new GUILabel(Game, new Vector2(10, 90), "lblBounce", "Bounciness");
+            bouncylbl.Initialize();
+            AddComponent(bouncylbl);
+
+            GUIEditBox bouncy = new GUIEditBox(Game, new Vector2(100, 90), "edtBouncy", 50, "500");
+            bouncy.Initialize();
+            AddComponent(bouncy);
+
+            GUILabel frictionlbl = new GUILabel(Game, new Vector2(10, 120), "lblFriction", "Friction");
+            frictionlbl.Initialize();
+            AddComponent(frictionlbl);
+
+            GUIEditBox friction = new GUIEditBox(Game, new Vector2(100, 120), "edtFriction", 50, "500");
+            friction.Initialize();
+            AddComponent(friction);
+
+
             // Add List Box
             List<GUIListBoxItem> guiListItems = new List<GUIListBoxItem>();
 

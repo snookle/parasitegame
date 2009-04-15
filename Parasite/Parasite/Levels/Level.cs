@@ -95,9 +95,9 @@ namespace Parasite
             guimanager.AddComponent(gfp);
         }
 
-        void newPhysicsObject(string name, string texturename)
+        void newPhysicsObject(string texture, float mass, float bounce, float friction)
         {
-            DynamicObjects.Add(new DynamicLevelObject(Game, camera.Position, texturename));
+            DynamicObjects.Add(new DynamicLevelObject(Game, camera.Position, texture, mass, bounce, friction));
         }
 
         public void testFunction(GUIComponent sender, OnMouseClickEventArgs args)
