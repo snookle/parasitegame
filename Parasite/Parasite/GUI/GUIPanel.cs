@@ -136,7 +136,9 @@ namespace Parasite
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-
+            //no point updating if there's no input thing!
+            if (input == null)
+                return;
             Vector2 mouseLoc = input.MousePosition;
             if (input.IsMouseButtonPressed("left") && (titleBarBounds.Contains(Convert.ToInt32(mouseLoc.X), Convert.ToInt32(mouseLoc.Y)) || ignoreMouseOutOfBounds))
             {

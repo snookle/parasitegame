@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Parasite")]
 [assembly: AssemblyProduct("Parasite")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyCompany("Yahoo! Australia & NZ")]
+[assembly: AssemblyCompany("Thunderface Games")]
 
-[assembly: AssemblyCopyright("Copyright © Yahoo! Australia & NZ 2009")]
+[assembly: AssemblyCopyright("Copyright © Thunderface Games 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

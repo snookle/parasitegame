@@ -54,7 +54,8 @@ namespace Parasite
             Components.Add(console);
 
             // Gosh I'm tricksy
-            console.DrawOrder = 10000;
+            console.DrawOrder = 9999999;
+            
             
             console.MessageHandler += new DeveloperConsole.DeveloperConsoleMessageHandler(ConsoleMessageHandler);
 
